@@ -300,9 +300,10 @@ return (
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
-            flex: { xs: 1, md: 1 },
+            flex: { xs: 'auto', md: 1 },
             justifyContent: 'flex-start',
-            minWidth: 'fit-content'
+            minWidth: 'fit-content',
+            mr: { xs: 1, md: 0 }
           }}
           component={Link}
           to="/"
@@ -311,7 +312,7 @@ return (
             src={Logo} 
             alt="AZ Holidays" 
             style={{ 
-              height: '60px',
+              height: window.innerWidth < 768 ? '45px' : '60px',
               width: 'auto',
               objectFit: 'contain',
               display: 'block'
@@ -382,6 +383,7 @@ return (
           >
             <Button
               variant="outlined"
+              disabled
               component={Link}
               to="/login"
               sx={{
@@ -397,6 +399,7 @@ return (
               Login
             </Button>
             <Button
+            disabled
               variant="contained"
               component={Link}
               to="/signup"
