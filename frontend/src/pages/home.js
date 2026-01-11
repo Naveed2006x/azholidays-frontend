@@ -615,6 +615,7 @@ useEffect(() => {
                 e.target.style.transform = 'translateY(0)';
                 e.target.style.boxShadow = 'none';
               }}
+              onClick={() => window.location.href = "https://www.azholidays.com.sg/attractions"}
             >
               View All Attractions
             </button>

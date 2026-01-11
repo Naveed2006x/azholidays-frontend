@@ -204,6 +204,7 @@ const Navbar = () => {
         }}>
           <Button
             variant="outlined"
+            disabled
             component={Link}
             to="/login"
             onClick={handleDrawerToggle}
@@ -222,6 +223,7 @@ const Navbar = () => {
           </Button>
           <Button
             variant="contained"
+            disabled
             component={Link}
             to="/signup"
             onClick={handleDrawerToggle}
