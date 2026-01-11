@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Box, Typography, Grid, Card, CardContent, Avatar } from '@mui/material';
+import { Container, Box, Typography, Grid, Card, CardContent, Chip, Fade } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ExploreIcon from '@mui/icons-material/Explore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -16,13 +16,6 @@ import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import Footer from '../components/Footer';
-
-const HeroSection = styled(Box)(({ theme }) => ({
-  background: 'linear-gradient(135deg, #667eea 0%, #4b5ba2 100%)',
-  padding: '80px 0 80px',
-  color: 'white',
-  textAlign: 'center'
-}));
 
 const ValueCard = styled(Card)(({ theme }) => ({
   height: '100%',
@@ -113,34 +106,71 @@ const About = () => {
   return (
     <Box>
       {/* Hero Section */}
-      <HeroSection>
-        <Container maxWidth="lg">
-          <Typography
-            variant="h2"
-            sx={{
-              fontFamily: "'Poppins', sans-serif",
-              fontWeight: 700,
-              mb: 2,
-              fontSize: { xs: '2rem', md: '2.75rem' }
-            }}
-          >
-            About Az Holidays
-          </Typography>
-          <Typography
-            variant="h5"
-            sx={{
-              fontFamily: "'Poppins', sans-serif",
-              fontWeight: 400,
-              maxWidth: '800px',
-              margin: '0 auto',
-              opacity: 0.95,
-              fontSize: { xs: '1.1rem', md: '1.3rem' }
-            }}
-          >
-            Crafting extraordinary travel experiences across the globe
-          </Typography>
+      <Box sx={{ 
+        position: 'relative',
+        background: 'linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%)',
+        color: 'white', 
+        pt: { xs: 10, md: 8 }, 
+        pb: { xs: 10, md: 8 },
+        borderRadius: { xs: '0 0 40px 40px', md: '0 0 60px 60px' },
+        mb: { xs: 4, md: 8 },
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'url("https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600&h=900&fit=crop&auto=format")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.1,
+          mixBlendMode: 'overlay'
+        }
+      }}>
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
+          <Fade in timeout={800}>
+            <Box>
+              <Chip 
+                label="Our Story" 
+                sx={{ 
+                  bgcolor: 'rgba(255,255,255,0.15)', 
+                  color: 'white',
+                  fontWeight: 600,
+                  fontSize: '0.85rem',
+                  mb: 3,
+                  px: 2,
+                  py: 1,
+                  backdropFilter: 'blur(10px)',
+                  fontFamily: "'Poppins', sans-serif"
+                }}
+              />
+              <Typography variant="h1" sx={{
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: 800,
+                mb: 3,
+                fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
+                lineHeight: 1.1,
+                textShadow: '0 2px 20px rgba(0,0,0,0.3)'
+              }}>
+                About Az Holidays
+              </Typography>
+              <Typography variant="h5" sx={{
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: 300,
+                maxWidth: '800px',
+                margin: '0 auto',
+                opacity: 0.95,
+                fontSize: { xs: '1.1rem', md: '1.4rem' },
+                px: 2
+              }}>
+                Crafting extraordinary travel experiences for over 19 years
+              </Typography>
+            </Box>
+          </Fade>
         </Container>
-      </HeroSection>
+      </Box>
 
       {/* Our Story Section */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
@@ -427,9 +457,6 @@ const About = () => {
           </Typography>
         </Box>
       </Container>
-
-      {/* Footer */}
-      <Footer />
     </Box>
   );
 };
