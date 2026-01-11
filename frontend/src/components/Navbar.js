@@ -7,18 +7,31 @@ import {
   IconButton, 
   Drawer, 
   List, 
-  ListItem, 
-  ListItemText,
+  ListItem,
   Button,
-  Divider
+  Divider,
+  Menu,
+  MenuItem,
+  Collapse
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import { Link, useLocation } from 'react-router-dom';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import AttractionsIcon from '@mui/icons-material/Attractions';
+import FlightIcon from '@mui/icons-material/Flight';
+import HotelIcon from '@mui/icons-material/Hotel';
+import SecurityIcon from '@mui/icons-material/Security';
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
+import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../Images/logo.png';
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [timeLeft, setTimeLeft] = useState({
     days: '--',
     hours: '--',
@@ -26,9 +39,27 @@ const Navbar = () => {
     seconds: '--'
   });
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleServicesClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleServicesClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleServiceNavigation = (path) => {
+    navigate(path);
+    handleServicesClose();
+  };
+
+  const handleMobileServicesToggle = () => {
+    setServicesOpen(!servicesOpen);
   };
 
   useEffect(() => {
@@ -63,11 +94,21 @@ const Navbar = () => {
 
   const navItems = [
     { label: 'Home', path: '/' },
-    { label: 'Attractions', path: '/attractions' },
+    { label: 'Services', path: null, hasDropdown: true },
     { label: 'Destinations', path: '/destinations' },
     { label: 'Blogs', path: '/blogs' },
     { label: 'About', path: '/about' },
     { label: 'Contact', path: '/contact' }
+  ];
+
+  const services = [
+    { label: 'Attractions', path: '/attractions', icon: AttractionsIcon },
+    { label: 'Flights', path: '/flights', icon: FlightIcon },
+    { label: 'Hotels', path: '/hotels', icon: HotelIcon },
+    { label: 'Travel Insurance', path: '/insurance', icon: SecurityIcon },
+    { label: 'Airport & Coach Transport', path: '/transport', icon: DirectionsBusIcon },
+    { label: 'Cruise Packages', path: '/cruises', icon: DirectionsBoatIcon },
+    { label: 'Travel Packages', path: '/packages', icon: CardGiftcardIcon }
   ];
 
   // Font configuration
@@ -131,116 +172,155 @@ const Navbar = () => {
         flex: 1
       }}>
         {navItems.map((item, index) => (
-          <Box key={item.path}>
-            <ListItem
-              disablePadding
-              sx={{
-                marginBottom: '0',
-              }}
-            >
-              <Box
-                component={Link}
-                to={item.path}
-                onClick={handleDrawerToggle}
-                sx={{
-                  width: '100%',
-                  textDecoration: 'none',
-                  display: 'block',
-                  padding: '16px 16px',
-                  backgroundColor: location.pathname === item.path ? 'rgba(44, 90, 160, 0.1)' : 'transparent',
-                  border: location.pathname === item.path ? '2px solid #2c5aa0' : '2px solid transparent',
-                  borderRadius: '12px',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    color: '#2c5aa0',
-                    backgroundColor: 'rgba(44, 90, 160, 0.08)',
-                    border: '2px solid rgba(44, 90, 160, 0.2)',
-                    textDecoration: 'none'
-                  }
-                }}
+          <Box key={item.label}>
+            {item.hasDropdown ? (
+              <>
+                <ListItem
+                  disablePadding
+                  sx={{ marginBottom: '0' }}
+                >
+                  <Box
+                    onClick={handleMobileServicesToggle}
+                    sx={{
+                      width: '100%',
+                      textDecoration: 'none',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      padding: '16px 16px',
+                      backgroundColor: 'transparent',
+                      border: '2px solid transparent',
+                      borderRadius: '12px',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        color: '#2c5aa0',
+                        backgroundColor: 'rgba(44, 90, 160, 0.08)',
+                        border: '2px solid rgba(44, 90, 160, 0.2)'
+                      }
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        ...fontStyle,
+                        color: '#333',
+                        fontSize: '1.1rem',
+                        fontWeight: 500
+                      }}
+                    >
+                      {item.label}
+                    </Typography>
+                    {servicesOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                  </Box>
+                </ListItem>
+                <Collapse in={servicesOpen} timeout="auto" unmountOnExit>
+                  <List sx={{ pl: 2 }}>
+                    {services.map((service) => {
+                      const IconComponent = service.icon;
+                      return (
+                        <ListItem
+                          key={service.path}
+                          disablePadding
+                          sx={{ mb: 1 }}
+                        >
+                          <Box
+                            component={Link}
+                            to={service.path}
+                            onClick={handleDrawerToggle}
+                            sx={{
+                              width: '100%',
+                              textDecoration: 'none',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 1.5,
+                              padding: '12px 16px',
+                              backgroundColor: location.pathname === service.path ? 'rgba(44, 90, 160, 0.1)' : 'transparent',
+                              borderRadius: '8px',
+                              transition: 'all 0.3s ease',
+                              '&:hover': {
+                                backgroundColor: 'rgba(44, 90, 160, 0.08)'
+                              }
+                            }}
+                          >
+                            <IconComponent sx={{ 
+                              fontSize: 20, 
+                              color: location.pathname === service.path ? '#2c5aa0' : '#666'
+                            }} />
+                            <Typography
+                              sx={{
+                                ...fontStyle,
+                                color: location.pathname === service.path ? '#2c5aa0' : '#555',
+                                fontSize: '0.95rem',
+                                fontWeight: location.pathname === service.path ? 600 : 500
+                              }}
+                            >
+                              {service.label}
+                            </Typography>
+                          </Box>
+                        </ListItem>
+                      );
+                    })}
+                  </List>
+                </Collapse>
+              </>
+            ) : (
+              <ListItem
+                disablePadding
+                sx={{ marginBottom: '0' }}
               >
-                <Typography
+                <Box
+                  component={Link}
+                  to={item.path}
+                  onClick={handleDrawerToggle}
                   sx={{
-                    ...fontStyle,
-                    color: location.pathname === item.path ? '#2c5aa0' : '#333',
-                    fontSize: '1.1rem',
-                    fontWeight: location.pathname === item.path ? 600 : 500,
-                    cursor: 'pointer',
+                    width: '100%',
                     textDecoration: 'none',
+                    display: 'block',
+                    padding: '16px 16px',
+                    backgroundColor: location.pathname === item.path ? 'rgba(44, 90, 160, 0.1)' : 'transparent',
+                    border: location.pathname === item.path ? '2px solid #2c5aa0' : '2px solid transparent',
+                    borderRadius: '12px',
+                    transition: 'all 0.3s ease',
                     '&:hover': {
+                      color: '#2c5aa0',
+                      backgroundColor: 'rgba(44, 90, 160, 0.08)',
+                      border: '2px solid rgba(44, 90, 160, 0.2)',
                       textDecoration: 'none'
                     }
                   }}
                 >
-                  {item.label}
-                </Typography>
-              </Box>
-            </ListItem>
+                  <Typography
+                    sx={{
+                      ...fontStyle,
+                      color: location.pathname === item.path ? '#2c5aa0' : '#333',
+                      fontSize: '1.1rem',
+                      fontWeight: location.pathname === item.path ? 600 : 500,
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      '&:hover': {
+                        textDecoration: 'none'
+                      }
+                    }}
+                  >
+                    {item.label}
+                  </Typography>
+                </Box>
+              </ListItem>
+            )}
 
-            {/* Add grey line between items (except after last item) */}
             {index < navItems.length - 1 && (
-              <Divider
-                sx={{
-                  margin: '8px 0',
-                  backgroundColor: '#f0f0f0'
-                }}
-              />
+              <Divider sx={{ margin: '8px 0', backgroundColor: '#f0f0f0' }} />
             )}
           </Box>
         ))}
       </List>
 
-      {/* Auth Section */}
+      {/* Contact Info */}
       <Box sx={{ 
         marginTop: 'auto', 
         padding: '24px 20px',
         borderTop: '1px solid #f0f0f0'
       }}>
-        <Box sx={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: '1rem',
-          marginBottom: '16px'
-        }}>
-          <Button
-            variant="outlined"
-            disabled
-            component={Link}
-            to="/login"
-            onClick={handleDrawerToggle}
-            sx={{
-              ...fontStyle,
-              color: '#2c5aa0',
-              borderColor: '#2c5aa0',
-              padding: '12px 24px',
-              '&:hover': {
-                backgroundColor: 'rgba(44, 90, 160, 0.1)',
-                borderColor: '#2c5aa0'
-              }
-            }}
-          >
-            Login
-          </Button>
-          <Button
-            variant="contained"
-            disabled
-            component={Link}
-            to="/signup"
-            onClick={handleDrawerToggle}
-            sx={{
-              ...fontStyle,
-              backgroundColor: '#2c5aa0',
-              padding: '12px 24px',
-              '&:hover': {
-                backgroundColor: '#1e3d6f'
-              }
-            }}
-          >
-            Sign Up
-          </Button>
-        </Box>
-        
-        {/* Contact Info */}
         <Typography
           sx={{
             ...fontStyle,
@@ -280,7 +360,7 @@ return (
         transition: 'all 0.3s ease',
         left: 0,
         right: 0,
-        width: '100vw', // Use viewport width
+        width: '100vw',
         margin: 0,
       }}
     >
@@ -291,12 +371,12 @@ return (
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: { xs: '0 16px', md: '0 24px' }, // Add some padding back
+        padding: { xs: '0 16px', md: '0 24px' },
         minHeight: { xs: '64px', md: '80px' },
         boxSizing: 'border-box',
-        overflow: 'visible' // Ensure content isn't clipped
+        overflow: 'visible'
       }}>
-        {/* Logo - Left Side with proper spacing */}
+        {/* Logo */}
         <Box 
           sx={{ 
             cursor: 'pointer',
@@ -322,7 +402,7 @@ return (
           />
         </Box>
 
-          {/* Centered Desktop Navigation */}
+          {/* Desktop Navigation */}
           <Box 
             sx={{ 
               display: { xs: 'none', md: 'flex' }, 
@@ -334,42 +414,121 @@ return (
             }}
           >
             {navItems.map((item) => (
-              <Typography
-                key={item.path}
-                component={Link}
-                to={item.path}
-                sx={{
-                  ...fontStyle,
-                  color: location.pathname === item.path ? '#2c5aa0' : '#333',
-                  fontWeight: location.pathname === item.path ? 600 : 500,
-                  cursor: 'pointer',
-                  transition: 'color 0.3s ease',
-                  position: 'relative',
-                  textDecoration: 'none',
-                  padding: '8px 0',
-                  '&:hover': {
-                    color: '#2c5aa0',
-                    textDecoration: 'none'
-                  },
-                  '&::after': {
-                    content: '""',
-                    position: 'absolute',
-                    width: location.pathname === item.path ? '100%' : '0',
-                    height: '3px',
-                    bottom: '0',
-                    left: '50%',
-                    backgroundColor: '#2c5aa0',
-                    transition: 'all 0.3s ease',
-                    transform: 'translateX(-50%)',
-                    borderRadius: '2px'
-                  },
-                  '&:hover::after': {
-                    width: '100%'
-                  }
-                }}
-              >
-                {item.label}
-              </Typography>
+              item.hasDropdown ? (
+                <Box
+                  key={item.label}
+                  onMouseEnter={handleServicesClick}
+                  onMouseLeave={handleServicesClose}
+                  sx={{ position: 'relative' }}
+                >
+                  <Typography
+                    sx={{
+                      ...fontStyle,
+                      color: '#333',
+                      fontWeight: 500,
+                      cursor: 'pointer',
+                      transition: 'color 0.3s ease',
+                      position: 'relative',
+                      textDecoration: 'none',
+                      padding: '8px 0',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 0.5,
+                      '&:hover': {
+                        color: '#2c5aa0',
+                        textDecoration: 'none'
+                      }
+                    }}
+                  >
+                    {item.label}
+                    <ExpandMoreIcon sx={{ fontSize: '1.2rem' }} />
+                  </Typography>
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleServicesClose}
+                    MenuListProps={{
+                      onMouseLeave: handleServicesClose,
+                    }}
+                    PaperProps={{
+                      sx: {
+                        mt: 1,
+                        borderRadius: '12px',
+                        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
+                        minWidth: '260px',
+                        border: '1px solid #f0f0f0'
+                      }
+                    }}
+                  >
+                    {services.map((service) => {
+                      const IconComponent = service.icon;
+                      return (
+                        <MenuItem
+                          key={service.path}
+                          onClick={() => handleServiceNavigation(service.path)}
+                          sx={{
+                            ...fontStyle,
+                            py: 1.5,
+                            px: 2.5,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1.5,
+                            '&:hover': {
+                              backgroundColor: 'rgba(44, 90, 160, 0.08)',
+                              color: '#2c5aa0',
+                              '& .MuiSvgIcon-root': {
+                                color: '#2c5aa0'
+                              }
+                            }
+                          }}
+                        >
+                          <IconComponent sx={{ fontSize: 22, color: '#666' }} />
+                          <Typography sx={{ ...fontStyle, fontSize: '0.95rem' }}>
+                            {service.label}
+                          </Typography>
+                        </MenuItem>
+                      );
+                    })}
+                  </Menu>
+                </Box>
+              ) : (
+                <Typography
+                  key={item.path}
+                  component={Link}
+                  to={item.path}
+                  sx={{
+                    ...fontStyle,
+                    color: location.pathname === item.path ? '#2c5aa0' : '#333',
+                    fontWeight: location.pathname === item.path ? 600 : 500,
+                    cursor: 'pointer',
+                    transition: 'color 0.3s ease',
+                    position: 'relative',
+                    textDecoration: 'none',
+                    padding: '8px 0',
+                    '&:hover': {
+                      color: '#2c5aa0',
+                      textDecoration: 'none'
+                    },
+                    '&::after': {
+                      content: '""',
+                      position: 'absolute',
+                      width: location.pathname === item.path ? '100%' : '0',
+                      height: '3px',
+                      bottom: '0',
+                      left: '50%',
+                      backgroundColor: '#2c5aa0',
+                      transition: 'all 0.3s ease',
+                      transform: 'translateX(-50%)',
+                      borderRadius: '2px'
+                    },
+                    '&:hover::after': {
+                      width: '100%'
+                    }
+                  }}
+                >
+                  {item.label}
+                </Typography>
+              )
             ))}
           </Box>
 
@@ -401,7 +560,7 @@ return (
               Login
             </Button>
             <Button
-            disabled
+              disabled
               variant="contained"
               component={Link}
               to="/signup"
@@ -417,7 +576,7 @@ return (
             </Button>
           </Box>
 
-          {/* Mobile Menu Button - Right Side */}
+          {/* Mobile Menu Button */}
           <Box
             sx={{
               display: { xs: 'flex', md: 'none' },
@@ -464,7 +623,7 @@ return (
               display: { xs: 'none', sm: 'block' }
             }}
           >
-            Website Launching Soon! | Attraction Ticket Booking Coming Soon!
+            Website Launching Soon! | Attraction Ticket Booking Coming Soon! 🎟️
           </Typography>
           <Typography
             sx={{
@@ -475,7 +634,7 @@ return (
               display: { xs: 'block', sm: 'none' }
             }}
           >
-            Launching Soon! 
+            Launching Soon! 🎟️
           </Typography>
           <Box sx={{ display: 'flex', gap: { xs: '10px', md: '15px' }, alignItems: 'center' }}>
             {Object.entries(timeLeft).map(([key, value], index) => (

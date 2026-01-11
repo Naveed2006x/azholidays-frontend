@@ -9,6 +9,12 @@ import Blogs from './pages/blogs.js';
 import About from './pages/about.js';
 import Destinations from './pages/destinations.js';
 import Attractions from './pages/attractions.js';
+import Flights from './pages/flights.js';
+import Hotels from './pages/hotels.js';
+import Insurance from './pages/insurance.js';
+import Transport from './pages/transport.js';
+import Cruises from './pages/cruises.js';
+import Packages from './pages/packages.js';
 
 // Add ScrollToTop component
 const ScrollToTop = () => {
@@ -28,7 +34,7 @@ const RouteHandler = ({ children }) => {
 
   // Check if current route should show footer
   const shouldShowFooter = () => {
-    const footerRoutes = ['/', '/contact', '/destinations', '/attractions', '/blogs', '/about'];
+    const footerRoutes = ['/', '/contact', '/destinations', '/attractions', '/blogs', '/about', '/flights', '/hotels', '/insurance', '/transport', '/cruises', '/packages'];
     return footerRoutes.includes(location.pathname);
   };
 
@@ -111,6 +117,12 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/destinations" element={<Destinations />} />
           <Route path="/attractions" element={<Attractions />} />
+          <Route path="/flights" element={<Flights />} />
+          <Route path="/hotels" element={<Hotels />} />
+          <Route path="/insurance" element={<Insurance />} />
+          <Route path="/transport" element={<Transport />} />
+          <Route path="/cruises" element={<Cruises />} />
+          <Route path="/packages" element={<Packages />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />

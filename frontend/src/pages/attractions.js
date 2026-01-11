@@ -270,78 +270,80 @@ const Attractions = () => {
 
         {/* Attractions Grid */}
         {filteredAttractions.length > 0 ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '30px', marginBottom: '60px' }} className="attractions-grid">
-            <style>{`
-              @media (max-width: 1200px) { .attractions-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-              @media (max-width: 768px) { .attractions-grid { grid-template-columns: 1fr !important; gap: 24px !important; padding: 0 16px; } }
-            `}</style>
-            {filteredAttractions.map((attr, index) => (
-              <Grow in timeout={800 + index * 100} key={attr.id}>
-                <div>
-                  <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: '24px', boxShadow: '0 12px 40px rgba(44, 90, 160, 0.08)', transition: 'all 0.4s ease', overflow: 'hidden', '&:hover': { transform: 'translateY(-12px)', boxShadow: '0 24px 60px rgba(44, 90, 160, 0.2)', '& .attr-card-image': { transform: 'scale(1.08)' }, '& .book-button': { color: '#2c5aa0', '& .MuiSvgIcon-root': { transform: 'translateX(6px)' } } } }}>
-                    {/* Image */}
-                    <Box sx={{ position: 'relative', overflow: 'hidden', height: '220px' }}>
-                      <CardMedia component="img" className="attr-card-image" image={attr.image} alt={attr.name} sx={{ height: '100%', width: '100%', objectFit: 'cover', transition: 'transform 0.6s ease', filter: 'grayscale(70%) brightness(0.6)' }} onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=600&fit=crop'; }} />
-                      
-                      {/* Coming Soon Overlay */}
-                      <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(44, 90, 160, 0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(2px)' }}>
-                        <Box sx={{ textAlign: 'center' }}>
-                          <Typography sx={{ color: 'white', fontSize: '1.5rem', fontWeight: 700, fontFamily: "'Poppins', sans-serif", textShadow: '0 2px 8px rgba(0,0,0,0.3)', mb: 0.5 }}>Coming Soon</Typography>
-                          <Typography sx={{ color: 'rgba(255,255,255,0.9)', fontSize: '0.85rem', fontWeight: 500, fontFamily: "'Poppins', sans-serif" }}>Booking Available Soon</Typography>
+          <Box sx={{ mb: 6 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '30px', maxWidth: '1200px', margin: '0 auto' }} className="attractions-grid">
+              <style>{`
+                @media (max-width: 1200px) { .attractions-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+                @media (max-width: 768px) { .attractions-grid { grid-template-columns: 1fr !important; gap: 24px !important; padding: 0 16px; } }
+              `}</style>
+              {filteredAttractions.map((attr, index) => (
+                <Grow in timeout={800 + index * 100} key={attr.id}>
+                  <div>
+                    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: '24px', boxShadow: '0 12px 40px rgba(44, 90, 160, 0.08)', transition: 'all 0.4s ease', overflow: 'hidden', '&:hover': { transform: 'translateY(-12px)', boxShadow: '0 24px 60px rgba(44, 90, 160, 0.2)', '& .attr-card-image': { transform: 'scale(1.08)' }, '& .book-button': { color: '#2c5aa0', '& .MuiSvgIcon-root': { transform: 'translateX(6px)' } } } }}>
+                      {/* Image */}
+                      <Box sx={{ position: 'relative', overflow: 'hidden', height: '220px' }}>
+                        <CardMedia component="img" className="attr-card-image" image={attr.image} alt={attr.name} sx={{ height: '100%', width: '100%', objectFit: 'cover', transition: 'transform 0.6s ease', filter: 'grayscale(70%) brightness(0.6)' }} onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=600&fit=crop'; }} />
+                        
+                        {/* Coming Soon Overlay */}
+                        <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(44, 90, 160, 0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(2px)' }}>
+                          <Box sx={{ textAlign: 'center' }}>
+                            <Typography sx={{ color: 'white', fontSize: '1.5rem', fontWeight: 700, fontFamily: "'Poppins', sans-serif", textShadow: '0 2px 8px rgba(0,0,0,0.3)', mb: 0.5 }}>Coming Soon</Typography>
+                            <Typography sx={{ color: 'rgba(255,255,255,0.9)', fontSize: '0.85rem', fontWeight: 500, fontFamily: "'Poppins', sans-serif" }}>Booking Available Soon</Typography>
+                          </Box>
+                        </Box>
+                        
+                        {/* Badges */}
+                        {(attr.isBestSeller || attr.isRecommended) && (
+                          <Box sx={{ position: 'absolute', top: 16, right: 16, zIndex: 2 }}>
+                            {attr.isBestSeller && <Chip label="Best Seller" size="small" sx={{ bgcolor: '#ff6b6b', color: 'white', fontWeight: 700, fontFamily: "'Poppins', sans-serif", fontSize: '0.75rem', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', backdropFilter: 'blur(10px)', mb: 0.5 }} />}
+                            {attr.isRecommended && <Chip label="Recommended" size="small" sx={{ bgcolor: '#2c5aa0', color: 'white', fontWeight: 700, fontFamily: "'Poppins', sans-serif", fontSize: '0.75rem', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', backdropFilter: 'blur(10px)' }} />}
+                          </Box>
+                        )}
+                        
+                        {/* Favorite Button */}
+                        <Box sx={{ position: 'absolute', top: 16, left: 16, zIndex: 2 }}>
+                          <IconButton size="small" onClick={() => handleFavorite(attr.id)} sx={{ bgcolor: 'rgba(255,255,255,0.95)', '&:hover': { bgcolor: 'white' } }}>
+                            <Favorite sx={{ fontSize: 18, color: favorites[attr.id] ? '#ff4757' : '#888' }} />
+                          </IconButton>
                         </Box>
                       </Box>
-                      
-                      {/* Badges */}
-                      {(attr.isBestSeller || attr.isRecommended) && (
-                        <Box sx={{ position: 'absolute', top: 16, right: 16, zIndex: 2 }}>
-                          {attr.isBestSeller && <Chip label="Best Seller" size="small" sx={{ bgcolor: '#ff6b6b', color: 'white', fontWeight: 700, fontFamily: "'Poppins', sans-serif", fontSize: '0.75rem', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', backdropFilter: 'blur(10px)', mb: 0.5 }} />}
-                          {attr.isRecommended && <Chip label="Recommended" size="small" sx={{ bgcolor: '#2c5aa0', color: 'white', fontWeight: 700, fontFamily: "'Poppins', sans-serif", fontSize: '0.75rem', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', backdropFilter: 'blur(10px)' }} />}
-                        </Box>
-                      )}
-                      
-                      {/* Favorite Button */}
-                      <Box sx={{ position: 'absolute', top: 16, left: 16, zIndex: 2 }}>
-                        <IconButton size="small" onClick={() => handleFavorite(attr.id)} sx={{ bgcolor: 'rgba(255,255,255,0.95)', '&:hover': { bgcolor: 'white' } }}>
-                          <Favorite sx={{ fontSize: 18, color: favorites[attr.id] ? '#ff4757' : '#888' }} />
-                        </IconButton>
+
+                      <CardContent sx={{ flexGrow: 1, p: 3, display: 'flex', flexDirection: 'column' }}>
+                        {/* Location & Rating */}
+                        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                            <LocationOn sx={{ fontSize: 16, color: '#2c5aa0' }} /> 
+                            <Typography variant="caption" sx={{ fontWeight: 600, fontFamily: "'Poppins', sans-serif", color: '#666' }}>{attr.location}</Typography>
+                          </Box>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                            <Star sx={{ fontSize: 16, color: '#ffa726' }} />
+                            <Typography variant="caption" sx={{ fontWeight: 600, fontFamily: "'Poppins', sans-serif", color: '#666' }}>{attr.rating}</Typography>
+                          </Box>
+                        </Stack>
+
+                        {/* Title */}
+                        <Typography gutterBottom variant="h6" component="h2" sx={{ fontWeight: 700, fontFamily: "'Poppins', sans-serif", color: '#1a1a1a', lineHeight: 1.4, fontSize: '1.25rem', mb: 2 }}>{attr.name}</Typography>
+                        
+                        {/* Description */}
+                        <Typography variant="body2" sx={{ fontFamily: "'Poppins', sans-serif", lineHeight: 1.6, fontSize: '0.95rem', color: '#555', mb: 3, flexGrow: 1, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{attr.description}</Typography>
+
+                        {/* Duration & Price */}
+                        <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
+                          <Chip icon={<AccessTime sx={{ fontSize: 16 }} />} label={attr.duration} size="small" sx={{ bgcolor: '#f0f7ff', color: '#2c5aa0', fontFamily: "'Poppins', sans-serif", fontWeight: 600 }} />
+                          <Typography sx={{ color: '#2c5aa0', fontWeight: 700, fontFamily: "'Poppins', sans-serif", fontSize: '1.1rem' }}>{attr.price}</Typography>
+                        </Stack>
+                      </CardContent>
+
+                      {/* Footer */}
+                      <Box sx={{ p: 3, pt: 2, borderTop: '1px solid #f0f0f0' }}>
+                        <Button className="book-button" fullWidth endIcon={<ArrowForward />} disabled sx={{ color: '#999', bgcolor: '#f5f5f5', textTransform: 'none', fontWeight: 600, fontFamily: "'Poppins', sans-serif", fontSize: '0.95rem', py: 1.5, transition: 'all 0.3s ease', cursor: 'not-allowed', '& .MuiSvgIcon-root': { transition: 'transform 0.3s ease', fontSize: '1.2rem' } }}>Book Now (Coming Soon)</Button>
                       </Box>
-                    </Box>
-
-                    <CardContent sx={{ flexGrow: 1, p: 3, display: 'flex', flexDirection: 'column' }}>
-                      {/* Location & Rating */}
-                      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                          <LocationOn sx={{ fontSize: 16, color: '#2c5aa0' }} /> 
-                          <Typography variant="caption" sx={{ fontWeight: 600, fontFamily: "'Poppins', sans-serif", color: '#666' }}>{attr.location}</Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                          <Star sx={{ fontSize: 16, color: '#ffa726' }} />
-                          <Typography variant="caption" sx={{ fontWeight: 600, fontFamily: "'Poppins', sans-serif", color: '#666' }}>{attr.rating}</Typography>
-                        </Box>
-                      </Stack>
-
-                      {/* Title */}
-                      <Typography gutterBottom variant="h6" component="h2" sx={{ fontWeight: 700, fontFamily: "'Poppins', sans-serif", color: '#1a1a1a', lineHeight: 1.4, fontSize: '1.25rem', mb: 2 }}>{attr.name}</Typography>
-                      
-                      {/* Description */}
-                      <Typography variant="body2" sx={{ fontFamily: "'Poppins', sans-serif", lineHeight: 1.6, fontSize: '0.95rem', color: '#555', mb: 3, flexGrow: 1, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{attr.description}</Typography>
-
-                      {/* Duration & Price */}
-                      <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
-                        <Chip icon={<AccessTime sx={{ fontSize: 16 }} />} label={attr.duration} size="small" sx={{ bgcolor: '#f0f7ff', color: '#2c5aa0', fontFamily: "'Poppins', sans-serif", fontWeight: 600 }} />
-                        <Typography sx={{ color: '#2c5aa0', fontWeight: 700, fontFamily: "'Poppins', sans-serif", fontSize: '1.1rem' }}>{attr.price}</Typography>
-                      </Stack>
-                    </CardContent>
-
-                    {/* Footer */}
-                    <Box sx={{ p: 3, pt: 2, borderTop: '1px solid #f0f0f0' }}>
-                      <Button className="book-button" fullWidth endIcon={<ArrowForward />} disabled sx={{ color: '#999', bgcolor: '#f5f5f5', textTransform: 'none', fontWeight: 600, fontFamily: "'Poppins', sans-serif", fontSize: '0.95rem', py: 1.5, transition: 'all 0.3s ease', cursor: 'not-allowed', '& .MuiSvgIcon-root': { transition: 'transform 0.3s ease', fontSize: '1.2rem' } }}>Book Now (Coming Soon)</Button>
-                    </Box>
-                  </Card>
-                </div>
-              </Grow>
-            ))}
-          </div>
+                    </Card>
+                  </div>
+                </Grow>
+              ))}
+            </div>
+          </Box>
         ) : (
           <Fade in timeout={800}>
             <Box sx={{ textAlign: 'center', py: 15, background: 'linear-gradient(135deg, #f8faff, #ffffff)', borderRadius: '32px', border: '2px dashed #d0d7ff', mx: { xs: 2, md: 4 } }}>
