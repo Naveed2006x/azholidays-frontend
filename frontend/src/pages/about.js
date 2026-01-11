@@ -199,7 +199,7 @@ const About = () => {
               fontWeight: 700,
               mb: 4,
               textAlign: 'center',
-              color: '#2d3748'
+              color: '#323c4d'
             }}
           >
             Our Services
