@@ -192,20 +192,48 @@ const Contact = () => {
                             sx={{
                                 p: 4,
                                 border: '1px solid #e0e0e0',
-                                borderRadius: 2
+                                borderRadius: 2,
+                                position: 'relative',
+                                backgroundColor: '#f9f9f9'
                             }}
                         >
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    top: '16px',
+                                    right: '16px',
+                                    backgroundColor: '#2c5aa0',
+                                    color: 'white',
+                                    padding: '6px 16px',
+                                    borderRadius: '20px',
+                                    fontSize: '0.85rem',
+                                    fontFamily: "'Poppins', sans-serif",
+                                    fontWeight: 600
+                                }}
+                            >
+                                Coming Soon
+                            </Box>
                             <Typography
                                 variant="h4"
                                 gutterBottom
                                 sx={{
                                     fontWeight: 'bold',
-                                    color: '#333',
+                                    color: '#999',
+                                    fontFamily: "'Poppins', sans-serif",
+                                    mb: 1
+                                }}
+                            >
+                                Send us a Message
+                            </Typography>
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    color: '#666',
                                     fontFamily: "'Poppins', sans-serif",
                                     mb: 3
                                 }}
                             >
-                                Send us a Message
+                                Our contact form will be available soon. For now, please reach out to us directly via phone or email.
                             </Typography>
 
                             <form onSubmit={handleSubmit}>
@@ -220,6 +248,7 @@ const Contact = () => {
                                                 onChange={handleChange}
                                                 required
                                                 variant="outlined"
+                                                disabled
                                             />
                                         </div>
                                         <div className="form-field" style={{ flex: '1', minWidth: '200px' }}>
@@ -232,6 +261,7 @@ const Contact = () => {
                                                 onChange={handleChange}
                                                 required
                                                 variant="outlined"
+                                                disabled
                                             />
                                         </div>
                                     </div>
@@ -244,6 +274,7 @@ const Contact = () => {
                                                 value={formData.phone}
                                                 onChange={handleChange}
                                                 variant="outlined"
+                                                disabled
                                             />
                                         </div>
                                         <div className="form-field" style={{ flex: '1', minWidth: '200px' }}>
@@ -254,6 +285,7 @@ const Contact = () => {
                                                 value={formData.subject}
                                                 onChange={handleChange}
                                                 variant="outlined"
+                                                disabled
                                             />
                                         </div>
                                     </div>
@@ -268,6 +300,7 @@ const Contact = () => {
                                             multiline
                                             rows={4}
                                             variant="outlined"
+                                            disabled
                                         />
                                     </div>
                                     <div className="form-submit">
@@ -275,14 +308,17 @@ const Contact = () => {
                                             type="submit"
                                             variant="contained"
                                             size="large"
+                                            disabled
                                             sx={{
-                                                backgroundColor: '#2c5aa0',
+                                                backgroundColor: '#e0e0e0',
+                                                color: '#999',
                                                 padding: '12px 40px',
                                                 fontSize: '1.1rem',
                                                 fontWeight: 'bold',
                                                 fontFamily: "'Poppins', sans-serif",
+                                                cursor: 'not-allowed',
                                                 '&:hover': {
-                                                    backgroundColor: '#1e3d6f'
+                                                    backgroundColor: '#e0e0e0'
                                                 }
                                             }}
                                         >
