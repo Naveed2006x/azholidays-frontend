@@ -733,6 +733,7 @@ useEffect(() => {
                   const img = e.currentTarget.querySelector('img');
                   if (img) img.style.transform = 'scale(1)';
                 }}
+                onClick={() => navigate('/attractions')}
               >
                 <div style={styles.attractionImage}>
                   <img 
@@ -780,7 +781,7 @@ useEffect(() => {
                 e.target.style.transform = 'translateY(0)';
                 e.target.style.boxShadow = 'none';
               }}
-              onClick={() => window.location.href = "https://www.azholidays.com.sg/attractions"}
+              onClick={() => navigate('/attractions')}
             >
               View All Attractions
             </button>
