@@ -101,7 +101,8 @@ const Contact = () => {
                             fontWeight: 'bold',
                             color: '#2c5aa0',
                             fontFamily: "'Poppins', sans-serif",
-                            marginTop: '50px'
+                            marginTop: '50px',
+                            fontSize: { xs: '2rem', md: '2.75rem' }
                         }}
                     >
                         Contact Us
@@ -112,7 +113,8 @@ const Contact = () => {
                         sx={{
                             fontFamily: "'Poppins', sans-serif",
                             maxWidth: '600px',
-                            margin: '0 auto'
+                            margin: '0 auto',
+                            fontSize: { xs: '1rem', md: '1.15rem' }
                         }}
                     >
                         Get in touch with us for any inquiries about our travel packages,
@@ -130,7 +132,8 @@ const Contact = () => {
                                 fontWeight: 'bold',
                                 color: '#333',
                                 fontFamily: "'Poppins', sans-serif",
-                                mb: 4
+                                mb: 4,
+                                fontSize: { xs: '1.5rem', md: '1.75rem' }
                             }}
                         >
                             Get in Touch
@@ -220,7 +223,8 @@ const Contact = () => {
                                     fontWeight: 'bold',
                                     color: '#999',
                                     fontFamily: "'Poppins', sans-serif",
-                                    mb: 1
+                                    mb: 1,
+                                    fontSize: { xs: '1.5rem', md: '1.75rem' }
                                 }}
                             >
                                 Send us a Message
@@ -341,7 +345,8 @@ const Contact = () => {
                             fontWeight: 'bold',
                             color: '#333',
                             fontFamily: "'Poppins', sans-serif",
-                            mb: 4
+                            mb: 4,
+                            fontSize: { xs: '1.5rem', md: '1.75rem' }
                         }}
                     >
                         Visit Our Office

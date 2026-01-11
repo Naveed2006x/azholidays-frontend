@@ -15,6 +15,7 @@ import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import Footer from '../components/Footer';
 
 const HeroSection = styled(Box)(({ theme }) => ({
   background: 'linear-gradient(135deg, #667eea 0%, #4b5ba2 100%)',
@@ -120,7 +121,7 @@ const About = () => {
               fontFamily: "'Poppins', sans-serif",
               fontWeight: 700,
               mb: 2,
-              fontSize: { xs: '2.5rem', md: '3.5rem' }
+              fontSize: { xs: '2rem', md: '2.75rem' }
             }}
           >
             About Az Holidays
@@ -132,7 +133,8 @@ const About = () => {
               fontWeight: 400,
               maxWidth: '800px',
               margin: '0 auto',
-              opacity: 0.95
+              opacity: 0.95,
+              fontSize: { xs: '1.1rem', md: '1.3rem' }
             }}
           >
             Crafting extraordinary travel experiences across the globe
@@ -149,7 +151,8 @@ const About = () => {
             fontWeight: 700,
             mb: 3,
             textAlign: 'center',
-            color: '#2d3748'
+            color: '#2d3748',
+            fontSize: { xs: '1.75rem', md: '2.25rem' }
           }}
         >
           Our Story
@@ -160,7 +163,7 @@ const About = () => {
               variant="body1"
               sx={{
                 fontFamily: "'Poppins', sans-serif",
-                fontSize: '1.1rem',
+                fontSize: { xs: '0.95rem', md: '1rem' },
                 lineHeight: 1.8,
                 color: '#4a5568',
                 mb: 2
@@ -177,7 +180,7 @@ const About = () => {
               variant="body1"
               sx={{
                 fontFamily: "'Poppins', sans-serif",
-                fontSize: '1.1rem',
+                fontSize: { xs: '0.95rem', md: '1rem' },
                 lineHeight: 1.8,
                 color: '#4a5568'
               }}
@@ -199,45 +202,53 @@ const About = () => {
               fontWeight: 700,
               mb: 4,
               textAlign: 'center',
-              color: '#323c4d'
+              color: '#323c4d',
+              fontSize: { xs: '1.5rem', md: '1.75rem' }
             }}
           >
             Our Services
           </Typography>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(5, 1fr)',
-            gap: '20px',
-            '@media (max-width: 1200px)': {
-              gridTemplateColumns: 'repeat(3, 1fr)'
-            },
-            '@media (max-width: 768px)': {
-              gridTemplateColumns: 'repeat(2, 1fr)'
-            }
-          }}>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: {
+                xs: 'repeat(2, 1fr)',
+                sm: 'repeat(3, 1fr)',
+                md: 'repeat(5, 1fr)'
+              },
+              gap: 3
+            }}
+          >
             {services.map((service, index) => (
-              <div key={index}>
-                <ServiceCard elevation={0} sx={{ border: '1px solid #e0e0e0', height: '100%' }}>
-                  <CardContent sx={{ textAlign: 'center', p: 3 }}>
-                    <Box sx={{ mb: 2 }}>
-                      {service.icon}
-                    </Box>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        fontFamily: "'Poppins', sans-serif",
-                        fontWeight: 600,
-                        color: '#2d3748',
-                        fontSize: '0.9rem'
-                      }}
-                    >
-                      {service.title}
-                    </Typography>
-                  </CardContent>
-                </ServiceCard>
-              </div>
+              <ServiceCard key={index} elevation={0} sx={{ border: '1px solid #e0e0e0' }}>
+                <CardContent sx={{ 
+                  textAlign: 'center', 
+                  p: 3,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  minHeight: '150px'
+                }}>
+                  <Box sx={{ mb: 2 }}>
+                    {service.icon}
+                  </Box>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontFamily: "'Poppins', sans-serif",
+                      fontWeight: 600,
+                      color: '#2d3748',
+                      fontSize: '0.9rem',
+                      lineHeight: 1.4
+                    }}
+                  >
+                    {service.title}
+                  </Typography>
+                </CardContent>
+              </ServiceCard>
             ))}
-          </div>
+          </Box>
         </Box>
       </Container>
 
@@ -247,26 +258,53 @@ const About = () => {
         <Container maxWidth="lg">
           <Grid container spacing={4} textAlign="center">
             <Grid item xs={12} sm={4}>
-              <Typography variant="h3" sx={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, mb: 1 }}>
+              <Typography variant="h3" sx={{ 
+                fontFamily: "'Poppins', sans-serif", 
+                fontWeight: 700, 
+                mb: 1,
+                fontSize: { xs: '2rem', md: '2.5rem' }
+              }}>
                 19+
               </Typography>
-              <Typography variant="h6" sx={{ fontFamily: "'Poppins', sans-serif", opacity: 0.9 }}>
+              <Typography variant="h6" sx={{ 
+                fontFamily: "'Poppins', sans-serif", 
+                opacity: 0.9,
+                fontSize: { xs: '1rem', md: '1.15rem' }
+              }}>
                 Years of Experience
               </Typography>
             </Grid>
             <Grid item xs={12} sm={4}>
-              <Typography variant="h3" sx={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, mb: 1 }}>
+              <Typography variant="h3" sx={{ 
+                fontFamily: "'Poppins', sans-serif", 
+                fontWeight: 700, 
+                mb: 1,
+                fontSize: { xs: '2rem', md: '2.5rem' }
+              }}>
                 10,000+
               </Typography>
-              <Typography variant="h6" sx={{ fontFamily: "'Poppins', sans-serif", opacity: 0.9 }}>
+              <Typography variant="h6" sx={{ 
+                fontFamily: "'Poppins', sans-serif", 
+                opacity: 0.9,
+                fontSize: { xs: '1rem', md: '1.15rem' }
+              }}>
                 Happy Travelers
               </Typography>
             </Grid>
             <Grid item xs={12} sm={4}>
-              <Typography variant="h3" sx={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, mb: 1 }}>
+              <Typography variant="h3" sx={{ 
+                fontFamily: "'Poppins', sans-serif", 
+                fontWeight: 700, 
+                mb: 1,
+                fontSize: { xs: '2rem', md: '2.5rem' }
+              }}>
                 100%
               </Typography>
-              <Typography variant="h6" sx={{ fontFamily: "'Poppins', sans-serif", opacity: 0.9 }}>
+              <Typography variant="h6" sx={{ 
+                fontFamily: "'Poppins', sans-serif", 
+                opacity: 0.9,
+                fontSize: { xs: '1rem', md: '1.15rem' }
+              }}>
                 Trusted Service
               </Typography>
             </Grid>
@@ -284,7 +322,8 @@ const About = () => {
               fontWeight: 700,
               textAlign: 'center',
               mb: 2,
-              color: '#2d3748'
+              color: '#2d3748',
+              fontSize: { xs: '1.75rem', md: '2.25rem' }
             }}
           >
             Our Values
@@ -296,7 +335,7 @@ const About = () => {
               textAlign: 'center',
               mb: 6,
               color: '#4a5568',
-              fontSize: '1.1rem'
+              fontSize: { xs: '0.95rem', md: '1rem' }
             }}
           >
             The principles that guide everything we do
@@ -352,7 +391,8 @@ const About = () => {
               fontFamily: "'Poppins', sans-serif",
               fontWeight: 700,
               mb: 3,
-              color: '#2d3748'
+              color: '#2d3748',
+              fontSize: { xs: '1.75rem', md: '2.25rem' }
             }}
           >
             Our Mission
@@ -361,7 +401,7 @@ const About = () => {
             variant="body1"
             sx={{
               fontFamily: "'Poppins', sans-serif",
-              fontSize: '1.2rem',
+              fontSize: { xs: '1rem', md: '1.1rem' },
               lineHeight: 1.8,
               color: '#4a5568',
               mb: 4
@@ -377,7 +417,7 @@ const About = () => {
             variant="body1"
             sx={{
               fontFamily: "'Poppins', sans-serif",
-              fontSize: '1.1rem',
+              fontSize: { xs: '0.95rem', md: '1rem' },
               lineHeight: 1.8,
               color: '#4a5568'
             }}
@@ -388,6 +428,8 @@ const About = () => {
         </Box>
       </Container>
 
+      {/* Footer */}
+      <Footer />
     </Box>
   );
 };

@@ -48,7 +48,8 @@ const Navbar = () => {
         backgroundColor: 'white',
         display: 'flex',
         flexDirection: 'column',
-        padding: '0 24px'
+        padding: '0',
+        overflowX: 'hidden'
       }}
     >
       {/* Header with Close Button */}
@@ -56,13 +57,13 @@ const Navbar = () => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '20px 0',
+        padding: '20px 20px',
         borderBottom: '1px solid #f0f0f0'
       }}>
         <Box
           component={Link}
           to="/"
-          // onClick={handleDrawerToggle}
+          onClick={handleDrawerToggle}
           sx={{ cursor: 'pointer' }}
         >
           <img
@@ -76,7 +77,7 @@ const Navbar = () => {
           />
         </Box>
         <IconButton
-          // onClick={handleDrawerToggle}
+          onClick={handleDrawerToggle}
           sx={{
             color: '#333',
             padding: '8px'
@@ -89,7 +90,9 @@ const Navbar = () => {
       {/* Navigation Items */}
       <List sx={{
         marginTop: '1rem',
-        padding: '0'
+        padding: '0 20px',
+        overflowY: 'auto',
+        flex: 1
       }}>
         {navItems.map((item, index) => (
           <Box key={item.path}>
@@ -102,12 +105,12 @@ const Navbar = () => {
               <Box
                 component={Link}
                 to={item.path}
-                // onClick={handleDrawerToggle}
+                onClick={handleDrawerToggle}
                 sx={{
                   width: '100%',
                   textDecoration: 'none',
                   display: 'block',
-                  padding: '16px 20px',
+                  padding: '16px 16px',
                   backgroundColor: location.pathname === item.path ? 'rgba(44, 90, 160, 0.1)' : 'transparent',
                   border: location.pathname === item.path ? '2px solid #2c5aa0' : '2px solid transparent',
                   borderRadius: '12px',
@@ -142,7 +145,7 @@ const Navbar = () => {
             {index < navItems.length - 1 && (
               <Divider
                 sx={{
-                  margin: '8px 20px',
+                  margin: '8px 0',
                   backgroundColor: '#f0f0f0'
                 }}
               />
@@ -154,7 +157,7 @@ const Navbar = () => {
       {/* Auth Section */}
       <Box sx={{ 
         marginTop: 'auto', 
-        padding: '24px 16px',
+        padding: '24px 20px',
         borderTop: '1px solid #f0f0f0'
       }}>
         <Box sx={{ 
@@ -167,7 +170,7 @@ const Navbar = () => {
             variant="outlined"
             component={Link}
             to="/login"
-            // onClick={handleDrawerToggle}
+            onClick={handleDrawerToggle}
             sx={{
               ...fontStyle,
               color: '#2c5aa0',
@@ -185,7 +188,7 @@ const Navbar = () => {
             variant="contained"
             component={Link}
             to="/signup"
-            // onClick={handleDrawerToggle}
+            onClick={handleDrawerToggle}
             sx={{
               ...fontStyle,
               backgroundColor: '#2c5aa0',
@@ -228,48 +231,57 @@ const Navbar = () => {
     </Box>
   );
 
-  return (
-    <>
-      <AppBar 
-        position="fixed" 
-        sx={{
-          background: 'rgba(255, 255, 255, 1)',
-          backdropFilter: 'blur(0.5px)',
-          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-          transition: 'all 0.3s ease',
-        }}
-      >
-        <Toolbar sx={{ 
-          maxWidth: '1200px', 
-          margin: '0 auto', 
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: { xs: '0 16px', md: '0 24px' }
-        }}>
-          {/* Logo - Left Side */}
-          <Box 
-            sx={{ 
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              flex: 1,
-              justifyContent: 'flex-start'
+return (
+  <>
+    <AppBar 
+      position="fixed" 
+      sx={{
+        background: 'rgba(255, 255, 255, 1)',
+        backdropFilter: 'blur(0.5px)',
+        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+        transition: 'all 0.3s ease',
+        left: 0,
+        right: 0,
+        width: '100vw', // Use viewport width
+        margin: 0,
+      }}
+    >
+      <Toolbar sx={{ 
+        maxWidth: '1200px', 
+        margin: '0 auto', 
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: { xs: '0 16px', md: '0 24px' }, // Add some padding back
+        minHeight: { xs: '64px', md: '80px' },
+        boxSizing: 'border-box',
+        overflow: 'visible' // Ensure content isn't clipped
+      }}>
+        {/* Logo - Left Side with proper spacing */}
+        <Box 
+          sx={{ 
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            flex: { xs: 1, md: 1 },
+            justifyContent: 'flex-start',
+            minWidth: 'fit-content'
+          }}
+          component={Link}
+          to="/"
+        >
+          <img 
+            src={Logo} 
+            alt="AZ Holidays" 
+            style={{ 
+              height: '60px',
+              width: 'auto',
+              objectFit: 'contain',
+              display: 'block'
             }}
-            component={Link}
-            to="/"
-          >
-            <img 
-              src={Logo} 
-              alt="AZ Holidays" 
-              style={{ 
-                height: '80px', 
-                width: 'auto',
-                objectFit: 'contain'
-              }}
-            />
-          </Box>
+          />
+        </Box>
 
           {/* Centered Desktop Navigation */}
           <Box 
@@ -369,15 +381,14 @@ const Navbar = () => {
             sx={{
               display: { xs: 'flex', md: 'none' },
               alignItems: 'center',
-              justifyContent: 'flex-end',
-              flex: 1
+              justifyContent: 'flex-end'
             }}
           >
             <IconButton
               color="inherit"
               aria-label="open drawer"
-              edge="start"
-              // onClick={handleDrawerToggle}
+              edge="end"
+              onClick={handleDrawerToggle}
               sx={{
                 color: '#333',
                 padding: '8px'
@@ -404,7 +415,8 @@ const Navbar = () => {
             width: '100%',
             maxWidth: '400px',
             boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
-            borderRight: '1px solid #f0f0f0'
+            borderRight: '1px solid #f0f0f0',
+            overflowX: 'hidden'
           },
         }}
       >
