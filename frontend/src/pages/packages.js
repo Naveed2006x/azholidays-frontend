@@ -35,56 +35,173 @@ const Packages = () => {
       <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, md: 4 }, py: { xs: 2, sm: 3, md: 4 } }}>
         
         {/* Package Types Grid */}
-        <Grid container spacing={3} sx={{ mb: 6 }} justifyContent="center">
+        <Box className="packages-grid" sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', marginBottom: '48px' }}>
+          <style>{`
+            .packages-grid .package-card {
+              min-height: 100%;
+              display: flex;
+              flex-direction: column;
+            }
+            .packages-grid .card-content {
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              flex-grow: 1;
+            }
+            @media (max-width: 1200px) { 
+              .packages-grid { 
+                grid-template-columns: repeat(3, 1fr) !important; 
+              } 
+            }
+            @media (max-width: 900px) { 
+              .packages-grid { 
+                grid-template-columns: repeat(2, 1fr) !important; 
+              } 
+            }
+            @media (max-width: 600px) { 
+              .packages-grid { 
+                grid-template-columns: 1fr !important; 
+              } 
+            }
+          `}</style>
           {packageTypes.map((pkg, index) => (
-            <Grid item xs={12} sm={6} md={6} lg={3} key={index}>
-              <Card sx={{ p: 3, height: '100%', borderRadius: '16px', boxShadow: '0 8px 24px rgba(44, 90, 160, 0.08)', border: pkg.popular ? '2px solid #2c5aa0' : 'none', position: 'relative', '&:hover': { transform: 'translateY(-8px)', boxShadow: '0 12px 32px rgba(44, 90, 160, 0.15)', transition: 'all 0.3s ease' } }}>
-                {pkg.popular && <Chip label="Popular" size="small" sx={{ position: 'absolute', top: 12, right: 12, bgcolor: '#2c5aa0', color: 'white', fontFamily: "'Poppins', sans-serif", fontWeight: 600 }} />}
-                <Typography variant="h6" sx={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, mb: 1, color: '#2c5aa0', mt: pkg.popular ? 2 : 0 }}>
-                  {pkg.title}
-                </Typography>
-                <Typography variant="body2" sx={{ fontFamily: "'Poppins', sans-serif", color: '#666' }}>
-                  {pkg.desc}
-                </Typography>
+            <Box key={index} className="package-card">
+              <Card sx={{ 
+                p: 3, 
+                height: '100%', 
+                borderRadius: '16px', 
+                boxShadow: '0 8px 24px rgba(44, 90, 160, 0.08)', 
+                border: pkg.popular ? '2px solid #2c5aa0' : 'none', 
+                position: 'relative', 
+                display: 'flex',
+                flexDirection: 'column',
+                '&:hover': { 
+                  transform: 'translateY(-8px)', 
+                  boxShadow: '0 12px 32px rgba(44, 90, 160, 0.15)', 
+                  transition: 'all 0.3s ease' 
+                } 
+              }}>
+                <Box className="card-content">
+                  {pkg.popular && (
+                    <Chip 
+                      label="Popular" 
+                      size="small" 
+                      sx={{ 
+                        position: 'absolute', 
+                        top: 12, 
+                        right: 12, 
+                        bgcolor: '#2c5aa0', 
+                        color: 'white', 
+                        fontFamily: "'Poppins', sans-serif", 
+                        fontWeight: 600,
+                        alignSelf: 'flex-end'
+                      }} 
+                    />
+                  )}
+                  <Typography 
+                    variant="h6" 
+                    sx={{ 
+                      fontFamily: "'Poppins', sans-serif", 
+                      fontWeight: 700, 
+                      mb: 1, 
+                      color: '#2c5aa0', 
+                      mt: pkg.popular ? 2 : 0 
+                    }}
+                  >
+                    {pkg.title}
+                  </Typography>
+                  <Typography 
+                    variant="body2" 
+                    sx={{ 
+                      fontFamily: "'Poppins', sans-serif", 
+                      color: '#666',
+                      flexGrow: 1
+                    }}
+                  >
+                    {pkg.desc}
+                  </Typography>
+                </Box>
               </Card>
-            </Grid>
+            </Box>
           ))}
-        </Grid>
+        </Box>
 
         {/* Contact Section */}
-        <Paper sx={{ p: 5, borderRadius: '24px', boxShadow: '0 12px 40px rgba(44, 90, 160, 0.08)', background: 'linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%)', color: 'white', textAlign: 'center' }}>
+        <Paper sx={{ p: { xs: 3, sm: 4, md: 5 }, borderRadius: '24px', boxShadow: '0 12px 40px rgba(44, 90, 160, 0.08)', background: 'linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%)', color: 'white', textAlign: 'center' }}>
           <TravelExplore sx={{ fontSize: 64, mb: 2 }} />
-          <Typography variant="h3" sx={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, mb: 2 }}>
+          <Typography variant="h3" sx={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, mb: 2, fontSize: { xs: '1.8rem', sm: '2.5rem', md: '3rem' } }}>
             Let's Plan Your Dream Vacation
           </Typography>
-          <Typography sx={{ fontFamily: "'Poppins', sans-serif", lineHeight: 1.8, mb: 4, opacity: 0.9, maxWidth: '700px', mx: 'auto', fontSize: '1.1rem' }}>
+          <Typography sx={{ fontFamily: "'Poppins', sans-serif", lineHeight: 1.8, mb: 4, opacity: 0.9, maxWidth: '700px', mx: 'auto', fontSize: { xs: '0.95rem', sm: '1rem', md: '1.1rem' } }}>
             Our travel experts will work with you to create the perfect itinerary tailored to your preferences, budget, and schedule. Contact us today to start planning!
           </Typography>
           
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
-            <Grid container spacing={3} sx={{ maxWidth: '600px' }}>
+          <Box sx={{ mb: 4 }}>
+            <Grid container spacing={3} sx={{ maxWidth: '600px', mx: 'auto' }} justifyContent="center">
               <Grid item xs={12} sm={6}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                <Box sx={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  gap: 1,
+                  width: '100%'
+                }}>
                   <Phone sx={{ fontSize: 32 }} />
-                  <Typography sx={{ fontFamily: "'Poppins', sans-serif", fontSize: '0.9rem', opacity: 0.8, textAlign: 'center' }}>Call us</Typography>
-                  <Typography sx={{ fontFamily: "'Poppins', sans-serif", fontSize: '1.3rem', fontWeight: 700, textAlign: 'center' }}>+65 9126 3786</Typography>
+                  <Typography sx={{ fontFamily: "'Poppins', sans-serif", fontSize: '0.9rem', opacity: 0.8, textAlign: 'center', width: '100%' }}>
+                    Call us
+                  </Typography>
+                  <Typography sx={{ 
+                    fontFamily: "'Poppins', sans-serif", 
+                    fontSize: { xs: '1.2rem', sm: '1.3rem' }, 
+                    fontWeight: 700, 
+                    textAlign: 'center',
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}>
+                    +65 9126 3786
+                  </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                <Box sx={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  gap: 1,
+                  width: '100%'
+                }}>
                   <Email sx={{ fontSize: 32 }} />
-                  <Typography sx={{ fontFamily: "'Poppins', sans-serif", fontSize: '0.9rem', opacity: 0.8, textAlign: 'center' }}>Email us</Typography>
-                  <Typography sx={{ fontFamily: "'Poppins', sans-serif", fontSize: '1.1rem', fontWeight: 600, textAlign: 'center', wordBreak: 'break-word' }}>enquiry@azholidays.com.sg</Typography>
+                  <Typography sx={{ fontFamily: "'Poppins', sans-serif", fontSize: '0.9rem', opacity: 0.8, textAlign: 'center', width: '100%' }}>
+                    Email us
+                  </Typography>
+                  <Typography sx={{ 
+                    fontFamily: "'Poppins', sans-serif", 
+                    fontSize: { xs: '0.9rem', sm: '1.1rem' }, 
+                    fontWeight: 600, 
+                    textAlign: 'center', 
+                    wordBreak: 'break-word', 
+                    px: 1,
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}>
+                    enquiry@azholidays.com.sg
+                  </Typography>
                 </Box>
               </Grid>
             </Grid>
           </Box>
 
-          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Button variant="contained" href="tel:+6591263786" sx={{ bgcolor: 'white', color: '#2c5aa0', py: 1.5, px: 4, fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: '1rem', '&:hover': { bgcolor: 'rgba(255,255,255,0.9)' } }}>
+          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap', px: 2 }}>
+            <Button variant="contained" href="tel:+6591263786" sx={{ bgcolor: 'white', color: '#2c5aa0', py: 1.5, px: 4, fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: '1rem', borderRadius: '12px', '&:hover': { bgcolor: 'rgba(255,255,255,0.9)' } }}>
               Call Now
             </Button>
-            <Button variant="outlined" href="mailto:enquiry@azholidays.com.sg" sx={{ borderColor: 'white', color: 'white', py: 1.5, px: 4, fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: '1rem', '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)' } }}>
+            <Button variant="outlined" href="mailto:enquiry@azholidays.com.sg" sx={{ borderColor: 'white', color: 'white', py: 1.5, px: 4, fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: '1rem', borderRadius: '12px', borderWidth: '2px', '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)', borderWidth: '2px' } }}>
               Send Email
             </Button>
           </Box>
