@@ -71,7 +71,7 @@ const Contact = () => {
         {
             icon: <Email sx={{ fontSize: 40, color: '#2c5aa0' }} />,
             title: 'Email',
-            details: 'info@azholidays.com',
+            details: 'enquiry@azholidays.com.sg',
             description: 'Send us your query anytime!'
         },
         {
@@ -100,7 +100,7 @@ const Contact = () => {
                         sx={{
                             fontWeight: 'bold',
                             color: '#2c5aa0',
-                            fontFamily: "'Satoshi', sans-serif",
+                            fontFamily: "'Poppins', sans-serif",
                             marginTop: '50px'
                         }}
                     >
@@ -110,7 +110,7 @@ const Contact = () => {
                         variant="h6"
                         color="text.secondary"
                         sx={{
-                            fontFamily: "'Satoshi', sans-serif",
+                            fontFamily: "'Poppins', sans-serif",
                             maxWidth: '600px',
                             margin: '0 auto'
                         }}
@@ -129,7 +129,7 @@ const Contact = () => {
                             sx={{
                                 fontWeight: 'bold',
                                 color: '#333',
-                                fontFamily: "'Satoshi', sans-serif",
+                                fontFamily: "'Poppins', sans-serif",
                                 mb: 4
                             }}
                         >
@@ -155,7 +155,7 @@ const Contact = () => {
                                         sx={{
                                             fontWeight: 'bold',
                                             color: '#333',
-                                            fontFamily: "'Satoshi', sans-serif"
+                                            fontFamily: "'Poppins', sans-serif"
                                         }}
                                     >
                                         {item.title}
@@ -165,7 +165,7 @@ const Contact = () => {
                                         sx={{
                                             color: '#2c5aa0',
                                             fontWeight: 'medium',
-                                            fontFamily: "'Satoshi', sans-serif",
+                                            fontFamily: "'Poppins', sans-serif",
                                             mb: 0.5
                                         }}
                                     >
@@ -175,7 +175,7 @@ const Contact = () => {
                                         variant="body2"
                                         color="text.secondary"
                                         sx={{
-                                            fontFamily: "'Satoshi', sans-serif"
+                                            fontFamily: "'Poppins', sans-serif"
                                         }}
                                     >
                                         {item.description}
@@ -201,7 +201,7 @@ const Contact = () => {
                                 sx={{
                                     fontWeight: 'bold',
                                     color: '#333',
-                                    fontFamily: "'Satoshi', sans-serif",
+                                    fontFamily: "'Poppins', sans-serif",
                                     mb: 3
                                 }}
                             >
@@ -253,7 +253,6 @@ const Contact = () => {
                                                 name="subject"
                                                 value={formData.subject}
                                                 onChange={handleChange}
-                                                required
                                                 variant="outlined"
                                             />
                                         </div>
@@ -281,7 +280,7 @@ const Contact = () => {
                                                 padding: '12px 40px',
                                                 fontSize: '1.1rem',
                                                 fontWeight: 'bold',
-                                                fontFamily: "'Satoshi', sans-serif",
+                                                fontFamily: "'Poppins', sans-serif",
                                                 '&:hover': {
                                                     backgroundColor: '#1e3d6f'
                                                 }
@@ -305,7 +304,7 @@ const Contact = () => {
                         sx={{
                             fontWeight: 'bold',
                             color: '#333',
-                            fontFamily: "'Satoshi', sans-serif",
+                            fontFamily: "'Poppins', sans-serif",
                             mb: 4
                         }}
                     >
@@ -341,7 +340,7 @@ const Contact = () => {
                                 <Typography
                                     color="text.secondary"
                                     sx={{
-                                        fontFamily: "'Satoshi', sans-serif",
+                                        fontFamily: "'Poppins', sans-serif",
                                         mb: 2
                                     }}
                                 >
@@ -351,7 +350,7 @@ const Contact = () => {
                                     variant="body2"
                                     color="text.secondary"
                                     sx={{
-                                        fontFamily: "'Satoshi', sans-serif"
+                                        fontFamily: "'Poppins', sans-serif"
                                     }}
                                 >
                                     Add your Google Maps API key to display the map
