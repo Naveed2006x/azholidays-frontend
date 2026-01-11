@@ -49,10 +49,7 @@ const Home = () => {
       width: '100%',
       position: 'relative',
       overflow: 'visible',
-      marginBottom: '100px',
-      '@media (max-width: 768px)': {
-        marginBottom: '50px'
-      }
+      marginBottom: window.innerWidth <= 768 ? '40px' : '100px'
     },
     bannerContainer: {
       position: 'relative',
@@ -103,15 +100,7 @@ const Home = () => {
       boxShadow: '0 15px 40px rgba(0, 0, 0, 0.2)',
       padding: '30px',
       zIndex: 10,
-      display: 'block',
-      '@media (max-width: 768px)': {
-        display: 'none'
-      },
-      '@media (max-width: 768px)': {
-        bottom: '-100px',
-        width: '95%',
-        padding: '25px 20px'
-      }
+      display: window.innerWidth <= 768 ? 'none' : 'block'
     },
     searchContainer: {
       textAlign: 'center'
@@ -176,13 +165,7 @@ const Home = () => {
       }
     },
     attractionsSection: {
-      padding: '80px 0 80px',
-      '@media (max-width: 768px)': {
-        padding: '100px 0 60px'
-      },
-      '@media (max-width: 480px)': {
-        padding: '80px 0 50px'
-      }
+      padding: window.innerWidth <= 768 ? '20px 0 60px' : '80px 0 80px'
     },
     sectionTitle: {
       textAlign: 'center',
@@ -340,8 +323,60 @@ const Home = () => {
         fontSize: '1rem'
       }
     },
+    countdownBar: {
+      position: 'fixed',
+      top: window.innerWidth <= 768 ? '64px' : '80px',
+      left: 0,
+      right: 0,
+      background: 'linear-gradient(135deg, #2c5aa0, #1e3d6f)',
+      color: 'white',
+      padding: window.innerWidth <= 768 ? '8px 16px' : '12px 24px',
+      zIndex: 999,
+      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: window.innerWidth <= 768 ? '12px' : '20px'
+    },
+    countdownBarText: {
+      fontSize: window.innerWidth <= 768 ? '0.75rem' : '0.9rem',
+      fontWeight: 600,
+      margin: 0,
+      ...fontStyle
+    },
+    countdownBarTimer: {
+      display: 'flex',
+      gap: window.innerWidth <= 768 ? '8px' : '12px',
+      alignItems: 'center'
+    },
+    countdownBarItem: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      minWidth: window.innerWidth <= 768 ? '35px' : '45px'
+    },
+    countdownBarValue: {
+      fontSize: window.innerWidth <= 768 ? '1rem' : '1.2rem',
+      fontWeight: 700,
+      background: 'rgba(255, 255, 255, 0.2)',
+      padding: window.innerWidth <= 768 ? '4px 8px' : '6px 10px',
+      borderRadius: '6px',
+      backdropFilter: 'blur(5px)',
+      border: '1px solid rgba(255, 255, 255, 0.3)',
+      ...fontStyle
+    },
+    countdownBarLabel: {
+      fontSize: window.innerWidth <= 768 ? '0.55rem' : '0.65rem',
+      marginTop: '3px',
+      opacity: 0.9,
+      textTransform: 'uppercase',
+      letterSpacing: '0.5px',
+      ...fontStyle
+    },
     countdownCard: {
       position: 'fixed',
+      top: '50%',
+      transform: 'translateY(-50%)',
       right: '20px',
       background: 'linear-gradient(135deg, #2c5aa0, #1e3d6f)',
       color: 'white',
@@ -352,17 +387,7 @@ const Home = () => {
       minWidth: '280px',
       backdropFilter: 'blur(10px)',
       border: '1px solid rgba(255, 255, 255, 0.1)',
-      animation: 'slideInRight 0.5s ease-out',
-      '@media (max-width: 768px)': {
-        right: '10px',
-        minWidth: 'auto',
-        maxWidth: '300px'
-      },
-      '@media (max-width: 480px)': {
-        right: '10px',
-        padding: '15px',
-        maxWidth: '280px'
-      }
+      display: window.innerWidth <= 768 ? 'none' : 'block'
     },
     countdownHeader: {
       textAlign: 'center',
@@ -474,32 +499,6 @@ useEffect(() => {
 
   return (
     <div style={styles.home}>
-      
-      {/* Countdown Card - Top Right */}
-      <div style={styles.countdownCard}>
-        <div style={styles.countdownHeader}>
-          <h3 style={styles.countdownHeaderTitle}>Launching Soon!</h3>
-          <p style={styles.countdownHeaderText}>Get ready for an amazing experience</p>
-        </div>
-        <div style={styles.countdownTimer}>
-          <div style={styles.countdownItem}>
-            <span style={styles.countdownValue}>{timeLeft.days}</span>
-            <span style={styles.countdownLabel}>Days</span>
-          </div>
-          <div style={styles.countdownItem}>
-            <span style={styles.countdownValue}>{timeLeft.hours}</span>
-            <span style={styles.countdownLabel}>Hours</span>
-          </div>
-          <div style={styles.countdownItem}>
-            <span style={styles.countdownValue}>{timeLeft.minutes}</span>
-            <span style={styles.countdownLabel}>Minutes</span>
-          </div>
-          <div style={styles.countdownItem}>
-            <span style={styles.countdownValue}>{timeLeft.seconds}</span>
-            <span style={styles.countdownLabel}>Seconds</span>
-          </div>
-        </div>
-      </div> 
       
       {/* Hero Banner with Search Overlay */}
       <section style={styles.heroBanner} id="home">

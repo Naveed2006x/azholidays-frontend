@@ -19,11 +19,47 @@ import Logo from '../Images/logo.png';
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({
+    days: '--',
+    hours: '--',
+    minutes: '--',
+    seconds: '--'
+  });
   const location = useLocation();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  useEffect(() => {
+    const launchDate = new Date(2026, 2, 1, 0, 0, 0).getTime();
+
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const timeLeft = launchDate - now;
+
+      if (timeLeft < 0) {
+        setTimeLeft({ days: '00', hours: '00', minutes: '00', seconds: '00' });
+        return;
+      }
+
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      setTimeLeft({
+        days: days < 10 ? '0' + days : days.toString(),
+        hours: hours < 10 ? '0' + hours : hours.toString(),
+        minutes: minutes < 10 ? '0' + minutes : minutes.toString(),
+        seconds: seconds < 10 ? '0' + seconds : seconds.toString()
+      });
+    };
+
+    const interval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+    return () => clearInterval(interval);
+  }, []);
 
   const navItems = [
     { label: 'Home', path: '/' },
@@ -398,6 +434,79 @@ return (
             </IconButton>
           </Box>
         </Toolbar>
+
+        {/* Countdown Announcement Bar */}
+        <Box
+          sx={{
+            background: 'linear-gradient(135deg, #2c5aa0, #1e3d6f)',
+            color: 'white',
+            padding: { xs: '10px 16px', md: '12px 24px' },
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: { xs: '12px', md: '20px' },
+            flexWrap: 'wrap',
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+            fontFamily: "'Poppins', sans-serif"
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: '0.8rem', md: '0.95rem' },
+              fontWeight: 600,
+              margin: 0,
+              fontFamily: "'Poppins', sans-serif"
+            }}
+          >
+            Launching Soon!
+          </Typography>
+          <Box sx={{ display: 'flex', gap: { xs: '10px', md: '15px' }, alignItems: 'center' }}>
+            {/*
+              { value: timeLeft.days, label: 'Days' },
+              { value: timeLeft.hours, label: 'Hours' },
+              { value: timeLeft.minutes, label: 'Min' },
+              { value: timeLeft.seconds, label: 'Sec' }
+            */}
+            {Object.entries(timeLeft).map(([key, value], index) => (
+              <Box
+                key={index}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  minWidth: { xs: '40px', md: '50px' }
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: { xs: '1.1rem', md: '1.3rem' },
+                    fontWeight: 700,
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    padding: { xs: '5px 10px', md: '6px 12px' },
+                    borderRadius: '6px',
+                    backdropFilter: 'blur(5px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    fontFamily: "'Poppins', sans-serif"
+                  }}
+                >
+                  {value}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: { xs: '0.6rem', md: '0.7rem' },
+                    marginTop: '3px',
+                    opacity: 0.9,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    fontFamily: "'Poppins', sans-serif"
+                  }}
+                >
+                  {key.charAt(0).toUpperCase() + key.slice(1, 10)}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        </Box>
       </AppBar>
 
       {/* Mobile Drawer */}
@@ -423,8 +532,8 @@ return (
         {drawer}
       </Drawer>
 
-      {/* Add spacing for fixed navbar */}
-      <Toolbar />
+      {/* Add spacing for fixed navbar + announcement bar */}
+      <Toolbar sx={{ minHeight: { xs: '114px', md: '140px' } }} />
     </>
   );
 };
