@@ -9,51 +9,20 @@ import {
   List, 
   ListItem, 
   ListItemText,
-  ListItemIcon,
   Button,
-  Avatar,
-  Menu,
-  MenuItem,
   Divider
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import {
-  Person as PersonIcon,
-  BookmarkBorder as BookingsIcon,
-  CardGiftcard as RewardsIcon,
-  LocalOfferOutlined as PromoCodesIcon,
-  RateReviewOutlined as ReviewsIcon,
-  ShareOutlined as ReferralIcon,
-  SettingsOutlined as SettingsIcon
-} from '@mui/icons-material';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-// import { useAuth } from '../contexts/AuthContext';
+import { Link, useLocation } from 'react-router-dom';
 import Logo from '../Images/logo.png';
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
   const location = useLocation();
-  const navigate = useNavigate();
-  // const { user, logout, isAuthenticated } = useAuth();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-  };
-
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleLogout = () => {
-    logout();
-    handleMenuClose();
-    handleDrawerToggle();
   };
 
   const navItems = [
@@ -65,29 +34,10 @@ const Navbar = () => {
     { label: 'Contact', path: '/contact' }
   ];
 
-  // Profile menu items with outlined icons
-  const profileMenuItems = [
-    { label: 'Profile', path: '/profile', icon: <PersonIcon /> },
-    { label: 'Bookings', path: '/bookings', icon: <BookingsIcon /> },
-    { label: 'AZ Rewards', path: '/rewards', icon: <RewardsIcon /> },
-    { label: 'Promo Codes', path: '/promo-codes', icon: <PromoCodesIcon /> },
-    { label: 'Reviews', path: '/reviews', icon: <ReviewsIcon /> },
-    { label: 'Referral', path: '/referral', icon: <ReferralIcon /> },
-    { label: 'Settings', path: '/settings', icon: <SettingsIcon /> }
-  ];
-
   // Font configuration
   const fontStyle = {
     fontFamily: "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     fontWeight: 500
-  };
-
-  // Function to get the profile image source
-  const getProfileImageSrc = () => {
-    if (user?.profile_picture) {
-      return user.profile_picture;
-    }
-    return null;
   };
 
   const drawer = (
@@ -112,7 +62,7 @@ const Navbar = () => {
         <Box
           component={Link}
           to="/"
-          onClick={handleDrawerToggle}
+          // onClick={handleDrawerToggle}
           sx={{ cursor: 'pointer' }}
         >
           <img
@@ -126,7 +76,7 @@ const Navbar = () => {
           />
         </Box>
         <IconButton
-          onClick={handleDrawerToggle}
+          // onClick={handleDrawerToggle}
           sx={{
             color: '#333',
             padding: '8px'
@@ -152,7 +102,7 @@ const Navbar = () => {
               <Box
                 component={Link}
                 to={item.path}
-                onClick={handleDrawerToggle}
+                // onClick={handleDrawerToggle}
                 sx={{
                   width: '100%',
                   textDecoration: 'none',
@@ -201,253 +151,80 @@ const Navbar = () => {
         ))}
       </List>
 
-      {/* Auth Section or User Profile Section */}
-      {!isAuthenticated ? (
-        // Auth Buttons when user is NOT logged in
+      {/* Auth Section */}
+      <Box sx={{ 
+        marginTop: 'auto', 
+        padding: '24px 16px',
+        borderTop: '1px solid #f0f0f0'
+      }}>
         <Box sx={{ 
-          marginTop: 'auto', 
-          padding: '24px 16px',
-          borderTop: '1px solid #f0f0f0'
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '1rem',
+          marginBottom: '16px'
         }}>
-          <Box sx={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            gap: '1rem',
-            marginBottom: '16px'
-          }}>
-            <Button
-              variant="outlined"
-              component={Link}
-              to="/login"
-              onClick={handleDrawerToggle}
-              sx={{
-                ...fontStyle,
-                color: '#2c5aa0',
-                borderColor: '#2c5aa0',
-                padding: '12px 24px',
-                '&:hover': {
-                  backgroundColor: 'rgba(44, 90, 160, 0.1)',
-                  borderColor: '#2c5aa0'
-                }
-              }}
-            >
-              Login
-            </Button>
-            <Button
-              variant="contained"
-              component={Link}
-              to="/signup"
-              onClick={handleDrawerToggle}
-              sx={{
-                ...fontStyle,
-                backgroundColor: '#2c5aa0',
-                padding: '12px 24px',
-                '&:hover': {
-                  backgroundColor: '#1e3d6f'
-                }
-              }}
-            >
-              Sign Up
-            </Button>
-          </Box>
-          
-          {/* Contact Info */}
-          <Typography
+          <Button
+            variant="outlined"
+            component={Link}
+            to="/login"
+            // onClick={handleDrawerToggle}
             sx={{
               ...fontStyle,
-              fontSize: '0.9rem',
-              color: '#666',
-              textAlign: 'center',
-              marginBottom: '8px',
-              textDecoration: 'none'
-            }}
-          >
-            Need help? Call us at
-          </Typography>
-          <Typography
-            sx={{
-              ...fontStyle,
-              fontSize: '1.1rem',
-              fontWeight: 600,
               color: '#2c5aa0',
-              textAlign: 'center',
-              textDecoration: 'none'
+              borderColor: '#2c5aa0',
+              padding: '12px 24px',
+              '&:hover': {
+                backgroundColor: 'rgba(44, 90, 160, 0.1)',
+                borderColor: '#2c5aa0'
+              }
             }}
           >
-            +65 9126 3786
-          </Typography>
+            Login
+          </Button>
+          <Button
+            variant="contained"
+            component={Link}
+            to="/signup"
+            // onClick={handleDrawerToggle}
+            sx={{
+              ...fontStyle,
+              backgroundColor: '#2c5aa0',
+              padding: '12px 24px',
+              '&:hover': {
+                backgroundColor: '#1e3d6f'
+              }
+            }}
+          >
+            Sign Up
+          </Button>
         </Box>
-      ) : (
-        // User Profile Section when user IS logged in
-        <Box sx={{ 
-          marginTop: 'auto',
-          padding: '16px 0',
-          borderTop: '1px solid #f0f0f0'
-        }}>
-          {/* User Profile Header */}
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: 2, 
-            padding: '16px 20px',
-            marginBottom: '16px'
-          }}>
-            <Avatar 
-              src={getProfileImageSrc()}
-              sx={{ 
-                bgcolor: '#f0f0f0', 
-                width: 60, 
-                height: 60,
-                color: '#666'
-              }}
-            >
-              <PersonIcon sx={{ fontSize: '2rem' }} />
-            </Avatar>
-            <Box>
-              <Typography
-                sx={{
-                  ...fontStyle,
-                  fontSize: '1.1rem',
-                  fontWeight: 600,
-                  color: '#333'
-                }}
-              >
-                {user?.name || 'User'}
-              </Typography>
-              <Typography
-                sx={{
-                  ...fontStyle,
-                  fontSize: '0.9rem',
-                  color: '#666'
-                }}
-              >
-                {user?.email || ''}
-              </Typography>
-            </Box>
-          </Box>
-
-          {/* Profile Menu Items */}
-          <List sx={{ padding: '0', marginBottom: '16px' }}>
-            {profileMenuItems.map((item, index) => (
-              <Box key={item.label}>
-                <ListItem 
-                  disablePadding
-                  sx={{
-                    marginBottom: '0',
-                  }}
-                >
-                  <Box
-                    component={Link}
-                    to={item.path}
-                    onClick={handleDrawerToggle}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      width: '100%',
-                      padding: '14px 20px',
-                      textDecoration: 'none',
-                      color: location.pathname === item.path ? '#2c5aa0' : '#333',
-                      backgroundColor: location.pathname === item.path ? 'rgba(44, 90, 160, 0.1)' : 'transparent',
-                      border: location.pathname === item.path ? '2px solid #2c5aa0' : '2px solid transparent',
-                      borderRadius: '12px',
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        backgroundColor: 'rgba(44, 90, 160, 0.08)',
-                        color: '#2c5aa0',
-                        border: '2px solid rgba(44, 90, 160, 0.2)'
-                      }
-                    }}
-                  >
-                    <ListItemIcon sx={{ 
-                      minWidth: '40px', 
-                      color: 'inherit',
-                      '& .MuiSvgIcon-root': {
-                        fontSize: '1.3rem'
-                      }
-                    }}>
-                      {item.icon}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={item.label}
-                      sx={{
-                        '& .MuiTypography-root': {
-                          ...fontStyle,
-                          color: 'inherit',
-                          fontSize: '1rem',
-                          fontWeight: location.pathname === item.path ? 600 : 500,
-                        }
-                      }}
-                    />
-                  </Box>
-                </ListItem>
-
-                {/* Add grey line between items (except after last item) */}
-                {index < profileMenuItems.length - 1 && (
-                  <Divider
-                    sx={{
-                      margin: '8px 20px',
-                      backgroundColor: '#f0f0f0'
-                    }}
-                  />
-                )}
-              </Box>
-            ))}
-          </List>
-
-          {/* Logout Button */}
-          <Box sx={{ padding: '0 16px' }}>
-            <Button
-              variant="text"
-              onClick={handleLogout}
-              sx={{
-                ...fontStyle,
-                color: '#d9534f',
-                width: '100%',
-                justifyContent: 'center',
-                fontSize: '1rem',
-                fontWeight: 600,
-                padding: '12px 24px',
-                border: '2px solid transparent',
-                borderRadius: '12px',
-                '&:hover': {
-                  backgroundColor: 'rgba(217, 83, 79, 0.1)',
-                  border: '2px solid rgba(217, 83, 79, 0.2)'
-                }
-              }}
-            >
-              Log out
-            </Button>
-          </Box>
-
-          {/* Contact Info */}
-          <Box sx={{ padding: '16px', marginTop: '16px', borderTop: '1px solid #f0f0f0' }}>
-            <Typography
-              sx={{
-                ...fontStyle,
-                fontSize: '0.9rem',
-                color: '#666',
-                textAlign: 'center',
-                marginBottom: '8px',
-                textDecoration: 'none'
-              }}
-            >
-              Need help? Call us at
-            </Typography>
-            <Typography
-              sx={{
-                ...fontStyle,
-                fontSize: '1.1rem',
-                fontWeight: 600,
-                color: '#2c5aa0',
-                textAlign: 'center',
-                textDecoration: 'none'
-              }}
-            >
-              +65 9126 3786
-            </Typography>
-          </Box>
-        </Box>
-      )}
+        
+        {/* Contact Info */}
+        <Typography
+          sx={{
+            ...fontStyle,
+            fontSize: '0.9rem',
+            color: '#666',
+            textAlign: 'center',
+            marginBottom: '8px',
+            textDecoration: 'none'
+          }}
+        >
+          Need help? Call us at
+        </Typography>
+        <Typography
+          sx={{
+            ...fontStyle,
+            fontSize: '1.1rem',
+            fontWeight: 600,
+            color: '#2c5aa0',
+            textAlign: 'center',
+            textDecoration: 'none'
+          }}
+        >
+          +65 9126 3786
+        </Typography>
+      </Box>
     </Box>
   );
 
@@ -545,7 +322,7 @@ const Navbar = () => {
             ))}
           </Box>
 
-          {/* Right Side - Auth Buttons or User Profile */}
+          {/* Right Side - Auth Buttons */}
           <Box 
             sx={{ 
               display: { xs: 'none', md: 'flex' }, 
@@ -555,110 +332,36 @@ const Navbar = () => {
               flex: 1
             }}
           >
-            {!isAuthenticated ? (
-              // Show Login/Signup when user is NOT logged in
-              <>
-                <Button
-                  variant="outlined"
-                  component={Link}
-                  to="/login"
-                  sx={{
-                    ...fontStyle,
-                    color: '#2c5aa0',
-                    borderColor: '#2c5aa0',
-                    '&:hover': {
-                      backgroundColor: 'rgba(44, 90, 160, 0.1)',
-                      borderColor: '#2c5aa0'
-                    }
-                  }}
-                >
-                  Login
-                </Button>
-                <Button
-                  variant="contained"
-                  component={Link}
-                  to="/signup"
-                  sx={{
-                    ...fontStyle,
-                    backgroundColor: '#2c5aa0',
-                    '&:hover': {
-                      backgroundColor: '#1e3d6f'
-                    }
-                  }}
-                >
-                  Sign Up
-                </Button>
-              </>
-            ) : (
-              // Show Profile Avatar when user IS logged in
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <IconButton onClick={handleMenuOpen} sx={{ padding: 0 }}>
-                  <Avatar 
-                    src={getProfileImageSrc()}
-                    sx={{ 
-                      bgcolor: '#f0f0f0', 
-                      width: 55, 
-                      height: 55,
-                      color: '#666',
-                      border: '2px solid #e0e0e0'
-                    }}
-                  >
-                    <PersonIcon sx={{ fontSize: '2rem' }} />
-                  </Avatar>
-                </IconButton>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleMenuClose}
-                  sx={{
-                    '& .MuiPaper-root': {
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-                      marginTop: '8px',
-                      minWidth: '220px'
-                    }
-                  }}
-                >
-                  {profileMenuItems.map((item) => (
-                    <MenuItem 
-                      key={item.label}
-                      onClick={() => {
-                        handleMenuClose();
-                        navigate(item.path);
-                      }}
-                      sx={{ 
-                        ...fontStyle,
-                        padding: '10px 16px'
-                      }}
-                    >
-                      <ListItemIcon sx={{ 
-                        minWidth: '40px',
-                        color: '#000',
-                        '& .MuiSvgIcon-root': {
-                          fontSize: '1.3rem'
-                        }
-                      }}>
-                        {item.icon}
-                      </ListItemIcon>
-                      {item.label}
-                    </MenuItem>
-                  ))}
-                  <Divider />
-                  <MenuItem 
-                    onClick={handleLogout}
-                    sx={{ 
-                      ...fontStyle, 
-                      color: '#d9534f',
-                      padding: '10px 16px',
-                      justifyContent: 'center',
-                      fontWeight: 600
-                    }}
-                  >
-                    Log out
-                  </MenuItem>
-                </Menu>
-              </Box>
-            )}
+            <Button
+              variant="outlined"
+              component={Link}
+              to="/login"
+              sx={{
+                ...fontStyle,
+                color: '#2c5aa0',
+                borderColor: '#2c5aa0',
+                '&:hover': {
+                  backgroundColor: 'rgba(44, 90, 160, 0.1)',
+                  borderColor: '#2c5aa0'
+                }
+              }}
+            >
+              Login
+            </Button>
+            <Button
+              variant="contained"
+              component={Link}
+              to="/signup"
+              sx={{
+                ...fontStyle,
+                backgroundColor: '#2c5aa0',
+                '&:hover': {
+                  backgroundColor: '#1e3d6f'
+                }
+              }}
+            >
+              Sign Up
+            </Button>
           </Box>
 
           {/* Mobile Menu Button - Right Side */}
@@ -674,7 +377,7 @@ const Navbar = () => {
               color="inherit"
               aria-label="open drawer"
               edge="start"
-              onClick={handleDrawerToggle}
+              // onClick={handleDrawerToggle}
               sx={{
                 color: '#333',
                 padding: '8px'
