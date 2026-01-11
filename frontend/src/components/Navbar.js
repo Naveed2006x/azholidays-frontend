@@ -457,21 +457,27 @@ return (
         >
           <Typography
             sx={{
-              fontSize: { xs: '0.8rem', md: '0.95rem' },
+              fontSize: { xs: '0.75rem', md: '0.95rem' },
               fontWeight: 600,
               margin: 0,
-              fontFamily: "'Poppins', sans-serif"
+              fontFamily: "'Poppins', sans-serif",
+              display: { xs: 'none', sm: 'block' }
             }}
           >
-            Launching Soon!
+            Website Launching Soon! | Attraction Ticket Booking Coming Soon!
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              margin: 0,
+              fontFamily: "'Poppins', sans-serif",
+              display: { xs: 'block', sm: 'none' }
+            }}
+          >
+            Launching Soon! 
           </Typography>
           <Box sx={{ display: 'flex', gap: { xs: '10px', md: '15px' }, alignItems: 'center' }}>
-            {/*
-              { value: timeLeft.days, label: 'Days' },
-              { value: timeLeft.hours, label: 'Hours' },
-              { value: timeLeft.minutes, label: 'Min' },
-              { value: timeLeft.seconds, label: 'Sec' }
-            */}
             {Object.entries(timeLeft).map(([key, value], index) => (
               <Box
                 key={index}

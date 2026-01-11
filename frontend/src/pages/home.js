@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import banner from '../Images/banner.jpg';
 import cablecar from '../Images/cablecar.jpg';
 import universal from '../Images/universal.jpg';
 import safari from '../Images/nightsafari.jpg';
 
 const Home = () => {
+  const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState({
     days: '--',
     hours: '--',
@@ -33,6 +35,65 @@ const Home = () => {
     }
   ];
 
+  // Featured Destinations Data
+  const featuredDestinations = [
+    {
+      id: 1,
+      name: "Bali, Indonesia",
+      description: "Paradise island with pristine beaches and vibrant culture.",
+      image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&h=600&fit=crop",
+      price: "From $899",
+      duration: "5 Days",
+      popular: true
+    },
+    {
+      id: 2,
+      name: "Tokyo, Japan",
+      description: "Modern metropolis blending tradition with technology.",
+      image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&h=600&fit=crop",
+      price: "From $1,499",
+      duration: "6 Days",
+      popular: true
+    },
+    {
+      id: 3,
+      name: "Maldives",
+      description: "Tropical paradise with crystal-clear waters.",
+      image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800&h=600&fit=crop",
+      price: "From $1,899",
+      duration: "6 Days",
+      popular: true
+    }
+  ];
+
+  // Latest Blogs Data
+  const latestBlogs = [
+    {
+      id: 1,
+      title: "Top 10 Hidden Gems in Southeast Asia",
+      excerpt: "Discover the untouched beaches and secret temples that stay off the tourist radar.",
+      image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800&h=600&fit=crop",
+      category: "Destinations",
+      readTime: "5 min"
+    },
+    {
+      id: 2,
+      title: "Essential Packing Tips for Solo Travelers",
+      excerpt: "Learn how to pack light and smart for your next adventure.",
+      image: "https://images.unsplash.com/photo-1501555088652-021faa106b9b?w=800&h=600&fit=crop",
+      category: "Travel Tips",
+      readTime: "4 min"
+    },
+    {
+      id: 3,
+      title: "Budget Friendly City Breaks in Europe",
+      excerpt: "Experience culture and history without breaking the bank.",
+      image: "https://images.unsplash.com/photo-1520986606214-8b456906c813?w=800&h=600&fit=crop",
+      category: "Destinations",
+      readTime: "6 min"
+    }
+  ];
+
   // Font style for Poppins
   const fontStyle = {
     fontFamily: "'Poppins', sans-serif",
@@ -49,17 +110,17 @@ const Home = () => {
       width: '100%',
       position: 'relative',
       overflow: 'visible',
-      marginBottom: window.innerWidth <= 768 ? '40px' : '100px'
+      marginBottom: window.innerWidth <= 768 ? '40px' : '30px'
     },
     bannerContainer: {
       position: 'relative',
       width: '100%',
-      height: '50vh',
+      height: '40vh',
       minHeight: '400px'
     },
     bannerImage: {
       width: '100%',
-      height: '50vh',
+      height: '40vh',
       objectFit: 'cover',
       display: 'block'
     },
@@ -457,6 +518,110 @@ const Home = () => {
       '@media (max-width: 480px)': {
         fontSize: '0.6rem'
       }
+    },
+    destinationsSection: {
+      padding: window.innerWidth <= 768 ? '40px 0 60px' : '80px 0 80px',
+      background: 'white'
+    },
+    blogsSection: {
+      padding: window.innerWidth <= 768 ? '40px 0 60px' : '80px 0 80px',
+      background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)'
+    },
+    destinationCard: {
+      background: 'white',
+      borderRadius: '15px',
+      overflow: 'hidden',
+      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+      transition: 'all 0.3s ease',
+      cursor: 'pointer',
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%'
+    },
+    blogCard: {
+      background: 'white',
+      borderRadius: '15px',
+      overflow: 'hidden',
+      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+      transition: 'all 0.3s ease',
+      cursor: 'pointer',
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%'
+    },
+    cardImage: {
+      position: 'relative',
+      height: '200px',
+      overflow: 'hidden'
+    },
+    cardImageImg: {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      transition: 'transform 0.3s ease'
+    },
+    badge: {
+      position: 'absolute',
+      top: '15px',
+      left: '15px',
+      background: '#ff6b6b',
+      color: 'white',
+      padding: '6px 12px',
+      borderRadius: '20px',
+      fontWeight: 600,
+      fontSize: '0.75rem',
+      ...fontStyle
+    },
+    categoryBadge: {
+      position: 'absolute',
+      top: '15px',
+      right: '15px',
+      background: '#2c5aa0',
+      color: 'white',
+      padding: '6px 12px',
+      borderRadius: '20px',
+      fontWeight: 600,
+      fontSize: '0.75rem',
+      ...fontStyle
+    },
+    cardContent: {
+      padding: '20px',
+      display: 'flex',
+      flexDirection: 'column',
+      flexGrow: 1
+    },
+    cardTitle: {
+      fontSize: '1.3rem',
+      fontWeight: 700,
+      color: '#333',
+      marginBottom: '10px',
+      ...fontStyle
+    },
+    cardDescription: {
+      color: '#666',
+      lineHeight: 1.6,
+      fontSize: '0.95rem',
+      marginBottom: '15px',
+      flexGrow: 1,
+      ...fontStyle
+    },
+    cardFooter: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingTop: '15px',
+      borderTop: '1px solid #f0f0f0'
+    },
+    cardPrice: {
+      fontSize: '1.2rem',
+      fontWeight: 700,
+      color: '#2c5aa0',
+      ...fontStyle
+    },
+    cardMeta: {
+      fontSize: '0.85rem',
+      color: '#666',
+      ...fontStyle
     }
   };
 
@@ -510,7 +675,7 @@ useEffect(() => {
         </div>
         
         {/* Search Section - Half in banner, half below */}
-        <div style={styles.searchSectionOverlay}>
+        {/* <div style={styles.searchSectionOverlay}>
           <div style={styles.searchContainer}>
             <h2 style={styles.searchTitle}>Find Your Perfect Trip</h2>
             <div style={styles.searchForm}>
@@ -542,7 +707,7 @@ useEffect(() => {
               <button style={styles.searchButton}>Search</button>
             </div>
           </div>
-        </div>
+        </div> */}
       </section>
 
       {/* Singapore Attractions Section */}
@@ -618,6 +783,156 @@ useEffect(() => {
               onClick={() => window.location.href = "https://www.azholidays.com.sg/attractions"}
             >
               View All Attractions
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Destinations Section */}
+      <section style={styles.destinationsSection}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+          <h2 style={styles.sectionTitle}>Featured Destinations</h2>
+          <p style={styles.sectionSubtitle}>Explore our handpicked destinations for unforgettable experiences</p>
+          
+          <div style={styles.attractionsGrid}>
+            {featuredDestinations.map((destination, index) => (
+              <div 
+                key={index} 
+                style={styles.destinationCard}
+                onClick={() => navigate('/destinations')}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-10px)';
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
+                  const img = e.currentTarget.querySelector('img');
+                  if (img) img.style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+                  const img = e.currentTarget.querySelector('img');
+                  if (img) img.style.transform = 'scale(1)';
+                }}
+              >
+                <div style={styles.cardImage}>
+                  <img 
+                    src={destination.image} 
+                    alt={destination.name} 
+                    style={styles.cardImageImg}
+                  />
+                  {destination.popular && (
+                    <div style={styles.badge}>Popular</div>
+                  )}
+                </div>
+                <div style={styles.cardContent}>
+                  <h3 style={styles.cardTitle}>{destination.name}</h3>
+                  <p style={styles.cardDescription}>{destination.description}</p>
+                  <div style={styles.cardFooter}>
+                    <span style={styles.cardPrice}>{destination.price}</span>
+                    <span style={styles.cardMeta}>{destination.duration}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div style={styles.viewAllContainer}>
+            <button 
+              style={styles.viewAllButton}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#2c5aa0';
+                e.target.style.color = 'white';
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.boxShadow = '0 10px 25px rgba(44, 90, 160, 0.3)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = 'transparent';
+                e.target.style.color = '#2c5aa0';
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = 'none';
+              }}
+              onClick={() => navigate('/destinations')}
+            >
+              Explore All Destinations
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Blogs Section */}
+      <section style={styles.blogsSection}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+          <h2 style={styles.sectionTitle}>Travel Stories & Tips</h2>
+          <p style={styles.sectionSubtitle}>Get inspired by our latest travel guides and insider tips</p>
+          
+          <div style={styles.attractionsGrid}>
+            {latestBlogs.map((blog, index) => (
+              <div 
+                key={index} 
+                style={styles.blogCard}
+                onClick={() => navigate('/blogs')}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-10px)';
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
+                  const img = e.currentTarget.querySelector('img');
+                  if (img) img.style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+                  const img = e.currentTarget.querySelector('img');
+                  if (img) img.style.transform = 'scale(1)';
+                }}
+              >
+                <div style={styles.cardImage}>
+                  <img 
+                    src={blog.image} 
+                    alt={blog.title} 
+                    style={styles.cardImageImg}
+                  />
+                  <div style={styles.categoryBadge}>{blog.category}</div>
+                </div>
+                <div style={styles.cardContent}>
+                  <h3 style={styles.cardTitle}>{blog.title}</h3>
+                  <p style={styles.cardDescription}>{blog.excerpt}</p>
+                  <div style={styles.cardFooter}>
+                    <span style={styles.cardMeta}>📖 {blog.readTime} read</span>
+                    <button 
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        color: '#2c5aa0',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        fontSize: '0.95rem',
+                        ...fontStyle
+                      }}
+                    >
+                      Read More →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div style={styles.viewAllContainer}>
+            <button 
+              style={styles.viewAllButton}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#2c5aa0';
+                e.target.style.color = 'white';
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.boxShadow = '0 10px 25px rgba(44, 90, 160, 0.3)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = 'transparent';
+                e.target.style.color = '#2c5aa0';
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = 'none';
+              }}
+              onClick={() => navigate('/blogs')}
+            >
+              Read All Stories
             </button>
           </div>
         </div>

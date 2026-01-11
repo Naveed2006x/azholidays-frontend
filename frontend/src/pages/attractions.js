@@ -334,7 +334,7 @@ const Attractions = () => {
                     </CardContent>
 
                     {/* Footer */}
-                    <Box sx={{ p: 3, pt: 0, borderTop: '1px solid #f0f0f0' }}>
+                    <Box sx={{ p: 3, pt: 2, borderTop: '1px solid #f0f0f0' }}>
                       <Button className="book-button" fullWidth endIcon={<ArrowForward />} disabled sx={{ color: '#999', bgcolor: '#f5f5f5', textTransform: 'none', fontWeight: 600, fontFamily: "'Poppins', sans-serif", fontSize: '0.95rem', py: 1.5, transition: 'all 0.3s ease', cursor: 'not-allowed', '& .MuiSvgIcon-root': { transition: 'transform 0.3s ease', fontSize: '1.2rem' } }}>Book Now (Coming Soon)</Button>
                     </Box>
                   </Card>
