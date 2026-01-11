@@ -7,7 +7,9 @@ import {
     Button,
     Paper,
     Alert,
-    Snackbar
+    Snackbar,
+    Chip,
+    Fade
 } from '@mui/material';
 import {
     Phone,
@@ -89,39 +91,75 @@ const Contact = () => {
     ];
 
     return (
-        <Box sx={{ pt: 4, mt: 4 }}>
-            <Container maxWidth="lg">
-                {/* Header Section */}
-                <Box textAlign="center" mb={6}>
-                    <Typography
-                        variant="h2"
-                        component="h1"
-                        gutterBottom
-                        sx={{
-                            fontWeight: 'bold',
-                            color: '#2c5aa0',
-                            fontFamily: "'Poppins', sans-serif",
-                            marginTop: '50px',
-                            fontSize: { xs: '2rem', md: '2.75rem' }
-                        }}
-                    >
-                        Contact Us
-                    </Typography>
-                    <Typography
-                        variant="h6"
-                        color="text.secondary"
-                        sx={{
-                            fontFamily: "'Poppins', sans-serif",
-                            maxWidth: '600px',
-                            margin: '0 auto',
-                            fontSize: { xs: '1rem', md: '1.15rem' }
-                        }}
-                    >
-                        Get in touch with us for any inquiries about our travel packages,
-                        destinations, or custom vacation plans.
-                    </Typography>
-                </Box>
+        <Box sx={{ bgcolor: '#fafcff', minHeight: '90vh', background: 'linear-gradient(135deg, #f8faff 0%, #f0f7ff 100%)' }}>
+            {/* Hero Section */}
+            <Box sx={{ 
+                position: 'relative',
+                background: 'linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%)',
+                color: 'white', 
+                pt: { xs: 10, md: 8 }, 
+                pb: { xs: 10, md: 8 },
+                borderRadius: { xs: '0 0 40px 40px', md: '0 0 60px 60px' },
+                mb: { xs: 4, md: 8 },
+                overflow: 'hidden',
+                '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'url("https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600&h=900&fit=crop&auto=format")',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    opacity: 0.1,
+                    mixBlendMode: 'overlay'
+                }
+            }}>
+                <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
+                    <Fade in timeout={800}>
+                        <Box>
+                            <Chip 
+                                label="Get In Touch" 
+                                sx={{ 
+                                    bgcolor: 'rgba(255,255,255,0.15)', 
+                                    color: 'white',
+                                    fontWeight: 600,
+                                    fontSize: '0.85rem',
+                                    mb: 3,
+                                    px: 2,
+                                    py: 1,
+                                    backdropFilter: 'blur(10px)',
+                                    fontFamily: "'Poppins', sans-serif"
+                                }}
+                            />
+                            <Typography variant="h1" sx={{
+                                fontFamily: "'Poppins', sans-serif",
+                                fontWeight: 800,
+                                mb: 3,
+                                fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
+                                lineHeight: 1.1,
+                                textShadow: '0 2px 20px rgba(0,0,0,0.3)'
+                            }}>
+                                Contact Us
+                            </Typography>
+                            <Typography variant="h5" sx={{
+                                fontFamily: "'Poppins', sans-serif",
+                                fontWeight: 300,
+                                maxWidth: '700px',
+                                margin: '0 auto',
+                                opacity: 0.95,
+                                fontSize: { xs: '1.1rem', md: '1.4rem' },
+                                px: 2
+                            }}>
+                                We're here to help plan your perfect journey
+                            </Typography>
+                        </Box>
+                    </Fade>
+                </Container>
+            </Box>
 
+            <Container maxWidth="lg" sx={{ py: 4 }}>
                 <div className="contact-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '48px' }}>
                     {/* Contact Information */}
                     <div className="contact-info" style={{ flex: '1', minWidth: '300px' }}>

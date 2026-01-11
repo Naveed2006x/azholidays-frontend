@@ -1,37 +1,60 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Snackbar, Alert, AlertTitle } from '@mui/material';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Contact from './pages/contact.js';
-import About from './pages/about.js'
-import Home from './pages/home.js'
+import Home from './pages/home.js';
+import Blogs from './pages/blogs.js';
+import About from './pages/about.js';
+import Destinations from './pages/destinations.js';
+import Attractions from './pages/attractions.js';
 
-// Temporary placeholder components for other pages
-const Destinations = () => <div style={{ padding: '100px 20px', textAlign: 'center' }}><h1>Destinations Page - Coming Soon</h1></div>;
-const Attractions = () => <div style={{ padding: '100px 20px', textAlign: 'center' }}><h1>Attractions Page - Coming Soon</h1></div>;
-const Blogs = () => <div style={{ padding: '100px 20px', textAlign: 'center' }}><h1>Blogs Page - Coming Soon</h1></div>;
+// Add ScrollToTop component
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
 
 // Component to handle route-based messages and conditional footer
 const RouteHandler = ({ children }) => {
   const location = useLocation();
-  const navigate = useNavigate();
   const [alert, setAlert] = useState({ open: false, message: '', severity: 'success' });
 
   // Check if current route should show footer
   const shouldShowFooter = () => {
-    const footerRoutes = ['/', '/contact'];
+    const footerRoutes = ['/', '/contact', '/destinations', '/attractions', '/blogs', '/about'];
     return footerRoutes.includes(location.pathname);
   };
 
   useEffect(() => {
-    // Check for message in location state
+    // Check for URL parameters
+    const urlParams = new URLSearchParams(location.search);
+    const message = urlParams.get('message');
+
+    if (message) {
+      setAlert({
+        open: true,
+        message: message,
+        severity: 'info'
+      });
+
+      // Clean URL
+      const cleanUrl = location.pathname;
+      window.history.replaceState({}, '', cleanUrl);
+    }
+
+    // Check for state messages
     if (location.state?.message) {
       setAlert({
         open: true,
         message: location.state.message,
-        severity: location.state.verified ? 'success' : 'info'
+        severity: location.state.severity || 'info'
       });
 
       // Clear the state to prevent showing the message again on refresh
@@ -50,7 +73,7 @@ const RouteHandler = ({ children }) => {
     <>
       <Navbar />
       {children}
-      {shouldShowFooter() && <Footer />} {/* Conditionally render Footer */}
+      {shouldShowFooter() && <Footer />}
       <Snackbar
         open={alert.open}
         autoHideDuration={6000}
@@ -62,14 +85,15 @@ const RouteHandler = ({ children }) => {
           severity={alert.severity}
           sx={{
             width: '100%',
-            fontFamily: "'Satoshi', sans-serif",
+            fontFamily: "'Poppins', sans-serif",
             '& .MuiAlert-message': {
               fontSize: '1rem'
             }
           }}
         >
-          <AlertTitle sx={{ fontFamily: "'Satoshi', sans-serif", fontWeight: 600 }}>
-            {alert.severity === 'success' ? 'Success!' : 'Information'}
+          <AlertTitle sx={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600 }}>
+            {alert.severity === 'success' ? 'Success!' :
+              alert.severity === 'error' ? 'Error!' : 'Information'}
           </AlertTitle>
           {alert.message}
         </Alert>
@@ -81,6 +105,7 @@ const RouteHandler = ({ children }) => {
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <RouteHandler>
         <Routes>
           <Route path="/" element={<Home />} />
