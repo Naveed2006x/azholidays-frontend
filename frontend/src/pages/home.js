@@ -258,13 +258,10 @@ const Home = () => {
     },
     attractionsGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(3, 1fr)',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
       gap: '30px',
       maxWidth: '1200px',
       margin: '0 auto 50px',
-      '@media (max-width: 1200px)': {
-        gridTemplateColumns: 'repeat(2, 1fr)'
-      },
       '@media (max-width: 768px)': {
         gridTemplateColumns: '1fr',
         gap: '25px',
