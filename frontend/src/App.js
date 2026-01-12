@@ -15,6 +15,7 @@ import Insurance from './pages/insurance.js';
 import Transport from './pages/transport.js';
 import Cruises from './pages/cruises.js';
 import Packages from './pages/packages.js';
+import NotFound from './pages/notFound.js';
 
 // WhatsApp Chatbox Component
 const WhatsAppChatbox = () => {
@@ -493,6 +494,7 @@ function App() {
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </RouteHandler>
     </Router>
