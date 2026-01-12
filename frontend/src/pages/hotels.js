@@ -206,7 +206,7 @@ const Hotels = () => {
                     <Typography sx={{ color: '#2c5aa0', fontWeight: 700, fontFamily: "'Poppins', sans-serif", fontSize: '1.3rem' }}>{hotel.price}</Typography>
                   </CardContent>
 
-                  <Box sx={{ p: 3, pt: 0, borderTop: '1px solid #f0f0f0' }}>
+                  <Box sx={{ p: 3, pt: 2, borderTop: '1px solid #f0f0f0' }}>
                     <Button fullWidth disabled sx={{ color: '#999', bgcolor: '#f5f5f5', textTransform: 'none', fontWeight: 600, fontFamily: "'Poppins', sans-serif", fontSize: '0.95rem', py: 1.5, cursor: 'not-allowed' }}>Book Now (Coming Soon)</Button>
                   </Box>
                 </Card>
