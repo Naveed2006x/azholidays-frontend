@@ -39,22 +39,22 @@ const ServiceCard = styled(Card)(({ theme }) => ({
 const About = () => {
   const values = [
     {
-      icon: <ExploreIcon sx={{ fontSize: 48, color: '#667eea' }} />,
+      icon: <ExploreIcon sx={{ fontSize: 48, color: '#2c5aa0' }} />,
       title: 'Adventure',
       description: 'We believe in creating unforgettable experiences that push boundaries and inspire exploration.'
     },
     {
-      icon: <FavoriteIcon sx={{ fontSize: 48, color: '#667eea' }} />,
+      icon: <FavoriteIcon sx={{ fontSize: 48, color: '#2c5aa0' }} />,
       title: 'Passion',
       description: 'Our love for travel drives us to curate the most authentic and enriching journeys for our clients.'
     },
     {
-      icon: <StarIcon sx={{ fontSize: 48, color: '#667eea' }} />,
+      icon: <StarIcon sx={{ fontSize: 48, color: '#2c5aa0' }} />,
       title: 'Excellence',
       description: 'We are committed to delivering exceptional service and creating memories that last a lifetime.'
     },
     {
-      icon: <GroupsIcon sx={{ fontSize: 48, color: '#667eea' }} />,
+      icon: <GroupsIcon sx={{ fontSize: 48, color: '#2c5aa0' }} />,
       title: 'Community',
       description: 'We foster connections between travelers and local communities for meaningful cultural exchanges.'
     }

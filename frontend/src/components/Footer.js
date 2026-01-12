@@ -384,7 +384,7 @@ const Footer = () => {
                         <div style={styles.contactItem}>
                             <span style={styles.contactIcon}><EmailIcon /></span>
                             <div style={styles.contactTextContainer}>
-                                <p style={styles.contactText}>info@azholidays.com</p>
+                                <p style={styles.contactText}>enquiry@azholidays.com.sg</p>
                             </div>
                         </div>
                         <div style={styles.contactItem}>
