@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -262,82 +263,106 @@ const Footer = () => {
 
                     <div style={styles.footerSection}>
                         <h4 style={styles.footerSectionTitle}>Quick Links</h4>
-                        <button
-                            onClick={() => scrollToSection('home')}
+                        <Link
+                            to="/"
                             style={styles.footerLinkButton}
                             onMouseEnter={(e) => e.target.style.color = '#3498db'}
                             onMouseLeave={(e) => e.target.style.color = '#ffffff'}
                         >
                             Home
-                        </button>
-                        <button
-                            onClick={() => scrollToSection('destinations')}
+                        </Link>
+                        <Link
+                            to="/destinations"
                             style={styles.footerLinkButton}
                             onMouseEnter={(e) => e.target.style.color = '#3498db'}
                             onMouseLeave={(e) => e.target.style.color = '#ffffff'}
                         >
                             Destinations
-                        </button>
-                        <button
-                            onClick={() => handleServiceClick('Packages')}
+                        </Link>
+                        <Link
+                            to="/blogs"
                             style={styles.footerLinkButton}
                             onMouseEnter={(e) => e.target.style.color = '#3498db'}
                             onMouseLeave={(e) => e.target.style.color = '#ffffff'}
                         >
-                            Packages
-                        </button>
-                        <button
-                            onClick={() => handleServiceClick('About Us')}
+                            Blogs
+                        </Link>
+                        <Link
+                            to="/about"
                             style={styles.footerLinkButton}
                             onMouseEnter={(e) => e.target.style.color = '#3498db'}
                             onMouseLeave={(e) => e.target.style.color = '#ffffff'}
                         >
-                            About Us
-                        </button>
+                            About
+                        </Link>
+                        <Link
+                            to="/contact"
+                            style={styles.footerLinkButton}
+                            onMouseEnter={(e) => e.target.style.color = '#3498db'}
+                            onMouseLeave={(e) => e.target.style.color = '#ffffff'}
+                        >
+                            Contact
+                        </Link>
                     </div>
 
                     <div style={styles.footerSection}>
                         <h4 style={styles.footerSectionTitle}>Services</h4>
-                        <button
-                            onClick={() => handleServiceClick('Flight Booking')}
+                        <Link
+                            to="/attractions"
                             style={styles.footerLinkButton}
                             onMouseEnter={(e) => e.target.style.color = '#3498db'}
                             onMouseLeave={(e) => e.target.style.color = '#ffffff'}
                         >
-                            Flight Booking
-                        </button>
-                        <button
-                            onClick={() => handleServiceClick('Hotel Reservations')}
+                            Attractions
+                        </Link>
+                        <Link
+                            to="/flights"
                             style={styles.footerLinkButton}
                             onMouseEnter={(e) => e.target.style.color = '#3498db'}
                             onMouseLeave={(e) => e.target.style.color = '#ffffff'}
                         >
-                            Hotel Reservations
-                        </button>
-                        <button
-                            onClick={() => handleServiceClick('Tour Packages')}
+                            Flights
+                        </Link>
+                        <Link
+                            to="/hotels"
                             style={styles.footerLinkButton}
                             onMouseEnter={(e) => e.target.style.color = '#3498db'}
                             onMouseLeave={(e) => e.target.style.color = '#ffffff'}
                         >
-                            Tour Packages
-                        </button>
-                        <button
-                            onClick={() => handleServiceClick('Travel Insurance')}
+                            Hotels
+                        </Link>
+                        <Link
+                            to="/insurance"
                             style={styles.footerLinkButton}
                             onMouseEnter={(e) => e.target.style.color = '#3498db'}
                             onMouseLeave={(e) => e.target.style.color = '#ffffff'}
                         >
                             Travel Insurance
-                        </button>
-                        <button
-                            onClick={() => handleServiceClick('Visa Assistance')}
+                        </Link>
+                        <Link
+                            to="/transport"
                             style={styles.footerLinkButton}
                             onMouseEnter={(e) => e.target.style.color = '#3498db'}
                             onMouseLeave={(e) => e.target.style.color = '#ffffff'}
                         >
-                            Visa Assistance
-                        </button>
+                            Airport & Coach Transport
+                        </Link>
+                        <Link
+                            to="/cruises"
+                            style={styles.footerLinkButton}
+                            onMouseEnter={(e) => e.target.style.color = '#3498db'}
+                            onMouseLeave={(e) => e.target.style.color = '#ffffff'}
+                        >
+                            Cruise Packages
+                        </Link>
+                        <Link
+                            to="/packages"
+                            style={styles.footerLinkButton}
+                            onMouseEnter={(e) => e.target.style.color = '#3498db'}
+                            onMouseLeave={(e) => e.target.style.color = '#ffffff'}
+                        >
+                            Travel Packages
+                        </Link>
                     </div>
 
                     <div style={styles.footerSection}>
