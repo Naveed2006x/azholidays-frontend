@@ -6,8 +6,6 @@ import {
     TextField,
     Button,
     Paper,
-    Alert,
-    Snackbar,
     Chip,
     Fade
 } from '@mui/material';
@@ -19,8 +17,11 @@ import {
 } from '@mui/icons-material';
 import MapWrapper from '../components/MapWrapper'; // Adjust path as needed
 import Footer from '../components/Footer';
+import { submitContactForm } from '../api/contact';
+import { useToast } from '../contexts/ToastContext';
 
 const Contact = () => {
+    const { showToast } = useToast();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -28,7 +29,6 @@ const Contact = () => {
         subject: '',
         message: ''
     });
-    const [openSnackbar, setOpenSnackbar] = useState(false);
 
     const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
@@ -44,23 +44,17 @@ const Contact = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Here you would typically send the form data to your backend
-        console.log('Form submitted:', formData);
-        setOpenSnackbar(true);
-        // Reset form
-        setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            subject: '',
-            message: ''
-        });
-    };
 
-    const handleCloseSnackbar = () => {
-        setOpenSnackbar(false);
+        const result = await submitContactForm(formData);
+
+        if (result.success) {
+            showToast(result.data?.message || 'Thank you for your message! We\'ll get back to you soon.', 'success');
+            setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+        } else {
+            showToast(result.error || 'Something went wrong!', 'error');
+        }
     };
 
     const contactInfo = [
@@ -238,28 +232,12 @@ const Contact = () => {
                                 backgroundColor: '#f9f9f9'
                             }}
                         >
-                            <Box
-                                sx={{
-                                    position: 'absolute',
-                                    top: '16px',
-                                    right: '16px',
-                                    backgroundColor: '#2c5aa0',
-                                    color: 'white',
-                                    padding: '6px 16px',
-                                    borderRadius: '20px',
-                                    fontSize: '0.85rem',
-                                    fontFamily: "'Poppins', sans-serif",
-                                    fontWeight: 600
-                                }}
-                            >
-                                Coming Soon
-                            </Box>
                             <Typography
                                 variant="h4"
                                 gutterBottom
                                 sx={{
                                     fontWeight: 'bold',
-                                    color: '#999',
+                                    color: '#333',
                                     fontFamily: "'Poppins', sans-serif",
                                     mb: 1,
                                     fontSize: { xs: '1.5rem', md: '1.75rem' }
@@ -275,7 +253,7 @@ const Contact = () => {
                                     mb: 3
                                 }}
                             >
-                                Our contact form will be available soon. For now, please reach out to us directly via phone or email.
+                                Fill out the form below and we'll get back to you as soon as possible.
                             </Typography>
 
                             <form onSubmit={handleSubmit}>
@@ -290,7 +268,7 @@ const Contact = () => {
                                                 onChange={handleChange}
                                                 required
                                                 variant="outlined"
-                                                disabled
+                                        
                                             />
                                         </div>
                                         <div className="form-field" style={{ flex: '1', minWidth: '200px' }}>
@@ -303,7 +281,7 @@ const Contact = () => {
                                                 onChange={handleChange}
                                                 required
                                                 variant="outlined"
-                                                disabled
+                                                
                                             />
                                         </div>
                                     </div>
@@ -316,7 +294,7 @@ const Contact = () => {
                                                 value={formData.phone}
                                                 onChange={handleChange}
                                                 variant="outlined"
-                                                disabled
+                                                
                                             />
                                         </div>
                                         <div className="form-field" style={{ flex: '1', minWidth: '200px' }}>
@@ -327,7 +305,7 @@ const Contact = () => {
                                                 value={formData.subject}
                                                 onChange={handleChange}
                                                 variant="outlined"
-                                                disabled
+                                                
                                             />
                                         </div>
                                     </div>
@@ -342,7 +320,7 @@ const Contact = () => {
                                             multiline
                                             rows={4}
                                             variant="outlined"
-                                            disabled
+                                            
                                         />
                                     </div>
                                     <div className="form-submit">
@@ -350,17 +328,15 @@ const Contact = () => {
                                             type="submit"
                                             variant="contained"
                                             size="large"
-                                            disabled
                                             sx={{
-                                                backgroundColor: '#e0e0e0',
-                                                color: '#999',
+                                                backgroundColor: '#2c5aa0',
+                                                color: 'white',
                                                 padding: '12px 40px',
                                                 fontSize: '1.1rem',
                                                 fontWeight: 'bold',
                                                 fontFamily: "'Poppins', sans-serif",
-                                                cursor: 'not-allowed',
                                                 '&:hover': {
-                                                    backgroundColor: '#e0e0e0'
+                                                    backgroundColor: '#1e3d6f'
                                                 }
                                             }}
                                         >
@@ -438,18 +414,6 @@ const Contact = () => {
                         </Paper>
                     )}
                 </Box>
-
-                {/* Success Message */}
-                <Snackbar
-                    open={openSnackbar}
-                    autoHideDuration={6000}
-                    onClose={handleCloseSnackbar}
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                >
-                    <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-                        Thank you for your message! We'll get back to you soon.
-                    </Alert>
-                </Snackbar>
             </Container>
         </Box>
     );
