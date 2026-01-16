@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Snackbar, Alert, AlertTitle } from '@mui/material';
+import { ToastProvider } from './contexts/ToastContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Contact from './pages/contact.js';
@@ -478,26 +479,28 @@ const RouteHandler = ({ children }) => {
 
 function App() {
   return (
-    <Router>
-      <ScrollToTop />
-      <RouteHandler>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/destinations" element={<Destinations />} />
-          <Route path="/attractions" element={<Attractions />} />
-          <Route path="/flights" element={<Flights />} />
-          <Route path="/hotels" element={<Hotels />} />
-          <Route path="/insurance" element={<Insurance />} />
-          <Route path="/transport" element={<Transport />} />
-          <Route path="/cruises" element={<Cruises />} />
-          <Route path="/packages" element={<Packages />} />
-          <Route path="/blogs" element={<Blogs />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </RouteHandler>
-    </Router>
+    <ToastProvider>
+      <Router>
+        <ScrollToTop />
+        <RouteHandler>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/destinations" element={<Destinations />} />
+            <Route path="/attractions" element={<Attractions />} />
+            <Route path="/flights" element={<Flights />} />
+            <Route path="/hotels" element={<Hotels />} />
+            <Route path="/insurance" element={<Insurance />} />
+            <Route path="/transport" element={<Transport />} />
+            <Route path="/cruises" element={<Cruises />} />
+            <Route path="/packages" element={<Packages />} />
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </RouteHandler>
+      </Router>
+    </ToastProvider>
   );
 }
 
