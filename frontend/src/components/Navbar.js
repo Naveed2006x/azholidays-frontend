@@ -984,7 +984,8 @@ return (
           </Box>
         </Toolbar>
 
-        {/* Countdown Announcement Bar */}
+        {/* Countdown Announcement Bar - Hidden on auth pages */}
+        {!location.pathname.match(/^\/(login|signup|verify-otp|verify-login-otp|verify-reset-otp|forgot-password|reset-password)$/) && (
         <Box
           sx={{
             background: 'linear-gradient(135deg, #2c5aa0, #1e3d6f)',
@@ -1062,6 +1063,7 @@ return (
             ))}
           </Box>
         </Box>
+        )}
       </AppBar>
 
       {/* Mobile Drawer */}
@@ -1087,8 +1089,8 @@ return (
         {drawer}
       </Drawer>
 
-      {/* Add spacing for fixed navbar + announcement bar */}
-      <Toolbar sx={{ minHeight: { xs: '114px', md: '140px' } }} />
+      {/* Add spacing for fixed navbar + announcement bar (or just navbar on auth pages) */}
+      <Toolbar sx={{ minHeight: location.pathname.match(/^\/(login|signup|verify-otp|verify-login-otp|verify-reset-otp|forgot-password|reset-password)$/) ? { xs: '64px', md: '80px' } : { xs: '114px', md: '140px' } }} />
     </>
   );
 };

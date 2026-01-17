@@ -12,15 +12,13 @@ import {
   FormControlLabel,
   Link,
   Divider,
-  Alert,
-  CircularProgress,
-  Snackbar
+  CircularProgress
 } from '@mui/material';
 import { Visibility, VisibilityOff, Email, Lock } from '@mui/icons-material';
 import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { authAPI } from '../api/auth';
-import { GLOBAL_FONT_FAMILY } from '../contexts/ToastContext';
+import { GLOBAL_FONT_FAMILY, useToast } from '../contexts/ToastContext';
 import background from '../Images/background.jpeg';
 
 const Login = () => {
@@ -32,11 +30,11 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [alert, setAlert] = useState({ open: false, message: '', severity: 'success' });
 
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { showToast } = useToast();
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -49,16 +47,15 @@ const Login = () => {
   // Handle messages from redirect (signup success, OTP verification, etc.)
   useEffect(() => {
     if (location.state?.message) {
-      setAlert({
-        open: true,
-        message: location.state.message,
-        severity: location.state.verified ? 'success' : 'info'
-      });
+      showToast(
+        location.state.message,
+        location.state.verified ? 'success' : 'info'
+      );
 
       // Clear the state to prevent showing the message again on refresh
       window.history.replaceState({}, document.title);
     }
-  }, [location]);
+  }, [location, showToast]);
 
   // Prevent scrolling on mount and cleanup on unmount
   useEffect(() => {
@@ -90,13 +87,6 @@ const Login = () => {
         [name]: ''
       }));
     }
-  };
-
-  const handleCloseAlert = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setAlert({ ...alert, open: false });
   };
 
   const handleSubmit = async (e) => {
@@ -161,11 +151,7 @@ const Login = () => {
         errorMessage = 'Cannot connect to server. Please make sure the backend is running.';
       }
 
-      setAlert({
-        open: true,
-        message: errorMessage,
-        severity: 'error'
-      });
+      showToast(errorMessage, 'error');
     } finally {
       setLoading(false);
     }
@@ -213,33 +199,6 @@ const Login = () => {
 
   return (
     <>
-      {/* Success/Error Alert - Moved outside main container */}
-      <Snackbar
-        open={alert.open}
-        autoHideDuration={6000}
-        onClose={handleCloseAlert}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        sx={{
-          position: 'fixed',
-          zIndex: 9999,
-          top: '20px !important',
-        }}
-      >
-        <Alert
-          onClose={handleCloseAlert}
-          severity={alert.severity}
-          sx={{
-            fontFamily: GLOBAL_FONT_FAMILY,
-            borderRadius: '12px',
-            boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)',
-            minWidth: '300px',
-            fontSize: '0.9rem'
-          }}
-        >
-          {alert.message}
-        </Alert>
-      </Snackbar>
-
       <Box
         sx={{
           height: '100vh',

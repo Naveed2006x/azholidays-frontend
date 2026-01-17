@@ -14,9 +14,7 @@ import {
   Stepper,
   Step,
   StepLabel,
-  Alert,
   CircularProgress,
-  Snackbar,
   useTheme,
   useMediaQuery,
 } from '@mui/material';
@@ -24,7 +22,7 @@ import { Visibility, VisibilityOff, Email, Lock } from '@mui/icons-material';
 import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { authAPI } from '../api/auth';
-import { GLOBAL_FONT_FAMILY } from '../contexts/ToastContext';
+import { GLOBAL_FONT_FAMILY, useToast } from '../contexts/ToastContext';
 import background from '../Images/background.jpeg';
 
 const Signup = () => {
@@ -43,9 +41,8 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
-  const [serverError, setServerError] = useState('');
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -160,13 +157,6 @@ const Signup = () => {
     };
   }, []);
 
-  // Show snackbar when server error changes
-  useEffect(() => {
-    if (serverError) {
-      setSnackbarOpen(true);
-    }
-  }, [serverError]);
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -180,7 +170,6 @@ const Signup = () => {
         [name]: ''
       }));
     }
-    if (serverError) setServerError('');
   };
 
   const handlePhoneChange = (newPhone) => {
@@ -198,13 +187,6 @@ const Signup = () => {
     }
   };
 
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSnackbarOpen(false);
-    setServerError('');
-  };
 
   const validateStep = (step) => {
     const newErrors = {};
@@ -307,11 +289,11 @@ const Signup = () => {
       } catch (error) {
         console.error('Signup failed:', error);
         if (error.response?.data?.message) {
-          setServerError(error.response.data.message);
+          showToast(error.response.data.message, 'error');
         } else if (error.code === 'NETWORK_ERROR' || error.code === 'ECONNREFUSED') {
-          setServerError('Cannot connect to server. Please make sure the backend is running.');
+          showToast('Cannot connect to server. Please make sure the backend is running.', 'error');
         } else {
-          setServerError('Signup failed. Please try again.');
+          showToast('Signup failed. Please try again.', 'error');
         }
       } finally {
         setLoading(false);
@@ -607,43 +589,6 @@ const Signup = () => {
 
   return (
     <>
-      {/* Mobile-optimized Snackbar */}
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
-        anchorOrigin={{
-          vertical: isMobile ? 'bottom' : 'top',
-          horizontal: isMobile ? 'center' : 'right'
-        }}
-        sx={{
-          position: 'fixed',
-          zIndex: 9999,
-          ...(isMobile ? {
-            bottom: '20px !important',
-            left: '16px !important',
-            right: '16px !important'
-          } : {
-            top: '20px !important',
-            right: '16px !important'
-          })
-        }}
-      >
-        <Alert
-          severity="error"
-          sx={{
-            fontFamily: GLOBAL_FONT_FAMILY,
-            borderRadius: '12px',
-            boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)',
-            width: isMobile ? '100%' : '300px',
-            fontSize: isMobile ? '0.85rem' : '0.9rem'
-          }}
-          onClose={handleSnackbarClose}
-        >
-          {serverError}
-        </Alert>
-      </Snackbar>
-
       <Box
         sx={{
           height: '100vh',

@@ -21,7 +21,6 @@ import {
     DialogContent,
     DialogActions,
     Fade,
-    Snackbar,
     useMediaQuery,
     useTheme
 } from '@mui/material';
@@ -43,6 +42,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { profileAPI } from '../api';
+import { useToast } from '../contexts/ToastContext';
 
 const Profile = () => {
     const [user, setUser] = useState(null);
@@ -50,7 +50,6 @@ const Profile = () => {
     const [saving, setSaving] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const [message, setMessage] = useState({ type: '', text: '' });
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [deletePassword, setDeletePassword] = useState('');
     const [deleting, setDeleting] = useState(false);
@@ -58,6 +57,7 @@ const Profile = () => {
     const [uploadProgress, setUploadProgress] = useState(0);
 
     const navigate = useNavigate();
+    const { showToast } = useToast();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -100,12 +100,12 @@ const Profile = () => {
 
         // Validate file type and size
         if (!file.type.startsWith('image/')) {
-            setMessage({ type: 'error', text: 'Please select an image file.' });
+            showToast('Please select an image file.', 'error');
             return;
         }
 
         if (file.size > 5 * 1024 * 1024) {
-            setMessage({ type: 'error', text: 'Image size must be less than 5MB.' });
+            showToast('Image size must be less than 5MB.', 'error');
             return;
         }
 
@@ -138,7 +138,7 @@ const Profile = () => {
                 const updatedUser = { ...user, profile_picture: response.data.imageUrl };
                 setUser(updatedUser);
                 localStorage.setItem('user', JSON.stringify(updatedUser));
-                setMessage({ type: 'success', text: 'Profile picture updated successfully!' });
+                showToast('Profile picture updated successfully!', 'success');
             }
         } catch (error) {
             console.error('Profile picture upload failed:', error);
@@ -165,7 +165,7 @@ const Profile = () => {
                 const updatedUser = { ...user, profile_picture: null };
                 setUser(updatedUser);
                 localStorage.setItem('user', JSON.stringify(updatedUser));
-                setMessage({ type: 'success', text: 'Profile picture removed successfully!' });
+                showToast('Profile picture removed successfully!', 'success');
             }
         } catch (error) {
             console.error('Profile picture removal failed:', error);
@@ -251,7 +251,7 @@ const Profile = () => {
     // Updated save profile function
     const handleSaveProfile = async () => {
         setSaving(true);
-        setMessage({ type: '', text: '' });
+        
 
         try {
             // Updated API call
@@ -266,7 +266,7 @@ const Profile = () => {
                     localStorage.setItem('token', response.token);
                 }
 
-                setMessage({ type: 'success', text: 'Profile updated successfully!' });
+                showToast('Profile updated successfully!', 'success');
                 setEditMode(false);
             }
         } catch (error) {
@@ -289,17 +289,17 @@ const Profile = () => {
     // Updated change password function
     const handleChangePassword = async () => {
         if (passwordData.newPassword !== passwordData.confirmPassword) {
-            setMessage({ type: 'error', text: 'New passwords do not match.' });
+            showToast('New passwords do not match.', 'error');
             return;
         }
 
         if (passwordData.newPassword.length < 8) {
-            setMessage({ type: 'error', text: 'New password must be at least 8 characters long.' });
+            showToast('New password must be at least 8 characters long.', 'error');
             return;
         }
 
         setSaving(true);
-        setMessage({ type: '', text: '' });
+        
 
         try {
             // Updated API call
@@ -309,7 +309,7 @@ const Profile = () => {
             );
 
             if (response.success) {
-                setMessage({ type: 'success', text: 'Password changed successfully!' });
+                showToast('Password changed successfully!', 'success');
                 setPasswordData({
                     currentPassword: '',
                     newPassword: '',
@@ -347,12 +347,12 @@ const Profile = () => {
             notifications: getBooleanValue(user.notifications)
         });
         setEditMode(false);
-        setMessage({ type: '', text: '' });
+        
     };
 
     const handleDeleteAccount = async () => {
         if (!deletePassword) {
-            setMessage({ type: 'error', text: 'Please enter your password to delete your account.' });
+            showToast('Please enter your password to delete your account.', 'error');
             return;
         }
 
@@ -368,7 +368,7 @@ const Profile = () => {
             if (response.data.success) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
-                setMessage({ type: 'success', text: 'Account deleted successfully.' });
+                showToast('Account deleted successfully.', 'success');
                 setTimeout(() => navigate('/'), 2000);
             }
         } catch (error) {
@@ -461,32 +461,6 @@ const Profile = () => {
                 padding: isMobile ? '0 8px' : '0 16px' 
             }}>
                 
-                {/* Top Right Alert Message using Snackbar */}
-                <Snackbar
-                    open={!!message.text}
-                    autoHideDuration={6000}
-                    onClose={() => setMessage({ type: '', text: '' })}
-                    anchorOrigin={{ vertical: 'top', horizontal: isMobile ? 'center' : 'right' }}
-                    sx={{
-                        '& .MuiSnackbar-root': {
-                            top: isMobile ? '20px' : '80px',
-                        }
-                    }}
-                >
-                    <Alert
-                        severity={message.type}
-                        sx={{
-                            ...fontStyle,
-                            borderRadius: '12px',
-                            boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)',
-                            minWidth: isMobile ? '90vw' : '300px'
-                        }}
-                        onClose={() => setMessage({ type: '', text: '' })}
-                    >
-                        {message.text}
-                    </Alert>
-                </Snackbar>
-
                 {/* Mobile Layout */}
                 {isMobile ? (
                     <div className="mobile-layout" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
