@@ -8,7 +8,7 @@ export const GLOBAL_FONT_FAMILY = "'Poppins', -apple-system, BlinkMacSystemFont,
 // Global function to check if the site is in production
 export const isProduction = () => {
     const hostname = window.location.hostname;
-    return hostname === 'azholidays.com' || hostname === 'www.azholidays.com';
+    return hostname === 'www.azholidays.com.sg' || hostname === 'azholidays.com.sg';
 };
 
 export const useToast = () => {
