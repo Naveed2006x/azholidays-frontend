@@ -4,9 +4,11 @@ import banner from '../Images/banner.jpg';
 import cablecar from '../Images/cablecar.jpg';
 import universal from '../Images/universal.jpg';
 import safari from '../Images/nightsafari.jpg';
+import Loading from '../components/Loading';
 
 const Home = () => {
   const navigate = useNavigate();
+  const [showLoader, setShowLoader] = useState(true);
   const [timeLeft, setTimeLeft] = useState({
     days: '--',
     hours: '--',
@@ -624,6 +626,15 @@ const Home = () => {
       ...fontStyle
     }
   };
+
+useEffect(() => {
+  // Simulate loading for 2 seconds to show the loader
+  const timer = setTimeout(() => {
+    setShowLoader(false);
+  }, 2000);
+
+  return () => clearTimeout(timer);
+}, []);
 
 useEffect(() => {
   // Set launch date to March 1, 2026

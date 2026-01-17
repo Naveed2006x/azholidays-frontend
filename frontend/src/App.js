@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Snackbar, Alert, AlertTitle } from '@mui/material';
-import { ToastProvider } from './contexts/ToastContext';
+import { ToastProvider, useToast } from './contexts/ToastContext';
+import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Contact from './pages/contact.js';
@@ -17,6 +18,14 @@ import Transport from './pages/transport.js';
 import Cruises from './pages/cruises.js';
 import Packages from './pages/packages.js';
 import NotFound from './pages/notFound.js';
+import Signup from './pages/signup.js';
+import Login from './pages/login.js';
+import VerifyOTP from './pages/verifyOTP.js';
+import VerifyLoginOTP from './pages/verifyLoginOTP.js';
+import ForgotPassword from './pages/forgotPassword.js';
+import VerifyResetOTP from './pages/verifyResetOTP.js';
+import ResetPassword from './pages/resetPassword.js';
+import Profile from './pages/profile.js';
 
 // WhatsApp Chatbox Component
 const WhatsAppChatbox = () => {
@@ -398,7 +407,7 @@ const ScrollToTop = () => {
 // Component to handle route-based messages and conditional footer
 const RouteHandler = ({ children }) => {
   const location = useLocation();
-  const [alert, setAlert] = useState({ open: false, message: '', severity: 'success' });
+  const { showToast } = useToast();
 
   // Check if current route should show footer
   const shouldShowFooter = () => {
@@ -412,11 +421,7 @@ const RouteHandler = ({ children }) => {
     const message = urlParams.get('message');
 
     if (message) {
-      setAlert({
-        open: true,
-        message: message,
-        severity: 'info'
-      });
+      showToast(message, 'info');
 
       // Clean URL
       const cleanUrl = location.pathname;
@@ -425,23 +430,13 @@ const RouteHandler = ({ children }) => {
 
     // Check for state messages
     if (location.state?.message) {
-      setAlert({
-        open: true,
-        message: location.state.message,
-        severity: location.state.severity || 'info'
-      });
+      const severity = location.state.verified ? 'success' : (location.state.severity || 'info');
+      showToast(location.state.message, severity);
 
       // Clear the state to prevent showing the message again on refresh
       window.history.replaceState({}, document.title);
     }
-  }, [location]);
-
-  const handleCloseAlert = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setAlert({ ...alert, open: false });
-  };
+  }, [location, showToast]);
 
   return (
     <>
@@ -449,58 +444,47 @@ const RouteHandler = ({ children }) => {
       {children}
       {shouldShowFooter() && <Footer />}
       <WhatsAppChatbox />
-      <Snackbar
-        open={alert.open}
-        autoHideDuration={6000}
-        onClose={handleCloseAlert}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Alert
-          onClose={handleCloseAlert}
-          severity={alert.severity}
-          sx={{
-            width: '100%',
-            fontFamily: "'Poppins', sans-serif",
-            '& .MuiAlert-message': {
-              fontSize: '1rem'
-            }
-          }}
-        >
-          <AlertTitle sx={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600 }}>
-            {alert.severity === 'success' ? 'Success!' :
-              alert.severity === 'error' ? 'Error!' : 'Information'}
-          </AlertTitle>
-          {alert.message}
-        </Alert>
-      </Snackbar>
     </>
   );
 };
 
 function App() {
   return (
-    <ToastProvider>
-      <Router>
-        <ScrollToTop />
-        <RouteHandler>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/destinations" element={<Destinations />} />
-            <Route path="/attractions" element={<Attractions />} />
-            <Route path="/flights" element={<Flights />} />
-            <Route path="/hotels" element={<Hotels />} />
-            <Route path="/insurance" element={<Insurance />} />
-            <Route path="/transport" element={<Transport />} />
-            <Route path="/cruises" element={<Cruises />} />
-            <Route path="/packages" element={<Packages />} />
-            <Route path="/blogs" element={<Blogs />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </RouteHandler>
-      </Router>
-    </ToastProvider>
+    <AuthProvider>
+      <ToastProvider>
+        <Router>
+          <ScrollToTop />
+          <RouteHandler>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/destinations" element={<Destinations />} />
+              <Route path="/attractions" element={<Attractions />} />
+              <Route path="/flights" element={<Flights />} />
+              <Route path="/hotels" element={<Hotels />} />
+              <Route path="/insurance" element={<Insurance />} />
+              <Route path="/transport" element={<Transport />} />
+              <Route path="/cruises" element={<Cruises />} />
+              <Route path="/packages" element={<Packages />} />
+              <Route path="/blogs" element={<Blogs />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              
+              {/* Auth Routes */}
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/verify-otp" element={<VerifyOTP />} />
+              <Route path="/verify-login-otp" element={<VerifyLoginOTP />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/verify-reset-otp" element={<VerifyResetOTP />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/profile" element={<Profile />} />
+              
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </RouteHandler>
+        </Router>
+      </ToastProvider>
+    </AuthProvider>
   );
 }
 

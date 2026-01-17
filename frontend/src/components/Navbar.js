@@ -8,11 +8,15 @@ import {
   Drawer, 
   List, 
   ListItem,
+  ListItemIcon,
+  ListItemText,
   Button,
   Divider,
   Menu,
   MenuItem,
-  Collapse
+  Collapse,
+  Avatar,
+  Chip
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -25,13 +29,26 @@ import SecurityIcon from '@mui/icons-material/Security';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import {
+  Person as PersonIcon,
+  BookmarkBorder as BookingsIcon,
+  CardGiftcard as RewardsIcon,
+  LocalOfferOutlined as PromoCodesIcon,
+  RateReviewOutlined as ReviewsIcon,
+  ShareOutlined as ReferralIcon,
+  SettingsOutlined as SettingsIcon
+} from '@mui/icons-material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { isProduction } from '../contexts/ToastContext';
 import Logo from '../Images/logo.png';
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [profileAnchorEl, setProfileAnchorEl] = useState(null);
   const [timeLeft, setTimeLeft] = useState({
     days: '--',
     hours: '--',
@@ -40,6 +57,7 @@ const Navbar = () => {
   });
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, logout, isAuthenticated } = useAuth();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -60,6 +78,31 @@ const Navbar = () => {
 
   const handleMobileServicesToggle = () => {
     setServicesOpen(!servicesOpen);
+  };
+
+  const handleMobileProfileToggle = () => {
+    setProfileMenuOpen(!profileMenuOpen);
+  };
+
+  const handleProfileMenuOpen = (event) => {
+    setProfileAnchorEl(event.currentTarget);
+  };
+
+  const handleProfileMenuClose = () => {
+    setProfileAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    logout();
+    handleProfileMenuClose();
+    handleDrawerToggle();
+  };
+
+  const getProfileImageSrc = () => {
+    if (user?.profile_picture) {
+      return user.profile_picture;
+    }
+    return null;
   };
 
   useEffect(() => {
@@ -109,6 +152,16 @@ const Navbar = () => {
     { label: 'Airport & Coach Transport', path: '/transport', icon: DirectionsBusIcon },
     { label: 'Cruise Packages', path: '/cruises', icon: DirectionsBoatIcon },
     { label: 'Travel Packages', path: '/packages', icon: CardGiftcardIcon }
+  ];
+
+  const profileMenuItems = [
+    { label: 'Profile', path: '/profile', icon: <PersonIcon /> },
+    { label: 'Bookings', path: '/bookings', icon: <BookingsIcon /> },
+    { label: 'AZ Rewards', path: '/rewards', icon: <RewardsIcon /> },
+    { label: 'Promo Codes', path: '/promo-codes', icon: <PromoCodesIcon /> },
+    { label: 'Reviews', path: '/reviews', icon: <ReviewsIcon /> },
+    { label: 'Referral', path: '/referral', icon: <ReferralIcon /> },
+    { label: 'Settings', path: '/settings', icon: <SettingsIcon /> }
   ];
 
   // Font configuration
@@ -315,37 +368,273 @@ const Navbar = () => {
         ))}
       </List>
 
-      {/* Contact Info */}
-      <Box sx={{ 
-        marginTop: 'auto', 
-        padding: '24px 20px',
-        borderTop: '1px solid #f0f0f0'
-      }}>
-        <Typography
-          sx={{
-            ...fontStyle,
-            fontSize: '0.9rem',
-            color: '#666',
-            textAlign: 'center',
-            marginBottom: '8px',
-            textDecoration: 'none'
-          }}
-        >
-          Need help? Call us at
-        </Typography>
-        <Typography
-          sx={{
-            ...fontStyle,
-            fontSize: '1.1rem',
-            fontWeight: 600,
-            color: '#2c5aa0',
-            textAlign: 'center',
-            textDecoration: 'none'
-          }}
-        >
-          +65 9126 3786
-        </Typography>
-      </Box>
+      {/* Auth Section or User Profile Section */}
+      {!isAuthenticated ? (
+        // Auth Buttons when user is NOT logged in
+        <Box sx={{ 
+          marginTop: 'auto', 
+          padding: '24px 16px',
+          borderTop: '1px solid #f0f0f0'
+        }}>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            gap: '1rem',
+            marginBottom: '16px'
+          }}>
+            <Button
+              variant="outlined"
+              component={Link}
+              to="/login"
+              onClick={handleDrawerToggle}
+              sx={{
+                ...fontStyle,
+                color: '#2c5aa0',
+                borderColor: '#2c5aa0',
+                padding: '12px 24px',
+                '&:hover': {
+                  backgroundColor: 'rgba(44, 90, 160, 0.1)',
+                  borderColor: '#2c5aa0'
+                }
+              }}
+            >
+              Login
+            </Button>
+            <Button
+              variant="contained"
+              component={Link}
+              to="/signup"
+              onClick={handleDrawerToggle}
+              sx={{
+                ...fontStyle,
+                backgroundColor: '#2c5aa0',
+                padding: '12px 24px',
+                '&:hover': {
+                  backgroundColor: '#1e3d6f'
+                }
+              }}
+            >
+              Sign Up
+            </Button>
+          </Box>
+          
+          {/* Contact Info */}
+          <Typography
+            sx={{
+              ...fontStyle,
+              fontSize: '0.9rem',
+              color: '#666',
+              textAlign: 'center',
+              marginBottom: '8px',
+              textDecoration: 'none'
+            }}
+          >
+            Need help? Call us at
+          </Typography>
+          <Typography
+            sx={{
+              ...fontStyle,
+              fontSize: '1.1rem',
+              fontWeight: 600,
+              color: '#2c5aa0',
+              textAlign: 'center',
+              textDecoration: 'none'
+            }}
+          >
+            +65 9126 3786
+          </Typography>
+        </Box>
+      ) : (
+        // User Profile Section when user IS logged in
+        <Box sx={{ 
+          marginTop: 'auto',
+          padding: '16px 0',
+          borderTop: '1px solid #f0f0f0'
+        }}>
+          {/* User Profile Header - Clickable to expand/collapse */}
+          <Box 
+            onClick={handleMobileProfileToggle}
+            sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 2, 
+              padding: '16px 20px',
+              cursor: 'pointer',
+              borderRadius: '12px',
+              margin: '0 16px',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                backgroundColor: 'rgba(44, 90, 160, 0.08)'
+              }
+            }}
+          >
+            <Avatar 
+              src={getProfileImageSrc()}
+              sx={{ 
+                bgcolor: '#f0f0f0', 
+                width: 50, 
+                height: 50,
+                color: '#666'
+              }}
+            >
+              <PersonIcon sx={{ fontSize: '1.5rem' }} />
+            </Avatar>
+            <Typography
+              sx={{
+                ...fontStyle,
+                fontSize: '1.1rem',
+                fontWeight: 600,
+                color: '#333',
+                flex: 1,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              {user?.firstName || 'User'}
+            </Typography>
+            {profileMenuOpen ? (
+              <ExpandMoreIcon sx={{ color: '#2c5aa0', fontSize: '1.8rem', flexShrink: 0 }} />
+            ) : (
+              <ExpandLessIcon sx={{ color: '#2c5aa0', fontSize: '1.8rem', flexShrink: 0 }} />
+            )}
+          </Box>
+
+          {/* Profile Menu Items - Collapsible */}
+          <Collapse in={profileMenuOpen} timeout="auto" unmountOnExit>
+            <List sx={{ padding: '0 20px', marginTop: '8px', marginBottom: '16px' }}>
+              {profileMenuItems.map((item, index) => (
+                <Box key={item.label}>
+                  <ListItem 
+                    disablePadding
+                    sx={{ marginBottom: '0' }}
+                  >
+                    <Box
+                      component={isProduction() ? 'div' : Link}
+                      to={!isProduction() ? item.path : undefined}
+                      onClick={isProduction() ? undefined : handleDrawerToggle}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        width: '100%',
+                        padding: '14px 20px',
+                        textDecoration: 'none',
+                        color: location.pathname === item.path ? '#2c5aa0' : '#333',
+                        backgroundColor: location.pathname === item.path ? 'rgba(44, 90, 160, 0.1)' : 'transparent',
+                        border: location.pathname === item.path ? '2px solid #2c5aa0' : '2px solid transparent',
+                        borderRadius: '12px',
+                        transition: 'all 0.3s ease',
+                        cursor: isProduction() ? 'not-allowed' : 'pointer',
+                        opacity: isProduction() ? 0.7 : 1,
+                        '&:hover': {
+                          backgroundColor: 'rgba(44, 90, 160, 0.08)',
+                          color: '#2c5aa0',
+                          border: '2px solid rgba(44, 90, 160, 0.2)'
+                        }
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+                        <ListItemIcon sx={{ 
+                          minWidth: '40px', 
+                          color: 'inherit',
+                          '& .MuiSvgIcon-root': {
+                            fontSize: '1.3rem'
+                          }
+                        }}>
+                          {item.icon}
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={item.label}
+                          sx={{
+                            '& .MuiTypography-root': {
+                              ...fontStyle,
+                              color: 'inherit',
+                              fontSize: '1rem',
+                              fontWeight: location.pathname === item.path ? 600 : 500,
+                            }
+                          }}
+                        />
+                      </Box>
+                      {isProduction() && (
+                        <Chip 
+                          label="Coming Soon" 
+                          size="small"
+                          sx={{ 
+                            ...fontStyle,
+                            fontSize: '0.65rem',
+                            height: '20px',
+                            backgroundColor: '#373277',
+                            color: '#fff',
+                            fontWeight: 600
+                          }}
+                        />
+                      )}
+                    </Box>
+                  </ListItem>
+
+                  {index < profileMenuItems.length - 1 && (
+                    <Divider sx={{ margin: '8px 0', backgroundColor: '#f0f0f0' }} />
+                  )}
+                </Box>
+              ))}
+            </List>
+
+            {/* Logout Button - Inside Collapse */}
+            <Box sx={{ padding: '0 16px', marginBottom: '16px' }}>
+              <Button
+                variant="text"
+                onClick={handleLogout}
+                sx={{
+                  ...fontStyle,
+                  color: '#d9534f',
+                  width: '100%',
+                  justifyContent: 'center',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  padding: '12px 24px',
+                  border: '2px solid transparent',
+                  borderRadius: '12px',
+                  '&:hover': {
+                    backgroundColor: 'rgba(217, 83, 79, 0.1)',
+                    border: '2px solid rgba(217, 83, 79, 0.2)'
+                  }
+                }}
+              >
+                Log out
+              </Button>
+            </Box>
+          </Collapse>
+
+          {/* Contact Info */}
+          <Box sx={{ padding: '16px', marginTop: profileMenuOpen ? '0' : '16px', borderTop: '1px solid #f0f0f0' }}>
+            <Typography
+              sx={{
+                ...fontStyle,
+                fontSize: '0.9rem',
+                color: '#666',
+                textAlign: 'center',
+                marginBottom: '8px',
+                textDecoration: 'none'
+              }}
+            >
+              Need help? Call us at
+            </Typography>
+            <Typography
+              sx={{
+                ...fontStyle,
+                fontSize: '1.1rem',
+                fontWeight: 600,
+                color: '#2c5aa0',
+                textAlign: 'center',
+                textDecoration: 'none'
+              }}
+            >
+              +65 9126 3786
+            </Typography>
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 
@@ -532,7 +821,7 @@ return (
             ))}
           </Box>
 
-          {/* Right Side - Auth Buttons */}
+          {/* Right Side - Auth Buttons or User Profile */}
           <Box 
             sx={{ 
               display: { xs: 'none', md: 'flex' }, 
@@ -542,38 +831,134 @@ return (
               flex: 1
             }}
           >
-            <Button
-              variant="outlined"
-              disabled
-              component={Link}
-              to="/login"
-              sx={{
-                ...fontStyle,
-                color: '#2c5aa0',
-                borderColor: '#2c5aa0',
-                '&:hover': {
-                  backgroundColor: 'rgba(44, 90, 160, 0.1)',
-                  borderColor: '#2c5aa0'
-                }
-              }}
-            >
-              Login
-            </Button>
-            <Button
-              disabled
-              variant="contained"
-              component={Link}
-              to="/signup"
-              sx={{
-                ...fontStyle,
-                backgroundColor: '#2c5aa0',
-                '&:hover': {
-                  backgroundColor: '#1e3d6f'
-                }
-              }}
-            >
-              Sign Up
-            </Button>
+            {!isAuthenticated ? (
+              // Show Login/Signup when user is NOT logged in
+              <>
+                <Button
+                  variant="outlined"
+                  component={Link}
+                  to="/login"
+                  sx={{
+                    ...fontStyle,
+                    color: '#2c5aa0',
+                    borderColor: '#2c5aa0',
+                    '&:hover': {
+                      backgroundColor: 'rgba(44, 90, 160, 0.1)',
+                      borderColor: '#2c5aa0'
+                    }
+                  }}
+                >
+                  Login
+                </Button>
+                <Button
+                  variant="contained"
+                  component={Link}
+                  to="/signup"
+                  sx={{
+                    ...fontStyle,
+                    backgroundColor: '#2c5aa0',
+                    '&:hover': {
+                      backgroundColor: '#1e3d6f'
+                    }
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </>
+            ) : (
+              // Show Profile Avatar when user IS logged in
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <IconButton onClick={handleProfileMenuOpen} sx={{ padding: 0 }}>
+                  <Avatar 
+                    src={getProfileImageSrc()}
+                    sx={{ 
+                      bgcolor: '#f0f0f0', 
+                      width: 55, 
+                      height: 55,
+                      color: '#666',
+                      border: '2px solid #e0e0e0'
+                    }}
+                  >
+                    <PersonIcon sx={{ fontSize: '2rem' }} />
+                  </Avatar>
+                </IconButton>
+                <Menu
+                  anchorEl={profileAnchorEl}
+                  open={Boolean(profileAnchorEl)}
+                  onClose={handleProfileMenuClose}
+                  sx={{
+                    '& .MuiPaper-root': {
+                      borderRadius: '8px',
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                      marginTop: '8px',
+                      minWidth: '220px'
+                    }
+                  }}
+                >
+                  {profileMenuItems.map((item) => (
+                    <MenuItem 
+                      key={item.label}
+                      onClick={() => {
+                        if (!isProduction()) {
+                          handleProfileMenuClose();
+                          navigate(item.path);
+                        }
+                      }}
+                      disabled={isProduction()}
+                      sx={{ 
+                        ...fontStyle,
+                        padding: '10px 16px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        opacity: isProduction() ? 0.7 : 1,
+                        cursor: isProduction() ? 'not-allowed' : 'pointer'
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <ListItemIcon sx={{ 
+                          minWidth: '40px',
+                          color: '#000',
+                          '& .MuiSvgIcon-root': {
+                            fontSize: '1.3rem'
+                          }
+                        }}>
+                          {item.icon}
+                        </ListItemIcon>
+                        {item.label}
+                      </Box>
+                      {isProduction() && (
+                        <Chip 
+                          label="Coming Soon" 
+                          size="small"
+                          sx={{ 
+                            ...fontStyle,
+                            fontSize: '0.6rem',
+                            height: '18px',
+                            backgroundColor: '#ff9800',
+                            color: '#fff',
+                            fontWeight: 600,
+                            ml: 1
+                          }}
+                        />
+                      )}
+                    </MenuItem>
+                  ))}
+                  <Divider />
+                  <MenuItem 
+                    onClick={handleLogout}
+                    sx={{ 
+                      ...fontStyle, 
+                      color: '#d9534f',
+                      padding: '10px 16px',
+                      justifyContent: 'center',
+                      fontWeight: 600
+                    }}
+                  >
+                    Log out
+                  </MenuItem>
+                </Menu>
+              </Box>
+            )}
           </Box>
 
           {/* Mobile Menu Button */}
