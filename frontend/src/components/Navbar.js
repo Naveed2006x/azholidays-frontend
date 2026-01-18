@@ -206,7 +206,7 @@ const Navbar = () => {
   ];
 
   const profileMenuItems = [
-    { label: 'Profile', path: '/profile', icon: <PersonIcon /> },
+    { label: 'Profile', path: '/profile', icon: <PersonIcon />, enabled: true },
     { label: 'Bookings', path: '/bookings', icon: <BookingsIcon /> },
     { label: 'AZ Rewards', path: '/rewards', icon: <RewardsIcon /> },
     { label: 'Promo Codes', path: '/promo-codes', icon: <PromoCodesIcon /> },
@@ -562,9 +562,9 @@ const Navbar = () => {
                     sx={{ marginBottom: '0' }}
                   >
                     <Box
-                      component={isProduction() ? 'div' : Link}
-                      to={!isProduction() ? item.path : undefined}
-                      onClick={isProduction() ? undefined : handleDrawerToggle}
+                      component={(isProduction() && !item.enabled) ? 'div' : Link}
+                      to={(!isProduction() || item.enabled) ? item.path : undefined}
+                      onClick={(isProduction() && !item.enabled) ? undefined : handleDrawerToggle}
                       sx={{
                         display: 'flex',
                         alignItems: 'center',
@@ -577,8 +577,8 @@ const Navbar = () => {
                         border: location.pathname === item.path ? '2px solid #2c5aa0' : '2px solid transparent',
                         borderRadius: '12px',
                         transition: 'all 0.3s ease',
-                        cursor: isProduction() ? 'not-allowed' : 'pointer',
-                        opacity: isProduction() ? 0.7 : 1,
+                        cursor: (isProduction() && !item.enabled) ? 'not-allowed' : 'pointer',
+                        opacity: (isProduction() && !item.enabled) ? 0.7 : 1,
                         '&:hover': {
                           backgroundColor: 'rgba(44, 90, 160, 0.08)',
                           color: '#2c5aa0',
@@ -608,7 +608,7 @@ const Navbar = () => {
                           }}
                         />
                       </Box>
-                      {isProduction() && (
+                      {(isProduction() && !item.enabled) && (
                         <Chip 
                           label="Coming Soon" 
                           size="small"
@@ -952,19 +952,19 @@ return (
                     <MenuItem 
                       key={item.label}
                       onClick={() => {
-                        if (!isProduction()) {
+                        if (!isProduction() || item.enabled) {
                           handleProfileMenuClose();
                           navigate(item.path);
                         }
                       }}
-                      disabled={isProduction()}
+                      disabled={isProduction() && !item.enabled}
                       sx={{ 
                         ...fontStyle,
                         padding: '10px 16px',
                         display: 'flex',
                         justifyContent: 'space-between',
-                        opacity: isProduction() ? 0.7 : 1,
-                        cursor: isProduction() ? 'not-allowed' : 'pointer'
+                        opacity: (isProduction() && !item.enabled) ? 0.7 : 1,
+                        cursor: (isProduction() && !item.enabled) ? 'not-allowed' : 'pointer'
                       }}
                     >
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -979,7 +979,7 @@ return (
                         </ListItemIcon>
                         {item.label}
                       </Box>
-                      {isProduction() && (
+                      {(isProduction() && !item.enabled) && (
                         <Chip 
                           label="Coming Soon" 
                           size="small"
