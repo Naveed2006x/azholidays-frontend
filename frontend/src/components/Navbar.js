@@ -49,6 +49,8 @@ const Navbar = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [profileAnchorEl, setProfileAnchorEl] = useState(null);
+  const [profileImageKey, setProfileImageKey] = useState(Date.now()); // Force re-render of avatar
+  const [profileImageSrc, setProfileImageSrc] = useState(null); // Store computed image source
   const [timeLeft, setTimeLeft] = useState({
     days: '--',
     hours: '--',
@@ -58,6 +60,42 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout, isAuthenticated } = useAuth();
+
+  // Listen for storage changes to update profile image
+  useEffect(() => {
+    const refreshProfileImage = () => {
+      const newSrc = getProfileImageSrc();
+      setProfileImageSrc(newSrc);
+      setProfileImageKey(Date.now());
+    };
+    
+    const handleStorageChange = (e) => {
+      if (e.key === 'user') {
+        refreshProfileImage();
+      }
+    };
+    
+    const handleProfileImageUpdate = () => {
+      refreshProfileImage();
+    };
+    
+    const handleUserUpdate = (e) => {
+      refreshProfileImage();
+    };
+    
+    // Initial load and when user changes
+    refreshProfileImage();
+    
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('profileImageUpdated', handleProfileImageUpdate);
+    window.addEventListener('userUpdated', handleUserUpdate);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('profileImageUpdated', handleProfileImageUpdate);
+      window.removeEventListener('userUpdated', handleUserUpdate);
+    };
+  }, [user]); // Add user dependency
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -99,8 +137,21 @@ const Navbar = () => {
   };
 
   const getProfileImageSrc = () => {
-    if (user?.profile_picture) {
-      return user.profile_picture;
+    // Read directly from localStorage to get latest profile image
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        const userData = JSON.parse(storedUser);
+        // Check both possible field names
+        const imageUrl = userData?.profileImage || userData?.profile_image_url;
+        if (imageUrl) {
+          // Add cache-busting timestamp to force browser to reload image
+          const timestamp = userData?._imageRefresh || Date.now();
+          return `${imageUrl}?t=${timestamp}`;
+        }
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+      }
     }
     return null;
   };
@@ -469,7 +520,8 @@ const Navbar = () => {
             }}
           >
             <Avatar 
-              src={getProfileImageSrc()}
+              key={profileImageKey}
+              src={profileImageSrc}
               sx={{ 
                 bgcolor: '#f0f0f0', 
                 width: 50, 
@@ -870,7 +922,8 @@ return (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <IconButton onClick={handleProfileMenuOpen} sx={{ padding: 0 }}>
                   <Avatar 
-                    src={getProfileImageSrc()}
+                    key={profileImageKey}
+                    src={profileImageSrc}
                     sx={{ 
                       bgcolor: '#f0f0f0', 
                       width: 55, 

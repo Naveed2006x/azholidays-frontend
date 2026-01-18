@@ -253,7 +253,9 @@ const Signup = () => {
 
       try {
         // Extract just the phone number digits for backend (remove country code and formatting)
-        const phoneDigits = formData.phone.replace(/\D/g, '').replace(/^\d{1,4}/, '');
+        const digitsOnly = formData.phone.replace(/\D/g, '');
+        const countryCodeLength = formData.phone.split(' ')[0].replace(/\D/g, '').length;
+        const phoneDigits = digitsOnly.slice(countryCodeLength);
 
         const response = await authAPI.signup(
           formData.firstName,

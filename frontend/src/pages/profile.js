@@ -43,21 +43,26 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { profileAPI } from '../api';
 import { useToast } from '../contexts/ToastContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const Profile = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const [editMode, setEditMode] = useState(false);
+    const [hasChanges, setHasChanges] = useState(false);
+    const [originalFormData, setOriginalFormData] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [deletePassword, setDeletePassword] = useState('');
     const [deleting, setDeleting] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
+    const [deletePictureDialogOpen, setDeletePictureDialogOpen] = useState(false);
+    const [imageRefreshKey, setImageRefreshKey] = useState(Date.now());
 
     const navigate = useNavigate();
     const { showToast } = useToast();
+    const { updateUser } = useAuth();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -83,6 +88,13 @@ const Profile = () => {
 
     const fontStyle = {
         fontFamily: "'Poppins', sans-serif",
+    };
+
+    // Helper to get profile image URL with cache-busting
+    const getProfileImageUrl = () => {
+        if (!user?.profile_image_url) return null;
+        // Add timestamp to force refresh after upload
+        return `${user.profile_image_url}?t=${user._imageRefresh || Date.now()}`;
     };
 
     // Fix for Switch boolean values - convert numeric to boolean
@@ -113,39 +125,40 @@ const Profile = () => {
         setUploadProgress(0);
 
         try {
-            const formData = new FormData();
-            formData.append('profilePicture', file);
+            const response = await profileAPI.uploadProfilePicture(file, (progress) => {
+                setUploadProgress(progress);
+            });
 
-            const token = localStorage.getItem('token');
-            const response = await axios.put(
-                'http://localhost:3000/api/user/profile-picture',
-                formData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'multipart/form-data',
-                    },
-                    onUploadProgress: (progressEvent) => {
-                        const percentCompleted = Math.round(
-                            (progressEvent.loaded * 100) / progressEvent.total
-                        );
-                        setUploadProgress(percentCompleted);
-                    },
-                }
-            );
-
-            if (response.data.success) {
-                const updatedUser = { ...user, profile_picture: response.data.imageUrl };
+            if (response.success) {
+                // Update user with new profile picture - handle all possible response structures
+                const profileImageUrl = response.imageUrl || response.user?.profile_image_url || response.user?.profileImageUrl || response.profileImageUrl;
+                
+                const updatedUser = {
+                    ...user,
+                    profile_image_url: profileImageUrl,
+                    profileImage: profileImageUrl,
+                    _imageRefresh: Date.now()
+                };
+                
+                // Update all states synchronously
                 setUser(updatedUser);
                 localStorage.setItem('user', JSON.stringify(updatedUser));
+                updateUser(updatedUser);
+                
+                // Force Avatar re-render by updating key
+                setImageRefreshKey(Date.now());
+                
+                // Dispatch custom event to notify Navbar
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('profileImageUpdated'));
+                }, 100);
+                
                 showToast('Profile picture updated successfully!', 'success');
             }
         } catch (error) {
             console.error('Profile picture upload failed:', error);
-            setMessage({
-                type: 'error',
-                text: error.response?.data?.message || 'Failed to upload profile picture.'
-            });
+            const errorMessage = error.response?.data?.message || 'Failed to upload profile picture';
+            showToast(errorMessage, 'error');
         } finally {
             setUploading(false);
             setUploadProgress(0);
@@ -154,25 +167,37 @@ const Profile = () => {
 
     // Updated remove profile picture function
     const handleRemoveProfilePicture = async () => {
-        if (!window.confirm('Are you sure you want to remove your profile picture?')) {
-            return;
-        }
-
         try {
             const response = await profileAPI.deleteProfilePicture();
 
             if (response.success) {
-                const updatedUser = { ...user, profile_picture: null };
+                // Update user with removed profile picture
+                const updatedUser = {
+                    ...user,
+                    profile_image_url: null,
+                    profileImage: null, // Add this for consistency
+                    _imageRefresh: Date.now() // Add refresh timestamp
+                };
+                
                 setUser(updatedUser);
                 localStorage.setItem('user', JSON.stringify(updatedUser));
+                updateUser(updatedUser); // Sync with AuthContext
+                
+                // Force Avatar re-render by updating key
+                setImageRefreshKey(Date.now());
+                
+                // Dispatch custom event to notify Navbar (with small delay to ensure localStorage is updated)
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('profileImageUpdated'));
+                }, 100);
+                
+                setDeletePictureDialogOpen(false);
                 showToast('Profile picture removed successfully!', 'success');
             }
         } catch (error) {
             console.error('Profile picture removal failed:', error);
-            setMessage({
-                type: 'error',
-                text: error.message || 'Failed to remove profile picture.'
-            });
+            const errorMessage = error.response?.data?.message || 'Failed to remove profile picture';
+            showToast(errorMessage, 'error');
         }
     };
 
@@ -184,17 +209,27 @@ const Profile = () => {
     const loadUserProfile = async () => {
         try {
             setLoading(true);
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('accessToken');
             if (!token) {
                 navigate('/login');
                 return;
             }
 
-            // Updated API call
+            // Get profile from backend
             const response = await profileAPI.getProfile();
 
             if (response.success) {
                 const userData = response.user;
+                
+                // Update localStorage with complete user data including profile image
+                const userForStorage = {
+                    ...userData,
+                    profileImage: userData.profile_image_url || null,
+                    firstName: userData.first_name,
+                    lastName: userData.last_name
+                };
+                localStorage.setItem('user', JSON.stringify(userForStorage));
+                
                 setUser(userData);
 
                 // Format date for input field (YYYY-MM-DD)
@@ -207,7 +242,7 @@ const Profile = () => {
                 }
 
                 // Use getBooleanValue to ensure proper boolean values
-                setFormData({
+                const initialData = {
                     firstName: userData.first_name || '',
                     lastName: userData.last_name || '',
                     email: userData.email || '',
@@ -218,12 +253,16 @@ const Profile = () => {
                     dateOfBirth: formattedDateOfBirth,
                     newsletter: getBooleanValue(userData.newsletter),
                     notifications: getBooleanValue(userData.notifications)
-                });
+                };
+                setFormData(initialData);
+                setOriginalFormData(initialData);
+                setHasChanges(false);
             }
         } catch (error) {
             console.error('Profile load failed:', error);
+            showToast('Failed to load profile', 'error');
             if (error.response?.status === 401) {
-                localStorage.removeItem('token');
+                localStorage.removeItem('accessToken');
                 localStorage.removeItem('user');
                 navigate('/login');
             }
@@ -234,10 +273,24 @@ const Profile = () => {
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }));
+        const newValue = type === 'checkbox' ? checked : value;
+        
+        setFormData(prev => {
+            const updated = {
+                ...prev,
+                [name]: newValue
+            };
+            
+            // Check if there are any changes
+            if (originalFormData) {
+                const changed = Object.keys(updated).some(key => 
+                    updated[key] !== originalFormData[key]
+                );
+                setHasChanges(changed);
+            }
+            
+            return updated;
+        });
     };
 
     const handlePasswordChange = (e) => {
@@ -251,42 +304,70 @@ const Profile = () => {
     // Updated save profile function
     const handleSaveProfile = async () => {
         setSaving(true);
-        
 
         try {
-            // Updated API call
-            const response = await profileAPI.updateProfile(formData);
+            // Prepare data for backend (match backend field names)
+            const updateData = {
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                phone: formData.phone,
+                address: formData.address,
+                city: formData.city,
+                country: formData.country,
+                country_code: user?.country_code || '+65',
+                dateOfBirth: formData.dateOfBirth,
+                newsletter: formData.newsletter,
+                notifications: formData.notifications
+            };
+
+            const response = await profileAPI.updateProfile(updateData);
 
             if (response.success) {
-                const updatedUser = { ...user, ...response.user };
+                // Update user in state and localStorage
+                const updatedUser = {
+                    ...user,
+                    first_name: response.user.first_name,
+                    last_name: response.user.last_name,
+                    email: response.user.email,
+                    phone: response.user.phone,
+                    address: response.user.address,
+                    city: response.user.city,
+                    country: response.user.country,
+                    country_code: response.user.country_code,
+                    date_of_birth: response.user.date_of_birth,
+                    newsletter: response.user.newsletter,
+                    notifications: response.user.notifications
+                };
+
                 localStorage.setItem('user', JSON.stringify(updatedUser));
                 setUser(updatedUser);
 
+                // Update access token if email changed
                 if (response.token) {
-                    localStorage.setItem('token', response.token);
+                    localStorage.setItem('accessToken', response.token);
                 }
 
                 showToast('Profile updated successfully!', 'success');
-                setEditMode(false);
+                setOriginalFormData(formData);
+                setHasChanges(false);
             }
         } catch (error) {
             console.error('Profile update failed:', error);
+            const errorMessage = error.response?.data?.message || error.message || 'Failed to update profile';
+            showToast(errorMessage, 'error');
+            
             if (error.response?.status === 401) {
-                localStorage.removeItem('token');
+                localStorage.removeItem('accessToken');
                 localStorage.removeItem('user');
                 navigate('/login');
-            } else {
-                setMessage({
-                    type: 'error',
-                    text: error.message || 'Failed to update profile. Please try again.'
-                });
             }
         } finally {
             setSaving(false);
         }
     };
 
-    // Updated change password function
+    // Change password function
     const handleChangePassword = async () => {
         if (passwordData.newPassword !== passwordData.confirmPassword) {
             showToast('New passwords do not match.', 'error');
@@ -299,10 +380,8 @@ const Profile = () => {
         }
 
         setSaving(true);
-        
 
         try {
-            // Updated API call
             const response = await profileAPI.changePassword(
                 passwordData.currentPassword,
                 passwordData.newPassword
@@ -318,15 +397,13 @@ const Profile = () => {
             }
         } catch (error) {
             console.error('Password change failed:', error);
+            const errorMessage = error.response?.data?.message || error.message || 'Failed to change password';
+            showToast(errorMessage, 'error');
+            
             if (error.response?.status === 401) {
-                localStorage.removeItem('token');
+                localStorage.removeItem('accessToken');
                 localStorage.removeItem('user');
                 navigate('/login');
-            } else {
-                setMessage({
-                    type: 'error',
-                    text: error.message || 'Failed to change password. Please try again.'
-                });
             }
         } finally {
             setSaving(false);
@@ -334,20 +411,10 @@ const Profile = () => {
     };
 
     const handleCancelEdit = () => {
-        setFormData({
-            firstName: user.first_name || '',
-            lastName: user.last_name || '',
-            email: user.email || '',
-            phone: user.phone || '',
-            address: user.address || '',
-            city: user.city || '',
-            country: user.country || '',
-            dateOfBirth: user.date_of_birth || '',
-            newsletter: getBooleanValue(user.newsletter),
-            notifications: getBooleanValue(user.notifications)
-        });
-        setEditMode(false);
-        
+        if (originalFormData) {
+            setFormData(originalFormData);
+            setHasChanges(false);
+        }
     };
 
     const handleDeleteAccount = async () => {
@@ -475,7 +542,8 @@ const Profile = () => {
                                 <CardContent sx={{ p: 3, textAlign: 'center' }}>
                                     <div style={{ position: 'relative', display: 'inline-block', marginBottom: '20px' }}>
                                         <Avatar
-                                            src={user.profile_picture}
+                                            src={getProfileImageUrl()}
+                                            key={imageRefreshKey}
                                             sx={{
                                                 width: 80,
                                                 height: 80,
@@ -528,9 +596,9 @@ const Profile = () => {
                                         </label>
 
                                         {/* Remove Button */}
-                                        {user.profile_picture && (
+                                        {user.profile_image_url && (
                                             <IconButton
-                                                onClick={handleRemoveProfilePicture}
+                                                onClick={() => setDeletePictureDialogOpen(true)}
                                                 disabled={uploading}
                                                 sx={{
                                                     position: 'absolute',
@@ -637,27 +705,6 @@ const Profile = () => {
                             </Card>
                         </Fade>
 
-                        {/* Edit Button for Mobile */}
-                        {!editMode && (
-                            <Button
-                                fullWidth
-                                startIcon={<EditIcon />}
-                                onClick={() => setEditMode(true)}
-                                sx={{
-                                    ...buttonStyle,
-                                    background: '#1153a5',
-                                    color: 'white',
-                                    '&:hover': {
-                                        background: '#0e478c',
-                                        boxShadow: '0 6px 20px rgba(17, 83, 165, 0.4)',
-                                    }
-                                }}
-                                variant="contained"
-                            >
-                                Edit Profile
-                            </Button>
-                        )}
-
                         {/* Main Content for Mobile */}
                         <Fade in={true} timeout={1200}>
                             <div className="mobile-content" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -698,7 +745,6 @@ const Profile = () => {
                                                     type={field.type || 'text'}
                                                     value={formData[field.name]}
                                                     onChange={handleInputChange}
-                                                    disabled={!editMode}
                                                     InputProps={{
                                                         startAdornment: field.icon ? (
                                                             <InputAdornment position="start">
@@ -712,54 +758,10 @@ const Profile = () => {
                                                 />
                                             ))}
                                         </div>
-
-                                        {/* Action Buttons for Mobile */}
-                                        {editMode && (
-                                            <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
-                                                <Button
-                                                    fullWidth
-                                                    startIcon={<CancelIcon />}
-                                                    onClick={handleCancelEdit}
-                                                    sx={{
-                                                        ...buttonStyle,
-                                                        color: '#666',
-                                                        borderColor: '#ddd',
-                                                        '&:hover': {
-                                                            backgroundColor: 'rgba(102, 102, 102, 0.1)',
-                                                            borderColor: '#666'
-                                                        }
-                                                    }}
-                                                    variant="outlined"
-                                                >
-                                                    Cancel
-                                                </Button>
-                                                <Button
-                                                    fullWidth
-                                                    startIcon={<SaveIcon />}
-                                                    onClick={handleSaveProfile}
-                                                    disabled={saving}
-                                                    sx={{
-                                                        ...buttonStyle,
-                                                        background: '#1153a5',
-                                                        color: 'white',
-                                                        '&:hover': {
-                                                            background: '#0e478c',
-                                                            boxShadow: '0 6px 20px rgba(17, 83, 165, 0.4)',
-                                                        },
-                                                        '&:disabled': {
-                                                            background: '#ccc'
-                                                        }
-                                                    }}
-                                                    variant="contained"
-                                                >
-                                                    {saving ? <CircularProgress size={20} /> : 'Save'}
-                                                </Button>
-                                            </Box>
-                                        )}
                                     </CardContent>
                                 </Card>
 
-                                {/* Security Settings */}
+                                {/* Preferences */}
                                 <Card sx={{
                                     borderRadius: '16px',
                                     boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
@@ -930,7 +932,6 @@ const Profile = () => {
                                                         name="newsletter"
                                                         checked={getBooleanValue(formData.newsletter)}
                                                         onChange={handleInputChange}
-                                                        disabled={!editMode}
                                                         sx={{
                                                             color: '#1153a5',
                                                             '&.Mui-checked': { color: '#1153a5' },
@@ -956,7 +957,6 @@ const Profile = () => {
                                                         name="notifications"
                                                         checked={getBooleanValue(formData.notifications)}
                                                         onChange={handleInputChange}
-                                                        disabled={!editMode}
                                                         sx={{
                                                             color: '#1153a5',
                                                             '&.Mui-checked': { color: '#1153a5' },
@@ -1003,7 +1003,8 @@ const Profile = () => {
                                         <CardContent sx={{ p: 4, textAlign: 'center' }}>
                                             <div style={{ position: 'relative', display: 'inline-block', marginBottom: '24px' }}>
                                                 <Avatar
-                                                    src={user.profile_picture}
+                                                    src={getProfileImageUrl()}
+                                                    key={user?._imageRefresh || 'default'}
                                                     sx={{
                                                         width: 100,
                                                         height: 100,
@@ -1054,9 +1055,9 @@ const Profile = () => {
                                                     </IconButton>
                                                 </label>
 
-                                                {user.profile_picture && (
+                                                {user.profile_image_url && (
                                                     <IconButton
-                                                        onClick={handleRemoveProfilePicture}
+                                                        onClick={() => setDeletePictureDialogOpen(true)}
                                                         disabled={uploading}
                                                         sx={{
                                                             position: 'absolute',
@@ -1225,65 +1226,6 @@ const Profile = () => {
                                                 >
                                                     Personal Information
                                                 </Typography>
-                                                {!editMode ? (
-                                                    <Button
-                                                        startIcon={<EditIcon />}
-                                                        onClick={() => setEditMode(true)}
-                                                        sx={{
-                                                            ...buttonStyle,
-                                                            background: '#1153a5',
-                                                            color: 'white',
-                                                            '&:hover': {
-                                                                background: '#0e478c',
-                                                                boxShadow: '0 6px 20px rgba(17, 83, 165, 0.4)',
-                                                                transform: 'translateY(-2px)'
-                                                            }
-                                                        }}
-                                                        variant="contained"
-                                                    >
-                                                        Edit Profile
-                                                    </Button>
-                                                ) : (
-                                                    <div style={{ display: 'flex', gap: '8px' }}>
-                                                        <Button
-                                                            startIcon={<CancelIcon />}
-                                                            onClick={handleCancelEdit}
-                                                            sx={{
-                                                                ...buttonStyle,
-                                                                color: '#666',
-                                                                borderColor: '#ddd',
-                                                                '&:hover': {
-                                                                    backgroundColor: 'rgba(102, 102, 102, 0.1)',
-                                                                    borderColor: '#666'
-                                                                }
-                                                            }}
-                                                            variant="outlined"
-                                                        >
-                                                            Cancel
-                                                        </Button>
-                                                        <Button
-                                                            startIcon={<SaveIcon />}
-                                                            onClick={handleSaveProfile}
-                                                            disabled={saving}
-                                                            sx={{
-                                                                ...buttonStyle,
-                                                                background: '#1153a5',
-                                                                color: 'white',
-                                                                '&:hover': {
-                                                                    background: '#0e478c',
-                                                                    boxShadow: '0 6px 20px rgba(17, 83, 165, 0.4)',
-                                                                    transform: 'translateY(-2px)'
-                                                                },
-                                                                '&:disabled': {
-                                                                    background: '#ccc'
-                                                                }
-                                                            }}
-                                                            variant="contained"
-                                                        >
-                                                            {saving ? <CircularProgress size={20} /> : 'Save Changes'}
-                                                        </Button>
-                                                    </div>
-                                                )}
                                             </div>
 
                                             <div className="form-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
@@ -1305,7 +1247,6 @@ const Profile = () => {
                                                             type={field.type || 'text'}
                                                             value={formData[field.name]}
                                                             onChange={handleInputChange}
-                                                            disabled={!editMode}
                                                             InputProps={{
                                                                 startAdornment: field.icon ? (
                                                                     <InputAdornment position="start">
@@ -1507,7 +1448,6 @@ const Profile = () => {
                                                                 name="newsletter"
                                                                 checked={getBooleanValue(formData.newsletter)}
                                                                 onChange={handleInputChange}
-                                                                disabled={!editMode}
                                                                 sx={{
                                                                     color: '#1153a5',
                                                                     '&.Mui-checked': { color: '#1153a5' },
@@ -1532,7 +1472,6 @@ const Profile = () => {
                                                                 name="notifications"
                                                                 checked={getBooleanValue(formData.notifications)}
                                                                 onChange={handleInputChange}
-                                                                disabled={!editMode}
                                                                 sx={{
                                                                     color: '#1153a5',
                                                                     '&.Mui-checked': { color: '#1153a5' },
@@ -1560,6 +1499,184 @@ const Profile = () => {
                     </div>
                 )}
             </div>
+
+            {/* Sticky Bottom Action Bar - Shows only when there are changes */}
+            {hasChanges && (
+                <Fade in={hasChanges}>
+                    <Box
+                        sx={{
+                            position: 'fixed',
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            backgroundColor: 'white',
+                            boxShadow: '0 -4px 20px rgba(0, 0, 0, 0.1)',
+                            padding: isMobile ? '16px' : '20px 32px',
+                            zIndex: 1000,
+                            borderTop: '1px solid #e0e0e0',
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                maxWidth: '1200px',
+                                margin: '0 auto',
+                                display: 'flex',
+                                justifyContent: isMobile ? 'center' : 'flex-end',
+                                gap: 2,
+                            }}
+                        >
+                            <Button
+                                startIcon={<CancelIcon />}
+                                onClick={handleCancelEdit}
+                                sx={{
+                                    ...buttonStyle,
+                                    color: '#666',
+                                    borderColor: '#ddd',
+                                    minWidth: isMobile ? '120px' : '140px',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(102, 102, 102, 0.1)',
+                                        borderColor: '#666'
+                                    }
+                                }}
+                                variant="outlined"
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                startIcon={<SaveIcon />}
+                                onClick={handleSaveProfile}
+                                disabled={saving}
+                                sx={{
+                                    ...buttonStyle,
+                                    background: '#1153a5',
+                                    color: 'white',
+                                    minWidth: isMobile ? '120px' : '140px',
+                                    '&:hover': {
+                                        background: '#0e478c',
+                                        boxShadow: '0 6px 20px rgba(17, 83, 165, 0.4)',
+                                        transform: 'translateY(-2px)'
+                                    },
+                                    '&:disabled': {
+                                        background: '#ccc'
+                                    }
+                                }}
+                                variant="contained"
+                            >
+                                {saving ? <CircularProgress size={20} sx={{ color: 'white' }} /> : 'Save Changes'}
+                            </Button>
+                        </Box>
+                    </Box>
+                </Fade>
+            )}
+
+            {/* Delete Profile Picture Confirmation Dialog */}
+            <Dialog
+                open={deletePictureDialogOpen}
+                onClose={() => setDeletePictureDialogOpen(false)}
+                maxWidth="xs"
+                fullWidth
+                PaperProps={{
+                    sx: { 
+                        borderRadius: '20px',
+                        boxShadow: '0 10px 40px rgba(0,0,0,0.15)'
+                    }
+                }}
+            >
+                <DialogTitle sx={{ 
+                    ...fontStyle, 
+                    pt: 4, 
+                    pb: 2,
+                    textAlign: 'center'
+                }}>
+                    <Box
+                        sx={{
+                            width: 64,
+                            height: 64,
+                            borderRadius: '50%',
+                            backgroundColor: 'rgba(217, 83, 79, 0.1)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            mx: 'auto',
+                            mb: 2
+                        }}
+                    >
+                        <DeleteIcon sx={{ fontSize: 32, color: '#d9534f' }} />
+                    </Box>
+                    <Typography
+                        sx={{
+                            ...fontStyle,
+                            fontSize: '1.25rem',
+                            fontWeight: 600,
+                            color: '#333'
+                        }}
+                    >
+                        Remove Profile Picture?
+                    </Typography>
+                </DialogTitle>
+                <DialogContent sx={{ pb: 2 }}>
+                    <Typography sx={{ 
+                        ...fontStyle, 
+                        textAlign: 'center', 
+                        fontSize: isMobile ? '0.9rem' : '1rem',
+                        color: '#666',
+                        lineHeight: 1.6
+                    }}>
+                        Your profile picture will be permanently removed. You can always upload a new one later.
+                    </Typography>
+                </DialogContent>
+                <DialogActions sx={{ 
+                    p: 3, 
+                    pt: 2,
+                    gap: 2, 
+                    flexDirection: isMobile ? 'column' : 'row',
+                    justifyContent: 'center'
+                }}>
+                    <Button
+                        fullWidth={isMobile}
+                        onClick={() => setDeletePictureDialogOpen(false)}
+                        sx={{
+                            ...fontStyle,
+                            color: '#666',
+                            borderColor: '#ddd',
+                            borderRadius: '12px',
+                            px: 4,
+                            py: 1.2,
+                            fontWeight: 500,
+                            textTransform: 'none',
+                            '&:hover': {
+                                borderColor: '#999',
+                                backgroundColor: 'rgba(0,0,0,0.02)'
+                            }
+                        }}
+                        variant="outlined"
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        fullWidth={isMobile}
+                        onClick={handleRemoveProfilePicture}
+                        sx={{
+                            ...fontStyle,
+                            backgroundColor: '#d9534f',
+                            color: 'white',
+                            borderRadius: '12px',
+                            px: 4,
+                            py: 1.2,
+                            fontWeight: 600,
+                            textTransform: 'none',
+                            boxShadow: '0 4px 14px rgba(217, 83, 79, 0.3)',
+                            '&:hover': {
+                                backgroundColor: '#c9302c',
+                                boxShadow: '0 6px 20px rgba(217, 83, 79, 0.4)'
+                            }
+                        }}
+                        variant="contained"
+                    >
+                        Yes, Remove
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
             {/* Delete Account Dialog */}
             <Dialog
@@ -1626,5 +1743,6 @@ const Profile = () => {
         </div>
     );
 };
-
+        
 export default Profile;
+

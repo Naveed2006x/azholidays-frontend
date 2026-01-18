@@ -208,6 +208,9 @@ export const AuthProvider = ({ children }) => {
     const updatedUser = { ...user, ...userData };
     localStorage.setItem('user', JSON.stringify(updatedUser));
     setUser(updatedUser);
+    
+    // Dispatch custom event to notify components (like Navbar) to update
+    window.dispatchEvent(new CustomEvent('userUpdated', { detail: updatedUser }));
   };
 
   const dismissSessionExpired = () => {
