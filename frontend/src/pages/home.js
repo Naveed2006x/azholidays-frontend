@@ -39,7 +39,7 @@ const Home = () => {
     { name: 'Emirates', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Emirates_logo.svg/200px-Emirates_logo.svg.png', scale: 1 },
     { name: 'Qatar Airways', logo: qatar, scale: 0.85 },
     { name: 'Malaysia Airlines', logo: malaysiaAirlines, scale: 0.85 },
-    { name: 'Air India Express', logo: airIndiaExpress, scale: 0.85 },
+    { name: 'Air India Express', logo: airIndiaExpress, scale: 0.86 },
     { name: 'Air India', logo: airIndia, scale: 1 }
 
   ];
