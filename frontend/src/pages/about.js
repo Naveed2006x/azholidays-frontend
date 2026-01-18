@@ -165,7 +165,7 @@ const About = () => {
                 fontSize: { xs: '1.1rem', md: '1.4rem' },
                 px: 2
               }}>
-                Crafting extraordinary travel experiences for over 19 years
+                Crafting extraordinary travel experiences for over 17 years
               </Typography>
             </Box>
           </Fade>
@@ -199,7 +199,7 @@ const About = () => {
                 mb: 2
               }}
             >
-              AZ Holidays Tours & Travel is a trusted travel agency in Singapore with over 19 years 
+              AZ Holidays Tours & Travel is a trusted travel agency in Singapore with over 17 years 
               of experience in providing complete travel solutions. What started as a commitment to 
               exceptional service has grown into a comprehensive travel partner for thousands of 
               satisfied customers across Singapore.
@@ -294,7 +294,7 @@ const About = () => {
                 mb: 1,
                 fontSize: { xs: '2rem', md: '2.5rem' }
               }}>
-                19+
+                17+
               </Typography>
               <Typography variant="h6" sx={{ 
                 fontFamily: "'Poppins', sans-serif", 
@@ -440,7 +440,7 @@ const About = () => {
             To provide complete, reliable, and competitive travel solutions for both leisure and 
             business travelers. Whether you're planning a family holiday, romantic honeymoon, or 
             corporate trip, AZ Holidays is committed to making your journey smooth, affordable, and 
-            memorable. With over 19 years of expertise, we ensure every aspect of your travel is 
+            memorable. With over 17 years of expertise, we ensure every aspect of your travel is 
             handled with care and professionalism.
           </Typography>
           <Typography
