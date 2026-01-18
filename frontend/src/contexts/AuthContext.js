@@ -104,11 +104,27 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const handleStorageChange = (e) => {
       // Only respond to storage changes from other tabs/windows
+      // Storage event should NOT fire in the same tab, but some browsers may trigger it
       if (e.key === 'accessToken' || e.key === 'user') {
         console.log('🔄 Storage changed from another tab, checking auth status...');
-        setTimeout(() => {
+        console.log('🔍 Storage event details:', { key: e.key, newValue: !!e.newValue, oldValue: !!e.oldValue });
+        
+        // Only check if both keys are present (avoid race condition during login)
+        const hasToken = localStorage.getItem('accessToken');
+        const hasUser = localStorage.getItem('user');
+        
+        if (hasToken && hasUser) {
+          console.log('✅ Both token and user present, checking auth...');
+          setTimeout(() => {
+            checkAuthStatus();
+          }, 150);
+        } else if (!hasToken && !hasUser) {
+          // Both removed = logout from another tab
+          console.log('🚪 Logout detected from another tab');
           checkAuthStatus();
-        }, 100);
+        } else {
+          console.log('⏳ Partial data detected, waiting for complete update...');
+        }
       }
     };
 
@@ -120,10 +136,32 @@ export const AuthProvider = ({ children }) => {
 
   const login = (accessToken, userData) => {
     console.log('🔐 Login called:', { token: accessToken.substring(0, 20) + '...', user: userData });
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('user', JSON.stringify(userData));
-    setUser(userData);
-    console.log('✅ Login completed - user state updated');
+    
+    // Store in localStorage atomically
+    try {
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('user', JSON.stringify(userData));
+      
+      // Verify both were stored
+      const storedToken = localStorage.getItem('accessToken');
+      const storedUser = localStorage.getItem('user');
+      
+      console.log('📦 Stored in localStorage:', {
+        accessToken: storedToken?.substring(0, 20) + '...',
+        user: storedUser,
+        verified: !!(storedToken && storedUser)
+      });
+      
+      if (!storedToken || !storedUser) {
+        console.error('❌ Failed to store login data in localStorage!');
+        return;
+      }
+      
+      setUser(userData);
+      console.log('✅ Login completed - user state updated');
+    } catch (error) {
+      console.error('❌ Error during login:', error);
+    }
   };
 
   const logout = async () => {
