@@ -333,6 +333,8 @@ const Destinations = () => {
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
             gap: '30px',
+            maxWidth: '1200px',
+            margin: '0 auto',
             marginBottom: '60px'
           }}
           className="destinations-grid"
