@@ -9,6 +9,8 @@ import Loading from '../components/Loading';
 import scoot from '../Images/Scoot_logo.svg';
 import qatar from '../Images/Qatar_Airways.png';
 import malaysiaAirlines from '../Images/malaysia-airlines.png';
+import airIndiaExpress from '../Images/Air_India_Express_logo.png';
+import airIndia from '../Images/AirIndia.png';
 // Note: Add airline logo images to Images folder
 // import indigo from '../Images/indigo-logo.png';
 
@@ -35,8 +37,11 @@ const Home = () => {
     { name: 'AirAsia', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/AirAsia_New_Logo.svg/200px-AirAsia_New_Logo.svg.png', scale: 1 },
     { name: 'Singapore Airlines', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Singapore_Airlines_Logo_2.svg/200px-Singapore_Airlines_Logo_2.svg.png', scale: 1 },
     { name: 'Emirates', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Emirates_logo.svg/200px-Emirates_logo.svg.png', scale: 1 },
-    { name: 'Qatar Airways', logo: qatar, scale: 0.9 },
-    { name: 'Malaysia Airlines', logo: malaysiaAirlines, scale: 1 }
+    { name: 'Qatar Airways', logo: qatar, scale: 0.85 },
+    { name: 'Malaysia Airlines', logo: malaysiaAirlines, scale: 0.85 },
+    { name: 'Air India Express', logo: airIndiaExpress, scale: 0.85 },
+    { name: 'Air India', logo: airIndia, scale: 1 }
+
   ];
 
   const singaporeAttractions = [
