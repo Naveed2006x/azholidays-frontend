@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [sessionExpired, setSessionExpired] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false); // Flag to prevent storage event interference
 
   // Function to check if token is valid
   const isTokenValid = (token) => {
@@ -103,6 +104,12 @@ export const AuthProvider = ({ children }) => {
   // Listen for storage changes (login/logout from other tabs)
   useEffect(() => {
     const handleStorageChange = (e) => {
+      // IGNORE storage events during active login process
+      if (isLoggingIn) {
+        console.log('⏭️ Ignoring storage event during login');
+        return;
+      }
+      
       // Only respond to storage changes from other tabs/windows
       // Storage event should NOT fire in the same tab, but some browsers may trigger it
       if (e.key === 'accessToken' || e.key === 'user') {
@@ -132,10 +139,13 @@ export const AuthProvider = ({ children }) => {
     return () => {
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, []);
+  }, [isLoggingIn]); // Add isLoggingIn to dependency array
 
   const login = (accessToken, userData) => {
     console.log('🔐 Login called:', { token: accessToken.substring(0, 20) + '...', user: userData });
+    
+    // Set login flag to prevent storage event interference
+    setIsLoggingIn(true);
     
     // Store in localStorage atomically
     try {
@@ -154,13 +164,21 @@ export const AuthProvider = ({ children }) => {
       
       if (!storedToken || !storedUser) {
         console.error('❌ Failed to store login data in localStorage!');
+        setIsLoggingIn(false);
         return;
       }
       
       setUser(userData);
       console.log('✅ Login completed - user state updated');
+      
+      // Keep login flag active for 1 second to prevent storage event interference
+      setTimeout(() => {
+        setIsLoggingIn(false);
+        console.log('🔓 Login flag cleared');
+      }, 1000);
     } catch (error) {
       console.error('❌ Error during login:', error);
+      setIsLoggingIn(false);
     }
   };
 
