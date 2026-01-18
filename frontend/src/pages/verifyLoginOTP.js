@@ -72,22 +72,29 @@ const VerifyLoginOTP = () => {
       const response = await authAPI.verifyLoginOTP(email, otpString);
 
       if (response.data.success) {
-        const { token, user } = response.data;
-        login(token, user);
+        const { accessToken, user } = response.data;
         
-        navigate('/', { 
-          replace: true,
-          state: { 
-            message: 'Login successful! Welcome back.',
-            verified: true
-          } 
-        });
+        // Make sure user object exists before logging in
+        if (accessToken && user) {
+          login(accessToken, user);
+          
+          navigate('/', { 
+            replace: true,
+            state: { 
+              message: 'Login successful! Welcome back.',
+              verified: true
+            } 
+          });
+        } else {
+          setError('Invalid response from server');
+        }
       } else {
         setError(response.data.message || 'Verification failed');
       }
 
     } catch (error) {
       console.error('OTP verification error:', error);
+      console.error('Error response:', error.response?.data);
       setError(error.response?.data?.message || 'Verification failed. Please try again.');
     } finally {
       setLoading(false);

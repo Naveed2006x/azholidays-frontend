@@ -5,6 +5,7 @@ import { ToastProvider, useToast } from './contexts/ToastContext';
 import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import SessionExpiredModal from './components/SessionExpiredModal';
 import Contact from './pages/contact.js';
 import Home from './pages/home.js';
 import Blogs from './pages/blogs.js';
@@ -444,6 +445,7 @@ const RouteHandler = ({ children }) => {
       {children}
       {shouldShowFooter() && <Footer />}
       <WhatsAppChatbox />
+      <SessionExpiredModal />
     </>
   );
 };
