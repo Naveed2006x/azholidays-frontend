@@ -591,7 +591,8 @@ const Signup = () => {
     <>
       <Box
         sx={{
-          height: '100vh',
+          minHeight: '100vh',
+          height: '100%',
           backgroundImage: `url(${background})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -605,6 +606,7 @@ const Signup = () => {
           right: 0,
           bottom: 0,
           overflow: 'auto',
+          padding: isMobile ? '4rem 0 2rem' : '2rem 0',
           '&::before': {
             content: '""',
             position: 'absolute',
@@ -622,7 +624,7 @@ const Signup = () => {
           sx={{
             position: 'relative',
             zIndex: 1,
-            maxHeight: '90vh',
+            maxHeight: isMobile ? '85vh' : '90vh',
             overflow: 'auto',
             px: isMobile ? 1 : 2,
             py: isMobile ? 1 : 0,

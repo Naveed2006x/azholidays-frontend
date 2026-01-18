@@ -201,7 +201,8 @@ const Login = () => {
     <>
       <Box
         sx={{
-          height: '100vh',
+          minHeight: '100vh',
+          height: '100%',
           backgroundImage: `url(${background})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -210,7 +211,7 @@ const Login = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '2rem 1rem',
+          padding: { xs: '4rem 1rem 2rem', sm: '2rem 1rem' },
           position: 'fixed',
           top: 0,
           left: 0,
@@ -233,8 +234,10 @@ const Login = () => {
           sx={{
             position: 'relative',
             zIndex: 1,
-            maxHeight: '90vh',
+            maxHeight: { xs: '85vh', sm: '90vh' },
             overflow: 'auto',
+            display: 'flex',
+            alignItems: { xs: 'flex-start', sm: 'center' },
             '&::-webkit-scrollbar': {
               width: '8px',
             },
