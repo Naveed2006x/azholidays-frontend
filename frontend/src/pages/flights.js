@@ -183,7 +183,7 @@ const Flights = () => {
         </Fade>
 
         {/* Flights Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '30px', marginBottom: '60px' }} className="flights-grid">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '30px', maxWidth: '1200px', margin: '0 auto', marginBottom: '60px' }} className="flights-grid">
           <style>{`
             @media (max-width: 1200px) { .flights-grid { grid-template-columns: repeat(2, 1fr) !important; } }
             @media (max-width: 768px) { .flights-grid { grid-template-columns: 1fr !important; gap: 24px !important; padding: 0 16px; } }
