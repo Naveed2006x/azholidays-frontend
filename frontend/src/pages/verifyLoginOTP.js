@@ -184,6 +184,8 @@ const VerifyLoginOTP = () => {
                   onKeyDown={(e) => handleKeyDown(index, e)}
                   inputProps={{
                     maxLength: 1,
+                    inputMode: 'numeric',
+                    pattern: '[0-9]*',
                     style: {
                       textAlign: 'center',
                       fontSize: { xs: '1.5rem', sm: '2rem' },

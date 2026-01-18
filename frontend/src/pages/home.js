@@ -4,7 +4,18 @@ import banner from '../Images/banner.jpg';
 import cablecar from '../Images/cablecar.jpg';
 import universal from '../Images/universal.jpg';
 import safari from '../Images/nightsafari.jpg';
+import indiGo from '../Images/indigo.png';
 import Loading from '../components/Loading';
+import scoot from '../Images/Scoot_logo.svg';
+import qatar from '../Images/Qatar_Airways.png';
+import malaysiaAirlines from '../Images/malaysia-airlines.png';
+// Note: Add airline logo images to Images folder
+// import indigo from '../Images/indigo-logo.png';
+
+// import airasia from '../Images/airasia-logo.png';
+// import singapore from '../Images/singapore-airlines-logo.png';
+// import emirates from '../Images/emirates-logo.png';
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -15,6 +26,18 @@ const Home = () => {
     minutes: '--',
     seconds: '--'
   });
+
+  // Airline partners - using placeholder URLs for now
+  // Replace these with your actual logo imports from Images folder
+  const airlinePartners = [
+    { name: 'IndiGo', logo: indiGo, scale: 1 },
+    { name: 'Scoot', logo: scoot, scale: 1 },
+    { name: 'AirAsia', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/AirAsia_New_Logo.svg/200px-AirAsia_New_Logo.svg.png', scale: 1 },
+    { name: 'Singapore Airlines', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Singapore_Airlines_Logo_2.svg/200px-Singapore_Airlines_Logo_2.svg.png', scale: 1 },
+    { name: 'Emirates', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Emirates_logo.svg/200px-Emirates_logo.svg.png', scale: 1 },
+    { name: 'Qatar Airways', logo: qatar, scale: 0.9 },
+    { name: 'Malaysia Airlines', logo: malaysiaAirlines, scale: 1 }
+  ];
 
   const singaporeAttractions = [
     {
@@ -105,25 +128,29 @@ const Home = () => {
   const styles = {
     home: {
       overflowX: 'hidden',
-      background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
+      background: '#f4f6f7',
       ...fontStyle
     },
     heroBanner: {
       width: '100%',
       position: 'relative',
       overflow: 'visible',
-      marginBottom: window.innerWidth <= 768 ? '40px' : '30px'
+      marginBottom: 0
     },
     bannerContainer: {
       position: 'relative',
       width: '100%',
-      height: '40vh',
-      minHeight: '400px'
+      height: window.innerWidth <= 768 ? '50vh' : '40vh',
+      minHeight: window.innerWidth <= 768 ? '300px' : '400px',
+      maxHeight: window.innerWidth <= 768 ? '400px' : 'none'
     },
     bannerImage: {
       width: '100%',
-      height: '40vh',
+      height: window.innerWidth <= 768 ? '50vh' : '40vh',
+      minHeight: window.innerWidth <= 768 ? '300px' : '400px',
+      maxHeight: window.innerWidth <= 768 ? '400px' : 'none',
       objectFit: 'cover',
+      objectPosition: 'center center',
       display: 'block'
     },
     bannerContent: {
@@ -228,7 +255,8 @@ const Home = () => {
       }
     },
     attractionsSection: {
-      padding: window.innerWidth <= 768 ? '20px 0 60px' : '80px 0 80px'
+      padding: window.innerWidth <= 768 ? '20px 0 60px' : '80px 0 80px',
+      background: '#f4f6f7'
     },
     sectionTitle: {
       textAlign: 'center',
@@ -624,6 +652,43 @@ const Home = () => {
       fontSize: '0.85rem',
       color: '#666',
       ...fontStyle
+    },
+    airlinesSection: {
+      padding: window.innerWidth <= 768 ? '20px 0 30px' : '30px 0 40px',
+      backgroundColor: '#f4f6f7',
+      overflow: 'hidden',
+      borderBottom: 'none'
+    },
+    airlinesSectionTitle: {
+      textAlign: 'center',
+      fontSize: window.innerWidth <= 768 ? '1.2rem' : '1.4rem',
+      fontWeight: 600,
+      color: '#555',
+      marginBottom: window.innerWidth <= 768 ? '25px' : '35px',
+      ...fontStyle
+    },
+    airlinesContainer: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '60px',
+      animation: 'scroll-left 30s linear infinite',
+      width: 'max-content'
+    },
+    airlineLogoWrapper: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '60px',
+      padding: '0 20px',
+      filter: 'grayscale(0%)',
+      opacity: 1,
+      transition: 'all 0.3s ease'
+    },
+    airlineLogo: {
+      height: '40px',
+      width: 'auto',
+      maxWidth: '150px',
+      objectFit: 'contain'
     }
   };
 
@@ -675,6 +740,22 @@ useEffect(() => {
 
   return (
     <div style={styles.home}>
+      <style>
+        {`
+          @keyframes scroll-left {
+            0% {
+              transform: translateX(0);
+            }
+            100% {
+              transform: translateX(-35%);
+            }
+          }
+          
+          .airline-logo-wrapper:hover {
+            transform: scale(1.15);
+          }
+        `}
+      </style>
       
       {/* Hero Banner with Search Overlay */}
       <section style={styles.heroBanner} id="home">
@@ -719,6 +800,56 @@ useEffect(() => {
             </div>
           </div>
         </div> */}
+      </section>
+
+      {/* Airline Partners Section */}
+      <section style={styles.airlinesSection}>
+        <h2 style={styles.airlinesSectionTitle}>Our Trusted Airline Partners</h2>
+        <div style={{ 
+          maxWidth: '100%', 
+          overflow: 'hidden',
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: '100px',
+            background: 'linear-gradient(to right, white, transparent)',
+            zIndex: 1
+          },
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            bottom: 0,
+            width: '100px',
+            background: 'linear-gradient(to left, white, transparent)',
+            zIndex: 1
+          }
+        }}>
+          <div style={styles.airlinesContainer}>
+            {/* Duplicate the array multiple times to create seamless infinite loop */}
+            {[...airlinePartners, ...airlinePartners, ...airlinePartners, ...airlinePartners].map((airline, index) => (
+              <div 
+                key={`${airline.name}-${index}`}
+                className="airline-logo-wrapper"
+                style={styles.airlineLogoWrapper}
+              >
+                <img 
+                  src={airline.logo} 
+                  alt={airline.name}
+                  style={{
+                    ...styles.airlineLogo,
+                    transform: `scale(${airline.scale || 1})`
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Singapore Attractions Section */}
