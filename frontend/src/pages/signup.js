@@ -247,7 +247,6 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setServerError('');
 
     if (validateStep(activeStep)) {
       setLoading(true);
