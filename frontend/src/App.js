@@ -27,7 +27,16 @@ import ForgotPassword from './pages/forgotPassword.js';
 import VerifyResetOTP from './pages/verifyResetOTP.js';
 import ResetPassword from './pages/resetPassword.js';
 import Profile from './pages/profile.js';
-
+import IndiaVisa from './pages/indiaVisa';
+import CheckEligibility from './pages/checkEligibility';
+import ApplyVisa from './pages/applyVisa';
+import TrackApplication from './pages/trackApplication';
+import PricingRefund from './pages/pricingRefund';
+import PrivacyPolicy from './pages/privacyPolicy';
+import TermsConditions from './pages/termsConditions';
+import AgentDashboard from './pages/agent/Dashboard';
+import ApplicationDetail from './pages/agent/ApplicationDetail';
+import EVisaServices from './pages/eVisaServices';
 // WhatsApp Chatbox Component
 const WhatsAppChatbox = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -412,7 +421,7 @@ const RouteHandler = ({ children }) => {
 
   // Check if current route should show footer
   const shouldShowFooter = () => {
-    const footerRoutes = ['/', '/contact', '/destinations', '/attractions', '/blogs', '/about', '/flights', '/hotels', '/insurance', '/transport', '/cruises', '/packages'];
+    const footerRoutes = ['/', '/contact', '/destinations', '/attractions', '/blogs', '/about', '/flights', '/hotels', '/insurance', '/transport', '/cruises', '/packages', '/e-visa-services'];
     return footerRoutes.includes(location.pathname);
   };
 
@@ -460,6 +469,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/destinations" element={<Destinations />} />
+              <Route path="/e-visa-services" element={<EVisaServices />} />
               <Route path="/attractions" element={<Attractions />} />
               <Route path="/flights" element={<Flights />} />
               <Route path="/hotels" element={<Hotels />} />
@@ -470,6 +480,17 @@ function App() {
               <Route path="/blogs" element={<Blogs />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/india-visa" element={<IndiaVisa />} />
+              <Route path="/check-eligibility" element={<CheckEligibility />} />
+              <Route path="/apply-visa" element={<ApplyVisa />} />
+              <Route path="/track-application" element={<TrackApplication />} />
+              <Route path="/pricing-refund" element={<PricingRefund />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-conditions" element={<TermsConditions />} />  
+              
+              {/* Agent Routes */}
+              <Route path="/agent/dashboard" element={<AgentDashboard />} />
+              <Route path="/agent/application/:id" element={<ApplicationDetail />} />
               
               {/* Auth Routes */}
               <Route path="/signup" element={<Signup />} />
