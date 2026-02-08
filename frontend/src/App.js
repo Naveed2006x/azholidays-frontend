@@ -421,7 +421,7 @@ const RouteHandler = ({ children }) => {
 
   // Check if current route should show footer
   const shouldShowFooter = () => {
-    const footerRoutes = ['/', '/contact', '/destinations', '/attractions', '/blogs', '/about', '/flights', '/hotels', '/insurance', '/transport', '/cruises', '/packages', '/e-visa-services'];
+    const footerRoutes = ['/', '/contact', '/destinations', '/attractions', '/blogs', '/about', '/flights', '/hotels', '/insurance', '/transport', '/cruises', '/packages', '/e-visa-services', '/india-visa'];
     return footerRoutes.includes(location.pathname);
   };
 

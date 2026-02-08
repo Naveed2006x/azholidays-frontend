@@ -332,12 +332,17 @@ const EVisaServices = () => {
             </div>
           </Fade>
 
-          <div style={{
+          <Box sx={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '24px',
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: 'repeat(2, 1fr)',
+              md: 'repeat(4, 1fr)'
+            },
+            gap: { xs: 3, md: 4 },
             maxWidth: '1400px',
-            margin: '0 auto'
+            margin: '0 auto',
+            px: { xs: 2, sm: 3, md: 0 }
           }}>
             {serviceSteps.map((step, index) => (
               <Grow in timeout={800 + index * 150} key={index}>
@@ -347,15 +352,15 @@ const EVisaServices = () => {
                   boxShadow: '0 12px 40px rgba(44, 90, 160, 0.08)',
                   transition: 'all 0.4s ease',
                   textAlign: 'center',
-                  p: 3,
+                  p: { xs: 3, md: 4 },
                   '&:hover': {
                     transform: 'translateY(-12px)',
                     boxShadow: '0 24px 60px rgba(44, 90, 160, 0.2)',
                   }
                 }}>
                   <Box sx={{
-                    width: '100px',
-                    height: '100px',
+                    width: { xs: '80px', md: '100px' },
+                    height: { xs: '80px', md: '100px' },
                     borderRadius: '50%',
                     background: 'linear-gradient(135deg, #2c5aa0 0%, #4a7dff 100%)',
                     display: 'flex',
@@ -363,7 +368,10 @@ const EVisaServices = () => {
                     justifyContent: 'center',
                     mx: 'auto',
                     mb: 3,
-                    color: 'white'
+                    color: 'white',
+                    '& svg': {
+                      fontSize: { xs: '40px !important', md: '48px !important' }
+                    }
                   }}>
                     {step.icon}
                   </Box>
@@ -371,21 +379,23 @@ const EVisaServices = () => {
                     fontWeight: 700,
                     fontFamily: "'Poppins', sans-serif",
                     color: '#1a1a1a',
-                    mb: 2
+                    mb: 2,
+                    fontSize: { xs: '1.1rem', md: '1.25rem' }
                   }}>
                     {step.title}
                   </Typography>
                   <Typography variant="body2" sx={{
                     fontFamily: "'Poppins', sans-serif",
                     color: '#666',
-                    lineHeight: 1.6
+                    lineHeight: 1.6,
+                    fontSize: { xs: '0.9rem', md: '1rem' }
                   }}>
                     {step.description}
                   </Typography>
                 </Card>
               </Grow>
             ))}
-          </div>
+          </Box>
         </Box>
 
         {/* Continent Filter */}
@@ -867,7 +877,7 @@ const EVisaServices = () => {
                   fontFamily: "'Poppins', sans-serif",
                   color: '#2c5aa0'
                 }}>
-                  10K+
+                  5K+
                 </Typography>
                 <Typography sx={{
                   fontFamily: "'Poppins', sans-serif",

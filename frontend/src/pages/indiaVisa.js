@@ -41,6 +41,10 @@ const IndiaVisa = () => {
   const navigate = useNavigate();
   const [openFAQ, setOpenFAQ] = useState(null);
 
+  // Check if running on dev or localhost
+  const isDevelopment = window.location.hostname === 'localhost' || 
+                        window.location.hostname === 'dev.azholidays.com.sg';
+
   const toggleFAQ = (index) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
@@ -158,56 +162,58 @@ const IndiaVisa = () => {
                 Transparent pricing • Singapore-based support • 3-5 day processing
               </Typography>
 
-              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', px: 2 }}>
-                <Button
-                  variant="contained"
-                  size="large"
-                  onClick={() => navigate('/apply-visa')}
-                  sx={{
-                    bgcolor: 'white',
-                    color: '#2c5aa0',
-                    fontFamily: "'Poppins', sans-serif",
-                    fontWeight: 600,
-                    fontSize: '1.1rem',
-                    px: 5,
-                    py: 2,
-                    borderRadius: '12px',
-                    textTransform: 'none',
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
-                    '&:hover': {
-                      bgcolor: '#f8f9fa',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 12px 32px rgba(0,0,0,0.2)'
-                    }
-                  }}
-                >
-                  Apply for India e-Visa
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  onClick={() => navigate('/check-eligibility')}
-                  sx={{
-                    borderColor: 'white',
-                    color: 'white',
-                    fontFamily: "'Poppins', sans-serif",
-                    fontWeight: 600,
-                    fontSize: '1.1rem',
-                    px: 5,
-                    py: 2,
-                    borderRadius: '12px',
-                    textTransform: 'none',
-                    borderWidth: '2px',
-                    '&:hover': {
+              {isDevelopment && (
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'center', px: 2 }}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    onClick={() => navigate('/apply-visa')}
+                    sx={{
+                      bgcolor: 'white',
+                      color: '#2c5aa0',
+                      fontFamily: "'Poppins', sans-serif",
+                      fontWeight: 600,
+                      fontSize: '1.1rem',
+                      px: 5,
+                      py: 2,
+                      borderRadius: '12px',
+                      textTransform: 'none',
+                      boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+                      '&:hover': {
+                        bgcolor: '#f8f9fa',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 12px 32px rgba(0,0,0,0.2)'
+                      }
+                    }}
+                  >
+                    Apply for India e-Visa
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="large"
+                    onClick={() => navigate('/check-eligibility')}
+                    sx={{
                       borderColor: 'white',
-                      bgcolor: 'rgba(255,255,255,0.1)',
-                      borderWidth: '2px'
-                    }
-                  }}
-                >
-                  Check Eligibility
-                </Button>
-              </Stack>
+                      color: 'white',
+                      fontFamily: "'Poppins', sans-serif",
+                      fontWeight: 600,
+                      fontSize: '1.1rem',
+                      px: 5,
+                      py: 2,
+                      borderRadius: '12px',
+                      textTransform: 'none',
+                      borderWidth: '2px',
+                      '&:hover': {
+                        borderColor: 'white',
+                        bgcolor: 'rgba(255,255,255,0.1)',
+                        borderWidth: '2px'
+                      }
+                    }}
+                  >
+                    Check Eligibility
+                  </Button>
+                </Stack>
+              )}
             </Box>
           </Fade>
         </Container>
@@ -757,7 +763,7 @@ const IndiaVisa = () => {
         </Box>
 
         {/* Pricing Section */}
-        <Box sx={{ mb: 8, bgcolor: '#f8fafc', borderRadius: '32px', p: { xs: 4, md: 6 } }}>
+        {/* <Box sx={{ mb: 8, bgcolor: '#f8fafc', borderRadius: '32px', p: { xs: 4, md: 6 } }}>
           <Typography variant="h3" sx={{ 
             textAlign: 'center',
             fontFamily: "'Poppins', sans-serif",
@@ -910,7 +916,7 @@ const IndiaVisa = () => {
               </Typography>
             </Box>
           </Box>
-        </Box>
+        </Box> */}
 
         {/* FAQ Section */}
         <Box sx={{ mb: 8, bgcolor: 'white', borderRadius: '32px', p: { xs: 4, md: 6 } }}>
@@ -1031,7 +1037,7 @@ const IndiaVisa = () => {
               Fast processing • Expert review • Local Singapore support
             </Typography>
 
-            <Button
+            {isDevelopment && <Button
               variant="contained"
               size="large"
               onClick={() => navigate('/apply-visa')}
@@ -1054,7 +1060,7 @@ const IndiaVisa = () => {
               }}
             >
               Start My India e-Visa Application
-            </Button>
+            </Button>}
 
             <Stack 
               direction={{ xs: 'column', sm: 'row' }} 
