@@ -899,7 +899,7 @@ const Home = () => {
             </p>
             <button 
               style={styles.finalCTAButton}
-              onClick={() => navigate('/evisa-services')}
+              onClick={() => window.open('https://api.whatsapp.com/send/?phone=6591263786', '_blank')}
               onMouseEnter={(e) => {
                 e.target.style.transform = 'translateY(-4px)';
                 e.target.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.3)';
