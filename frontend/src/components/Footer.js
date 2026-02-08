@@ -189,13 +189,6 @@ const Footer = () => {
         }
     };
 
-    const handleServiceClick = (service) => {
-        console.log(`Navigate to ${service} page`);
-    };
-
-    const handlePolicyClick = (policy) => {
-        console.log(`Navigate to ${policy} page`);
-    };
 
     return (
         <footer style={styles.footer}>
@@ -406,7 +399,7 @@ const Footer = () => {
                     <p style={styles.copyrightText}>&copy; {currentYear} Az Holidays. All rights reserved.</p>
                     <div style={styles.footerLinks}>
                         <button
-                            onClick={() => handlePolicyClick('Privacy Policy')}
+                            onClick={() => window.location.href = '/privacy-policy'}
                             style={styles.footerLinkButton}
                             onMouseEnter={(e) => e.target.style.color = '#3498db'}
                             onMouseLeave={(e) => e.target.style.color = '#ffffff'}
@@ -414,7 +407,7 @@ const Footer = () => {
                             Privacy Policy
                         </button>
                         <button
-                            onClick={() => handlePolicyClick('Terms of Service')}
+                            onClick={() => window.location.href = '/terms-conditions'}
                             style={styles.footerLinkButton}
                             onMouseEnter={(e) => e.target.style.color = '#3498db'}
                             onMouseLeave={(e) => e.target.style.color = '#ffffff'}
@@ -422,7 +415,7 @@ const Footer = () => {
                             Terms of Service
                         </button>
                         <button
-                            onClick={() => handlePolicyClick('Cookie Policy')}
+                            onClick={() => window.location.href = '/cookie-policy'}
                             style={styles.footerLinkButton}
                             onMouseEnter={(e) => e.target.style.color = '#3498db'}
                             onMouseLeave={(e) => e.target.style.color = '#ffffff'}

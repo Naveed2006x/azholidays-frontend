@@ -189,7 +189,7 @@ const Navbar = () => {
   const navItems = [
     { label: 'Home', path: '/' },
     { label: 'Services', path: null, hasDropdown: true },
-    { label: 'Destinations', path: '/destinations' },
+    { label: 'E-Visa Services', path: '/e-visa-services' },
     { label: 'Blogs', path: '/blogs' },
     { label: 'About', path: '/about' },
     { label: 'Contact', path: '/contact' }
@@ -846,6 +846,7 @@ return (
                     position: 'relative',
                     textDecoration: 'none',
                     padding: '8px 0',
+                    whiteSpace: 'nowrap',
                     '&:hover': {
                       color: '#2c5aa0',
                       textDecoration: 'none'
