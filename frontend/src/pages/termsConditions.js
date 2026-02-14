@@ -154,7 +154,7 @@ const TermsConditions = () => {
                   lineHeight: 1.8,
                   mb: 2
                 }}>
-                  By accessing and using the services of AZ Holidays Pte Ltd (UEN: XXXXXXXXX) ("Company," "we," "us," or "our"), you agree to be bound by these Terms and Conditions.
+                  By accessing and using the services of AZ Holidays Pte Ltd (UEN: 200901908E) ("Company," "we," "us," or "our"), you agree to be bound by these Terms and Conditions.
                 </Typography>
                 <Typography sx={{ 
                   fontFamily: "'Poppins', sans-serif",
@@ -693,10 +693,10 @@ const TermsConditions = () => {
                       Phone: +65 9126 3786
                     </Typography>
                     <Typography sx={{ fontFamily: "'Poppins', sans-serif", fontSize: '0.95rem', color: '#64748b' }}>
-                      Address: [Your Singapore Address]
+                      Address: [113 Dunlop St, Singapore 209432]
                     </Typography>
                     <Typography sx={{ fontFamily: "'Poppins', sans-serif", fontSize: '0.95rem', color: '#64748b' }}>
-                      UEN: XXXXXXXXX
+                      UEN: 200901908E
                     </Typography>
                   </Stack>
                 </Box>

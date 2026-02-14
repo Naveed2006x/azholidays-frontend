@@ -132,7 +132,7 @@ const PrivacyPolicy = () => {
                   lineHeight: 1.8,
                   mb: 2
                 }}>
-                  AZ Holidays Pte Ltd (UEN: XXXXXXXXX) ("we," "us," or "our") is committed to protecting your personal data in accordance with Singapore's Personal Data Protection Act 2012 (PDPA).
+                  AZ Holidays Pte Ltd (UEN: 200901908E) ("we," "us," or "our") is committed to protecting your personal data in accordance with Singapore's Personal Data Protection Act 2012 (PDPA).
                 </Typography>
                 <Typography sx={{ 
                   fontFamily: "'Poppins', sans-serif",
@@ -793,10 +793,10 @@ const PrivacyPolicy = () => {
                       Email: enquiry@azholidays.com
                     </Typography>
                     <Typography sx={{ fontFamily: "'Poppins', sans-serif", fontSize: '0.95rem', color: '#64748b' }}>
-                      Address: [Your Singapore Address]
+                      Address: [113 Dunlop St, Singapore 209432]
                     </Typography>
                     <Typography sx={{ fontFamily: "'Poppins', sans-serif", fontSize: '0.95rem', color: '#64748b' }}>
-                      UEN: XXXXXXXXX
+                      UEN: 200901908E
                     </Typography>
                   </Stack>
                 </Box>

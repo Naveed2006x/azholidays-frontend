@@ -49,6 +49,8 @@ const Navbar = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [profileAnchorEl, setProfileAnchorEl] = useState(null);
+  const [profileImageKey, setProfileImageKey] = useState(Date.now()); // Force re-render of avatar
+  const [profileImageSrc, setProfileImageSrc] = useState(null); // Store computed image source
   const [timeLeft, setTimeLeft] = useState({
     days: '--',
     hours: '--',
@@ -58,6 +60,42 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout, isAuthenticated } = useAuth();
+
+  // Listen for storage changes to update profile image
+  useEffect(() => {
+    const refreshProfileImage = () => {
+      const newSrc = getProfileImageSrc();
+      setProfileImageSrc(newSrc);
+      setProfileImageKey(Date.now());
+    };
+    
+    const handleStorageChange = (e) => {
+      if (e.key === 'user') {
+        refreshProfileImage();
+      }
+    };
+    
+    const handleProfileImageUpdate = () => {
+      refreshProfileImage();
+    };
+    
+    const handleUserUpdate = (e) => {
+      refreshProfileImage();
+    };
+    
+    // Initial load and when user changes
+    refreshProfileImage();
+    
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('profileImageUpdated', handleProfileImageUpdate);
+    window.addEventListener('userUpdated', handleUserUpdate);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('profileImageUpdated', handleProfileImageUpdate);
+      window.removeEventListener('userUpdated', handleUserUpdate);
+    };
+  }, [user]); // Add user dependency
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -99,8 +137,21 @@ const Navbar = () => {
   };
 
   const getProfileImageSrc = () => {
-    if (user?.profile_picture) {
-      return user.profile_picture;
+    // Read directly from localStorage to get latest profile image
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        const userData = JSON.parse(storedUser);
+        // Check both possible field names
+        const imageUrl = userData?.profileImage || userData?.profile_image_url;
+        if (imageUrl) {
+          // Add cache-busting timestamp to force browser to reload image
+          const timestamp = userData?._imageRefresh || Date.now();
+          return `${imageUrl}?t=${timestamp}`;
+        }
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+      }
     }
     return null;
   };
@@ -155,7 +206,7 @@ const Navbar = () => {
   ];
 
   const profileMenuItems = [
-    { label: 'Profile', path: '/profile', icon: <PersonIcon /> },
+    { label: 'Profile', path: '/profile', icon: <PersonIcon />, enabled: true },
     { label: 'Bookings', path: '/bookings', icon: <BookingsIcon /> },
     { label: 'AZ Rewards', path: '/rewards', icon: <RewardsIcon /> },
     { label: 'Promo Codes', path: '/promo-codes', icon: <PromoCodesIcon /> },
@@ -469,7 +520,8 @@ const Navbar = () => {
             }}
           >
             <Avatar 
-              src={getProfileImageSrc()}
+              key={profileImageKey}
+              src={profileImageSrc}
               sx={{ 
                 bgcolor: '#f0f0f0', 
                 width: 50, 
@@ -510,9 +562,9 @@ const Navbar = () => {
                     sx={{ marginBottom: '0' }}
                   >
                     <Box
-                      component={isProduction() ? 'div' : Link}
-                      to={!isProduction() ? item.path : undefined}
-                      onClick={isProduction() ? undefined : handleDrawerToggle}
+                      component={(isProduction() && !item.enabled) ? 'div' : Link}
+                      to={(!isProduction() || item.enabled) ? item.path : undefined}
+                      onClick={(isProduction() && !item.enabled) ? undefined : handleDrawerToggle}
                       sx={{
                         display: 'flex',
                         alignItems: 'center',
@@ -525,8 +577,8 @@ const Navbar = () => {
                         border: location.pathname === item.path ? '2px solid #2c5aa0' : '2px solid transparent',
                         borderRadius: '12px',
                         transition: 'all 0.3s ease',
-                        cursor: isProduction() ? 'not-allowed' : 'pointer',
-                        opacity: isProduction() ? 0.7 : 1,
+                        cursor: (isProduction() && !item.enabled) ? 'not-allowed' : 'pointer',
+                        opacity: (isProduction() && !item.enabled) ? 0.7 : 1,
                         '&:hover': {
                           backgroundColor: 'rgba(44, 90, 160, 0.08)',
                           color: '#2c5aa0',
@@ -556,7 +608,7 @@ const Navbar = () => {
                           }}
                         />
                       </Box>
-                      {isProduction() && (
+                      {(isProduction() && !item.enabled) && (
                         <Chip 
                           label="Coming Soon" 
                           size="small"
@@ -871,7 +923,8 @@ return (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <IconButton onClick={handleProfileMenuOpen} sx={{ padding: 0 }}>
                   <Avatar 
-                    src={getProfileImageSrc()}
+                    key={profileImageKey}
+                    src={profileImageSrc}
                     sx={{ 
                       bgcolor: '#f0f0f0', 
                       width: 55, 
@@ -900,19 +953,19 @@ return (
                     <MenuItem 
                       key={item.label}
                       onClick={() => {
-                        if (!isProduction()) {
+                        if (!isProduction() || item.enabled) {
                           handleProfileMenuClose();
                           navigate(item.path);
                         }
                       }}
-                      disabled={isProduction()}
+                      disabled={isProduction() && !item.enabled}
                       sx={{ 
                         ...fontStyle,
                         padding: '10px 16px',
                         display: 'flex',
                         justifyContent: 'space-between',
-                        opacity: isProduction() ? 0.7 : 1,
-                        cursor: isProduction() ? 'not-allowed' : 'pointer'
+                        opacity: (isProduction() && !item.enabled) ? 0.7 : 1,
+                        cursor: (isProduction() && !item.enabled) ? 'not-allowed' : 'pointer'
                       }}
                     >
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -927,7 +980,7 @@ return (
                         </ListItemIcon>
                         {item.label}
                       </Box>
-                      {isProduction() && (
+                      {(isProduction() && !item.enabled) && (
                         <Chip 
                           label="Coming Soon" 
                           size="small"
