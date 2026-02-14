@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import AnimatedSection from '../components/AnimatedSection';
 import AnimatedCounter from '../components/AnimatedCounter';
 import banner from '../Images/banner.jpg';
@@ -18,6 +18,9 @@ import airIndia from '../Images/AirIndia.png';
 const Home = () => {
   const navigate = useNavigate();
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll();
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, 500]);
 
   // Check for reduced motion preference
   useEffect(() => {
@@ -28,6 +31,192 @@ const Home = () => {
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
+
+  // Featured Destinations with stunning visuals
+  const featuredDestinations = [
+    {
+      id: 1,
+      name: 'Bali, Indonesia',
+      tagline: 'Island Paradise Awaits',
+      image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&h=1000&fit=crop',
+      price: 'From $899',
+      days: '5D/4N'
+    },
+    {
+      id: 2,
+      name: 'Tokyo, Japan',
+      tagline: 'Where Tradition Meets Future',
+      image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&h=1000&fit=crop',
+      price: 'From $1,299',
+      days: '6D/5N'
+    },
+    {
+      id: 3,
+      name: 'Dubai, UAE',
+      tagline: 'Luxury Without Limits',
+      image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=1000&fit=crop',
+      price: 'From $1,099',
+      days: '4D/3N'
+    },
+    {
+      id: 4,
+      name: 'Paris, France',
+      tagline: 'City of Lights & Love',
+      image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&h=1000&fit=crop',
+      price: 'From $1,599',
+      days: '7D/6N'
+    },
+    {
+      id: 5,
+      name: 'Maldives',
+      tagline: 'Tropical Heaven on Earth',
+      image: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800&h=1000&fit=crop',
+      price: 'From $1,799',
+      days: '5D/4N'
+    },
+    {
+      id: 6,
+      name: 'Switzerland',
+      tagline: 'Alpine Beauty & Serenity',
+      image: 'https://images.unsplash.com/photo-1527004013197-933c4bb611b3?w=800&h=1000&fit=crop',
+      price: 'From $2,299',
+      days: '8D/7N'
+    }
+  ];
+
+  // Google Reviews Data
+  const googleReviews = [
+    {
+      id: 1,
+      name: 'Bernard Rayen',
+      rating: 5,
+      date: 'December 2025',
+      text: 'AZ Holidays Travel Service offers a seamless ticket-booking experience and provides excellent advice on the most affordable travel routes. Their team compares various options to ensure you get the best price. Mr. Ameen delivers outstanding service — he is patient, polite, and exceptionally helpful throughout the booking process.',
+      avatar: 'https://img.icons8.com/color/96/user-male-circle.png'
+    },
+    {
+      id: 2,
+      name: 'Naga Mouttou',
+      rating: 5,
+      date: 'December 2025',
+      text: 'AZ holidays pte ltd, I am having very good relation with this company since covid release period 😅, they gave good service at the time of covid. I was impressed n travelling with this company almost more than 5 years. Especially, Mr. Ameen service, way of approch, way of speaking, its too good. Their service and cost of ticket is very very good. I wish him & support this travels with my whole heart. Best wishes from G. Nagamouttou',
+      avatar: 'https://img.icons8.com/color/96/user-male-circle.png'
+    },
+    {
+      id: 3,
+      name: 'Shahul Hameed',
+      rating: 5,
+      date: 'November 2025',
+      text: 'AZ holidays made our vacation completely stress-free. They helped us choose the perfect destination and handled every detail, including our visas, accommodations, and excursions. Communication was excellent throughout, and they even checked in to make sure we were enjoying our trip. Highly recommend their services for anyone who wants a hassle-free travel experience!',
+      avatar: 'https://img.icons8.com/color/96/user-male-circle--v1.png'
+    },
+    {
+      id: 4,
+      name: 'Mehar Nisha',
+      rating: 5,
+      date: 'December 2025',
+      text: 'I have always approached them to book flights or for any Indian events going on in sg and I am very satisfied with their ticketing services as they are fast, efficient and also very easy to communicate with. Highly recommend them!!',
+      avatar: 'https://img.icons8.com/color/96/user-female-circle--v1.png'
+    },
+    {
+      id: 5,
+      name: 'Siva Waran',
+      rating: 5,
+      date: 'December 2025',
+      text: 'Great Service from Mr.Ameen. Well explained and Helpful. Prompt response and assistance. Will definitely recommend to others!',
+      avatar: 'https://img.icons8.com/color/96/user-male-circle--v1.png'
+    }
+  ];
+
+  // Why Choose Us - Detailed Benefits
+  const benefits = [
+    {
+      title: 'Lightning Fast Processing',
+      description: 'Visa approvals in 48-72 hours. Flight bookings confirmed instantly.',
+      stat: '3-5 days',
+      color: '#f39c12',
+      image: 'https://img.icons8.com/fluency/96/speed.png'
+    },
+    {
+      title: '100% Secure & Licensed',
+      description: 'Singapore Tourism Board registered. Your money is protected.',
+      stat: '17 Years',
+      color: '#2c5aa0',
+      image: 'https://img.icons8.com/fluency/96/security-checked.png'
+    },
+    {
+      title: '24/7 VIP Support',
+      description: 'Real humans, not bots. WhatsApp, call, or email - we\'re always here.',
+      stat: '< 5 min',
+      color: '#e74c3c',
+      image: 'https://img.icons8.com/fluency/96/phone-support.png'
+    }
+  ];
+
+  // Travel Process Timeline
+  const travelProcess = [
+    {
+      step: 1,
+      title: 'Tell Us Your Dream',
+      description: 'Share your destination, dates, and budget'
+    },
+    {
+      step: 2,
+      title: 'We Craft Your Journey',
+      description: 'Personalized itinerary with best deals'
+    },
+    {
+      step: 3,
+      title: 'Approve & Relax',
+      description: 'Review, approve, done. We handle the rest'
+    },
+    {
+      step: 4,
+      title: 'Travel in Style',
+      description: '24/7 support throughout your trip'
+    }
+  ];
+
+  // Popular Packages
+  const popularPackages = [
+    {
+      id: 1,
+      destination: 'Universal Studios Singapore',
+      image: universal,
+      duration: '1 Day',
+      price: '$69',
+      includes: ['Entry Ticket', 'Express Pass Option', 'Lunch Voucher'],
+      badge: 'Best Seller',
+      rating: 4.9
+    },
+    {
+      id: 2,
+      destination: 'Singapore Cable Car',
+      image: cablecar,
+      duration: 'Half Day',
+      price: '$22',
+      includes: ['Round Trip', 'Sky Dining Option', 'Photo Package'],
+      badge: 'Family Favorite',
+      rating: 4.8
+    },
+    {
+      id: 3,
+      destination: 'Night Safari Singapore',
+      image: safari,
+      duration: 'Evening',
+      price: '$41',
+      includes: ['Entry + Tram Ride', 'Animal Show', 'Dinner Buffet'],
+      badge: 'Top Rated',
+      rating: 4.9
+    }
+  ];
+
+  // Trust Badges
+  const trustBadges = [
+    { text: 'SSL Secured Payments' },
+    { text: 'Singapore Tourism Board Licensed' },
+    { text: '4.8/5 Google Rating (100+ Reviews)' }
+  ];
 
   // Core Services Data
   const services = [
@@ -455,7 +644,10 @@ const Home = () => {
     },
     testimonialRating: {
       color: '#f39c12',
-      fontSize: '0.9rem'
+      fontSize: '0.9rem',
+      marginBottom: '12px',
+      display: 'flex',
+      gap: '4px'
     },
 
     // Partners Section
@@ -526,6 +718,511 @@ const Home = () => {
       transition: 'all 0.3s ease',
       boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
       ...fontStyle
+    },
+
+    // Google Reviews Section
+    googleSection: {
+      background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)',
+      padding: 'clamp(80px, 12vw, 120px) 20px',
+      position: 'relative',
+      overflow: 'visible'
+    },
+    googleHeader: {
+      textAlign: 'center',
+      marginBottom: '60px'
+    },
+    googleBadge: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '12px',
+      background: 'white',
+      padding: '16px 32px',
+      borderRadius: '50px',
+      boxShadow: '0 8px 30px rgba(0,0,0,0.1)',
+      marginBottom: '24px'
+    },
+    googleLogo: {
+      fontSize: '2rem'
+    },
+    googleRating: {
+      fontSize: '2.5rem',
+      fontWeight: 800,
+      color: '#1a1a1a',
+      ...fontStyle
+    },
+    googleStars: {
+      color: '#fbbc04',
+      fontSize: '1.5rem',
+      letterSpacing: '2px'
+    },
+    googleCount: {
+      fontSize: '1rem',
+      color: '#666',
+      marginTop: '8px',
+      ...fontStyle
+    },
+    reviewsScroller: {
+      display: 'flex',
+      gap: '30px',
+      overflowX: 'auto',
+      scrollSnapType: 'x mandatory',
+      scrollBehavior: 'smooth',
+      paddingBottom: '20px',
+      paddingTop: '20px',
+      marginTop: '40px',
+      msOverflowStyle: 'none',
+      scrollbarWidth: 'none'
+    },
+    reviewCard: {
+      minWidth: '380px',
+      maxWidth: '380px',
+      background: 'white',
+      borderRadius: '20px',
+      padding: '32px',
+      boxShadow: '0 8px 30px rgba(0,0,0,0.08)',
+      scrollSnapAlign: 'start',
+      border: '2px solid #f0f0f0',
+      transition: 'all 0.4s ease'
+    },
+    reviewHeader: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '16px',
+      marginBottom: '20px'
+    },
+    reviewAvatar: {
+      width: '56px',
+      height: '56px',
+      borderRadius: '50%',
+      objectFit: 'cover'
+    },
+    reviewAuthor: {
+      flex: 1
+    },
+    reviewName: {
+      fontSize: '1.1rem',
+      fontWeight: 700,
+      color: '#1a1a1a',
+      marginBottom: '4px',
+      ...fontStyle
+    },
+    reviewDate: {
+      fontSize: '0.85rem',
+      color: '#999',
+      ...fontStyle
+    },
+    reviewStars: {
+      color: '#fbbc04',
+      fontSize: '1rem',
+      marginBottom: '16px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '4px'
+    },
+    reviewText: {
+      fontSize: '0.95rem',
+      lineHeight: 1.7,
+      color: '#333',
+      ...fontStyle
+    },
+    googleCTA: {
+      textAlign: 'center',
+      marginTop: '50px'
+    },
+    googleButton: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '12px',
+      background: 'white',
+      color: '#2c5aa0',
+      border: '2px solid #2c5aa0',
+      padding: '16px 36px',
+      borderRadius: '50px',
+      fontSize: '1.05rem',
+      fontWeight: 600,
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+      ...fontStyle
+    },
+
+    // Featured Destinations Section
+    destinationsSection: {
+      padding: 'clamp(80px, 12vw, 120px) 0',
+      background: '#000',
+      color: 'white',
+      position: 'relative'
+    },
+    destinationsGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+      gap: '24px',
+      maxWidth: '1240px',
+      marginInline: 'auto',
+      padding: '0 20px',
+      marginTop: '60px'
+    },
+    destinationCard: {
+      position: 'relative',
+      height: '500px',
+      borderRadius: '24px',
+      overflow: 'hidden',
+      cursor: 'pointer',
+      transition: 'all 0.5s ease'
+    },
+    destinationImage: {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      transition: 'transform 0.7s ease'
+    },
+    destinationOverlay: {
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      padding: '32px',
+      background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%)'
+    },
+    destinationName: {
+      fontSize: '1.8rem',
+      fontWeight: 700,
+      marginBottom: '8px',
+      ...fontStyle
+    },
+    destinationTagline: {
+      fontSize: '1rem',
+      opacity: 0.9,
+      marginBottom: '16px',
+      ...fontStyle
+    },
+    destinationDetails: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginTop: '16px'
+    },
+    destinationPrice: {
+      fontSize: '1.4rem',
+      fontWeight: 700,
+      color: '#f39c12',
+      ...fontStyle
+    },
+    destinationDays: {
+      fontSize: '0.9rem',
+      opacity: 0.8,
+      ...fontStyle
+    },
+
+    // Benefits Section (Why Choose Us)
+    benefitsSection: {
+      padding: 'clamp(80px, 12vw, 120px) 20px',
+      background: '#ffffff'
+    },
+    benefitsGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+      gap: '40px',
+      maxWidth: '1240px',
+      marginInline: 'auto',
+      marginTop: '60px'
+    },
+    benefitCard: {
+      textAlign: 'center',
+      padding: '40px 24px',
+      background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)',
+      borderRadius: '24px',
+      border: '2px solid #f0f0f0',
+      transition: 'all 0.4s ease',
+      position: 'relative',
+      overflow: 'hidden'
+    },
+    benefitImage: {
+      width: '80px',
+      height: '80px',
+      objectFit: 'contain',
+      marginBottom: '24px',
+      marginInline: 'auto',
+      display: 'block'
+    },
+    benefitStat: {
+      fontSize: '2.5rem',
+      fontWeight: 800,
+      marginBottom: '12px',
+      ...fontStyle
+    },
+    benefitTitle: {
+      fontSize: '1.3rem',
+      fontWeight: 700,
+      color: '#1a1a1a',
+      marginBottom: '12px',
+      ...fontStyle
+    },
+    benefitDescription: {
+      fontSize: '0.95rem',
+      color: '#666',
+      lineHeight: 1.6,
+      ...fontStyle
+    },
+
+    // Packages Section
+    packagesSection: {
+      padding: 'clamp(80px, 12vw, 120px) 20px',
+      background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)'
+    },
+    packagesGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+      gap: '32px',
+      maxWidth: '1240px',
+      marginInline: 'auto',
+      marginTop: '60px'
+    },
+    packageCard: {
+      background: 'white',
+      borderRadius: '24px',
+      overflow: 'hidden',
+      boxShadow: '0 8px 30px rgba(0,0,0,0.1)',
+      transition: 'all 0.4s ease',
+      cursor: 'pointer'
+    },
+    packageImageWrapper: {
+      position: 'relative',
+      height: '280px',
+      overflow: 'hidden'
+    },
+    packageImage: {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      transition: 'transform 0.6s ease'
+    },
+    packageBadge: {
+      position: 'absolute',
+      top: '16px',
+      right: '16px',
+      background: '#f39c12',
+      color: 'white',
+      padding: '8px 20px',
+      borderRadius: '50px',
+      fontSize: '0.85rem',
+      fontWeight: 700,
+      ...fontStyle
+    },
+    packageContent: {
+      padding: '28px'
+    },
+    packageHeader: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'start',
+      marginBottom: '16px'
+    },
+    packageDestination: {
+      fontSize: '1.4rem',
+      fontWeight: 700,
+      color: '#1a1a1a',
+      ...fontStyle
+    },
+    packageRating: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '4px',
+      fontSize: '0.95rem',
+      fontWeight: 700,
+      color: '#1a1a1a',
+      background: '#f39c12',
+      padding: '6px 12px',
+      borderRadius: '20px',
+      color: 'white'
+    },
+    packageIncludes: {
+      listStyle: 'none',
+      padding: 0,
+      margin: '20px 0'
+    },
+    packageIncludeItem: {
+      fontSize: '0.9rem',
+      color: '#666',
+      marginBottom: '10px',
+      paddingLeft: '24px',
+      position: 'relative',
+      ...fontStyle
+    },
+    packageFooter: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingTop: '20px',
+      borderTop: '1px solid #f0f0f0'
+    },
+    packagePrice: {
+      fontSize: '1.8rem',
+      fontWeight: 800,
+      color: '#2c5aa0',
+      ...fontStyle
+    },
+    packageDuration: {
+      fontSize: '0.9rem',
+      color: '#999',
+      ...fontStyle
+    },
+
+    // Timeline Section
+    timelineSection: {
+      padding: 'clamp(80px, 12vw, 120px) 20px',
+      background: '#ffffff'
+    },
+    timelineContainer: {
+      maxWidth: '900px',
+      marginInline: 'auto',
+      marginTop: '60px',
+      position: 'relative'
+    },
+    timelineItem: {
+      display: 'flex',
+      gap: '32px',
+      marginBottom: '60px',
+      position: 'relative'
+    },
+    timelineIconWrapper: {
+      minWidth: '80px',
+      height: '80px',
+      borderRadius: '50%',
+      background: 'linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: '2rem',
+      fontWeight: 800,
+      color: 'white',
+      boxShadow: '0 8px 24px rgba(44,90,160,0.3)',
+      position: 'relative',
+      zIndex: 2,
+      fontFamily: "'Poppins', sans-serif"
+    },
+    timelineContent: {
+      flex: 1,
+      paddingTop: '8px'
+    },
+    timelineStep: {
+      fontSize: '0.9rem',
+      color: '#2c5aa0',
+      fontWeight: 700,
+      marginBottom: '8px',
+      ...fontStyle
+    },
+    timelineTitle: {
+      fontSize: '1.6rem',
+      fontWeight: 700,
+      color: '#1a1a1a',
+      marginBottom: '12px',
+      ...fontStyle
+    },
+    timelineDescription: {
+      fontSize: '1.05rem',
+      color: '#666',
+      lineHeight: 1.6,
+      ...fontStyle
+    },
+
+    // Trust Badges Section
+    trustSection: {
+      background: 'linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%)',
+      padding: '40px 20px',
+      color: 'white'
+    },
+    trustGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+      gap: '24px',
+      maxWidth: '1240px',
+      marginInline: 'auto'
+    },
+    trustBadge: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '16px',
+      padding: '20px',
+      background: 'rgba(255,255,255,0.1)',
+      borderRadius: '12px',
+      backdropFilter: 'blur(10px)',
+      border: '1px solid rgba(255,255,255,0.2)',
+      transition: 'all 0.3s ease',
+      position: 'relative',
+      paddingLeft: '50px'
+    },
+    trustIcon: {
+      position: 'absolute',
+      left: '16px',
+      width: '24px',
+      height: '24px',
+      borderRadius: '50%',
+      background: 'rgba(255,255,255,0.2)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: '0.9rem',
+      fontWeight: 700
+    },
+    trustText: {
+      fontSize: '0.95rem',
+      fontWeight: 600,
+      ...fontStyle
+    },
+
+    // Newsletter Section
+    newsletterSection: {
+      background: 'linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%)',
+      padding: 'clamp(60px, 10vw, 80px) 20px',
+      textAlign: 'center'
+    },
+    newsletterContent: {
+      maxWidth: '600px',
+      marginInline: 'auto',
+      padding: '0 20px'
+    },
+    newsletterTitle: {
+      fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+      fontWeight: 700,
+      color: '#1a1a1a',
+      marginBottom: '16px',
+      ...fontStyle
+    },
+    newsletterText: {
+      fontSize: '1.1rem',
+      color: '#666',
+      marginBottom: '32px',
+      ...fontStyle
+    },
+    newsletterForm: {
+      display: 'flex',
+      gap: '12px',
+      maxWidth: '500px',
+      marginInline: 'auto',
+      padding: '0 10px'
+    },
+    newsletterInput: {
+      flex: 1,
+      padding: '16px 24px',
+      fontSize: '1rem',
+      borderRadius: '50px',
+      border: '2px solid #e0e0e0',
+      outline: 'none',
+      transition: 'all 0.3s ease',
+      ...fontStyle
+    },
+    newsletterButton: {
+      background: '#2c5aa0',
+      color: 'white',
+      border: 'none',
+      padding: '16px 36px',
+      fontSize: '1rem',
+      fontWeight: 700,
+      borderRadius: '50px',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+      whiteSpace: 'nowrap',
+      ...fontStyle
     }
   };
 
@@ -538,6 +1235,10 @@ const Home = () => {
             100% { transform: translateX(-35%); }
           }
           
+          .reviews-scroller::-webkit-scrollbar {
+            display: none;
+          }
+          
           @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
               animation-duration: 0.01ms !important;
@@ -545,11 +1246,33 @@ const Home = () => {
               transition-duration: 0.01ms !important;
             }
           }
+
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(30px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          @keyframes scaleIn {
+            from {
+              opacity: 0;
+              transform: scale(0.9);
+            }
+            to {
+              opacity: 1;
+              transform: scale(1);
+            }
+          }
         `}
       </style>
       
-      {/* 1. Hero Section */}
-      <section style={styles.heroSection}>
+      {/* 1. Hero Section with Parallax */}
+      <section style={styles.heroSection} ref={heroRef}>
         <motion.div 
           style={styles.heroBackground}
           initial={{ scale: prefersReducedMotion ? 1 : 1.1 }}
@@ -585,29 +1308,15 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            {/* <button 
-              style={styles.ctaPrimary}
-              onClick={() => navigate('/check-eligibility')}
-              onMouseEnter={(e) => {
-                e.target.style.transform = 'translateY(-2px)';
-                e.target.style.boxShadow = '0 6px 20px rgba(44, 90, 160, 0.5)';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = '0 4px 15px rgba(44, 90, 160, 0.4)';
-              }}
-            >
-              Check Visa Eligibility
-            </button> */}
             <button 
               style={styles.ctaPrimary}
               onClick={() => navigate('/e-visa-services')}
               onMouseEnter={(e) => {
-                e.target.style.transform = 'translateY(-2px)';
-                e.target.style.boxShadow = '0 6px 20px rgba(44, 90, 160, 0.5)';
+                e.target.style.transform = 'translateY(-2px) scale(1.05)';
+                e.target.style.boxShadow = '0 8px 25px rgba(44, 90, 160, 0.6)';
               }}
               onMouseLeave={(e) => {
-                e.target.style.transform = 'translateY(0)';
+                e.target.style.transform = 'translateY(0) scale(1)';
                 e.target.style.boxShadow = '0 4px 15px rgba(44, 90, 160, 0.4)';
               }}
             >
@@ -620,11 +1329,11 @@ const Home = () => {
               }}
               onMouseEnter={(e) => {
                 e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.transform = 'translateY(-2px) scale(1.05)';
               }}
               onMouseLeave={(e) => {
                 e.target.style.backgroundColor = 'transparent';
-                e.target.style.transform = 'translateY(0)';
+                e.target.style.transform = 'translateY(0) scale(1)';
               }}
             >
               Explore Services
@@ -632,6 +1341,35 @@ const Home = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* Trust Badges Bar */}
+      <motion.section 
+        style={styles.trustSection}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.6 }}
+      >
+        <div style={styles.trustGrid}>
+          {trustBadges.map((badge, index) => (
+            <motion.div
+              key={index}
+              style={styles.trustBadge}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ 
+                scale: 1.05,
+                backgroundColor: 'rgba(255,255,255,0.15)'
+              }}
+            >
+              <span style={styles.trustIcon}>✓</span>
+              <span style={styles.trustText}>{badge.text}</span>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
 
       {/* 2. Services / Core Pillars Section */}
       <section style={styles.section} id="services">
@@ -655,14 +1393,14 @@ const Home = () => {
                 style={styles.serviceCard}
                 onClick={() => navigate(service.link)}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-10px)';
-                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.15)';
+                  e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)';
+                  e.currentTarget.style.boxShadow = '0 16px 40px rgba(0, 0, 0, 0.15)';
                   e.currentTarget.style.borderColor = service.color;
                   const img = e.currentTarget.querySelector('img');
-                  if (img) img.style.transform = 'scale(1.1) rotate(5deg)';
+                  if (img) img.style.transform = 'scale(1.15) rotate(5deg)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
                   e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
                   e.currentTarget.style.borderColor = '#f0f0f0';
                   const img = e.currentTarget.querySelector('img');
@@ -674,7 +1412,7 @@ const Home = () => {
                   alt={service.title} 
                   style={{
                     ...styles.serviceImage,
-                    transition: 'all 0.4s ease'
+                    transition: 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
                   }}
                   onError={(e) => {
                     e.target.style.display = 'none';
@@ -689,7 +1427,7 @@ const Home = () => {
                   style={{ 
                     ...styles.serviceIcon, 
                     display: 'none',
-                    transition: 'all 0.4s ease'
+                    transition: 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
                   }}
                 >
                   {service.icon}
@@ -702,13 +1440,134 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 3. Why AZ Holidays - Trust Section with Stats */}
+      {/* 3. Google Reviews Section - Premium Showcase */}
+      <section style={styles.googleSection}>
+        <motion.div
+          style={styles.googleHeader}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 style={styles.sectionTitle}>What Singapore Travelers Say About Us</h2>
+          <p style={styles.googleCount}>Based on 100+ verified Google reviews</p>
+        </motion.div>
+
+        <motion.div 
+          style={styles.reviewsScroller}
+          className="reviews-scroller"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          {googleReviews.map((review, index) => (
+            <motion.div
+              key={review.id}
+              style={styles.reviewCard}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ 
+                scale: 1.02,
+                boxShadow: '0 12px 40px rgba(0,0,0,0.12)',
+                borderColor: '#2c5aa0'
+              }}
+            >
+              <div style={styles.reviewHeader}>
+                <img src={review.avatar} alt={review.name} style={styles.reviewAvatar} />
+                <div style={styles.reviewAuthor}>
+                  <div style={styles.reviewName}>{review.name}</div>
+                  <div style={styles.reviewDate}>{review.date}</div>
+                </div>
+              </div>
+              <div style={styles.reviewStars}>
+                {Array(review.rating).fill('★').map((star, i) => (
+                  <span key={i}>★</span>
+                ))}
+              </div>
+              <p style={styles.reviewText}>{review.text}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div 
+          style={styles.googleCTA}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <motion.button 
+            style={styles.googleButton}
+            onClick={() => window.open('https://www.google.com/search?rlz=1C1VDKB_enSG1161SG1161&sca_esv=45a1a07102033a0f&sxsrf=ANbL-n5eFErgl5svw7nFv4QX-VI8_wX6Dg:1771036185216&si=AL3DRZHrmvnFAVQPOO2Bzhf8AX9KZZ6raUI_dT7DG_z0kV2_xy30KuPcM_yafUJdlENitP1VxfpTIJEhdeyKA3qhlpEiQCUQkJCViev26CYMmoeAi1yoP1Cky-OgUMQC7u3kn5MmKCkYv4CVBuRCmdymZa_wCReIrQ%3D%3D&q=AZ+Holidays+Pte+Ltd+Reviews&sa=X&ved=2ahUKEwjv5dD199eSAxU42DgGHUCxE98Q0bkNegQIRRAH&biw=1920&bih=991&dpr=1', '_blank')}
+            whileHover={{ 
+              scale: 1.05,
+              backgroundColor: '#2c5aa0',
+              color: 'white',
+              boxShadow: '0 8px 24px rgba(44, 90, 160, 0.3)'
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <span>Read All 100+ Reviews on Google</span>
+          </motion.button>
+        </motion.div>
+      </section>
+
+      {/* 4. Why Choose Us - Benefits with Stats */}
+      <section style={styles.benefitsSection}>
+        <AnimatedSection direction="fade" duration={0.6}>
+          <h2 style={styles.sectionTitle}>Why 12,000+ Travelers Choose AZ Holidays</h2>
+          <p style={styles.sectionSubtitle}>
+            Not just promises — real benefits that make your travel dreams come true
+          </p>
+        </AnimatedSection>
+
+        <div style={styles.benefitsGrid}>
+          {benefits.map((benefit, index) => (
+            <motion.div
+              key={index}
+              style={styles.benefitCard}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ 
+                duration: 0.6, 
+                delay: index * 0.15,
+                type: "spring",
+                stiffness: 100
+              }}
+              whileHover={{ 
+                scale: 1.05,
+                borderColor: benefit.color,
+                boxShadow: `0 16px 48px rgba(0,0,0,0.12)`
+              }}
+            >
+              <motion.span 
+                style={styles.benefitIcon}
+                animate={{ rotate: [0, 10, -10, 0] }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+              >
+                {benefit.icon}
+              </motion.span>
+              <div style={{ ...styles.benefitStat, color: benefit.color }}>
+                {benefit.stat}
+              </div>
+              <h3 style={styles.benefitTitle}>{benefit.title}</h3>
+              <p style={styles.benefitDescription}>{benefit.description}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* 5. Stats Section with Animated Counters */}
       <section style={styles.statsSection}>
         <div style={{ maxWidth: '1240px', marginInline: 'auto', padding: '0 20px' }}>
           <AnimatedSection direction="fade">
-            <h2 style={{ ...styles.sectionTitle, color: 'white' }}>Why Choose AZ Holidays?</h2>
+            <h2 style={{ ...styles.sectionTitle, color: 'white' }}>Trusted by Thousands</h2>
             <p style={{ ...styles.sectionSubtitle, color: 'rgba(255,255,255,0.9)' }}>
-              Trusted by thousands of Singapore travelers for reliable, hassle-free travel services
+              Our numbers speak louder than words
             </p>
           </AnimatedSection>
 
@@ -721,7 +1580,13 @@ const Home = () => {
                 direction="up"
                 distance={40}
               >
-                <div style={styles.statCard}>
+                <motion.div 
+                  style={styles.statCard}
+                  whileHover={{ 
+                    scale: 1.08,
+                    transition: { type: "spring", stiffness: 300 }
+                  }}
+                >
                   <div style={styles.statValue}>
                     <AnimatedCounter 
                       target={stat.value} 
@@ -730,79 +1595,209 @@ const Home = () => {
                     />
                   </div>
                   <div style={styles.statLabel}>{stat.label}</div>
-                </div>
+                </motion.div>
               </AnimatedSection>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 4. How It Works Section */}
-      <section style={{ background: '#f8f9fa', padding: 'clamp(60px, 10vw, 100px) 0' }}>
+      {/* 6. Featured Destinations - Dark Theme with Parallax */}
+      <section style={styles.destinationsSection}>
         <div style={{ maxWidth: '1240px', marginInline: 'auto', padding: '0 20px' }}>
-          <AnimatedSection direction="fade" duration={0.6}>
-            <h2 style={styles.sectionTitle}>How It Works</h2>
-            <p style={styles.sectionSubtitle}>
-              Your journey to hassle-free travel starts here — in just 4 simple steps
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            style={{ textAlign: 'center', marginBottom: '60px' }}
+          >
+            <h2 style={{ ...styles.sectionTitle, color: 'white' }}>
+              Explore Dream Destinations
+            </h2>
+            <p style={{ ...styles.sectionSubtitle, color: 'rgba(255,255,255,0.7)' }}>
+              Handpicked packages that create unforgettable memories
             </p>
-          </AnimatedSection>
+          </motion.div>
 
-          <div style={styles.stepsContainer}>
-            {steps.map((step, index) => (
-              <AnimatedSection 
-                key={index}
-                delay={index * 0.15}
-                duration={0.6}
-                direction="right"
-                distance={60}
+          <div style={styles.destinationsGrid}>
+            {featuredDestinations.map((destination, index) => (
+              <motion.div
+                key={destination.id}
+                style={styles.destinationCard}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: index * 0.15,
+                  type: "spring"
+                }}
+                whileHover={{ scale: 1.02 }}
+                onClick={() => navigate('/packages')}
               >
-                <div 
-                  style={styles.stepCard}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateX(10px)';
-                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.12)';
-                    const number = e.currentTarget.querySelector('[data-step-number]');
-                    if (number) {
-                      number.style.opacity = '0.5';
-                      number.style.transform = 'scale(1.1)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateX(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
-                    const number = e.currentTarget.querySelector('[data-step-number]');
-                    if (number) {
-                      number.style.opacity = '0.3';
-                      number.style.transform = 'scale(1)';
-                    }
-                  }}
-                >
-                  <div 
-                    data-step-number 
-                    style={{
-                      ...styles.stepNumber,
-                      transition: 'all 0.4s ease'
-                    }}
+                <motion.img 
+                  src={destination.image} 
+                  alt={destination.name}
+                  style={styles.destinationImage}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.6 }}
+                />
+                <div style={styles.destinationOverlay}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 + index * 0.1 }}
                   >
-                    {step.number}
-                  </div>
-                  <div style={styles.stepContent}>
-                    <h3 style={styles.stepTitle}>{step.title}</h3>
-                    <p style={styles.stepDescription}>{step.description}</p>
-                  </div>
+                    <h3 style={styles.destinationName}>{destination.name}</h3>
+                    <p style={styles.destinationTagline}>{destination.tagline}</p>
+                    <div style={styles.destinationDetails}>
+                      <span style={styles.destinationPrice}>{destination.price}</span>
+                      <span style={styles.destinationDays}>{destination.days}</span>
+                    </div>
+                  </motion.div>
                 </div>
-              </AnimatedSection>
-          ))}
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 5. Testimonials Section */}
+      {/* 7. How It Works - Visual Timeline */}
+      <section style={styles.timelineSection}>
+        <AnimatedSection direction="fade" duration={0.6}>
+          <h2 style={styles.sectionTitle}>Your Journey in 4 Simple Steps</h2>
+          <p style={styles.sectionSubtitle}>
+            From planning to paradise — we make it effortless
+          </p>
+        </AnimatedSection>
+
+        <div style={styles.timelineContainer}>
+          {travelProcess.map((item, index) => (
+            <motion.div
+              key={item.step}
+              style={styles.timelineItem}
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ 
+                duration: 0.6, 
+                delay: index * 0.2,
+                type: "spring",
+                stiffness: 100
+              }}
+            >
+              <motion.div 
+                style={styles.timelineIconWrapper}
+                whileHover={{ 
+                  scale: 1.15,
+                  rotate: 10,
+                  boxShadow: '0 12px 32px rgba(44,90,160,0.4)'
+                }}
+              >
+                {item.step}
+              </motion.div>
+              <div style={styles.timelineContent}>
+                <div style={styles.timelineStep}>STEP {item.step}</div>
+                <h3 style={styles.timelineTitle}>{item.title}</h3>
+                <p style={styles.timelineDescription}>{item.description}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* 8. Popular Packages - Interactive Cards */}
+      <section style={styles.packagesSection}>
+        <AnimatedSection direction="fade" duration={0.6}>
+          <h2 style={styles.sectionTitle}>Singapore's Favorite Experiences</h2>
+          <p style={styles.sectionSubtitle}>
+            Best-selling packages loved by locals and travelers alike
+          </p>
+        </AnimatedSection>
+
+        <div style={styles.packagesGrid}>
+          {popularPackages.map((pkg, index) => (
+            <motion.div
+              key={pkg.id}
+              style={styles.packageCard}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              whileHover={{ 
+                y: -12,
+                boxShadow: '0 16px 48px rgba(0,0,0,0.15)',
+                transition: { type: "spring", stiffness: 300 }
+              }}
+              onClick={() => navigate('/attractions')}
+            >
+              <div style={styles.packageImageWrapper}>
+                <motion.img 
+                  src={pkg.image} 
+                  alt={pkg.destination}
+                  style={styles.packageImage}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
+                />
+                <div style={styles.packageBadge}>{pkg.badge}</div>
+              </div>
+              <div style={styles.packageContent}>
+                <div style={styles.packageHeader}>
+                  <h3 style={styles.packageDestination}>{pkg.destination}</h3>
+                  <div style={styles.packageRating}>
+                    {pkg.rating}
+                  </div>
+                </div>
+                <ul style={styles.packageIncludes}>
+                  {pkg.includes.map((item, idx) => (
+                    <li 
+                      key={idx} 
+                      style={styles.packageIncludeItem}
+                    >
+                      <span style={{
+                        position: 'absolute',
+                        left: 0,
+                        color: '#2c5aa0'
+                      }}>✓</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <div style={styles.packageFooter}>
+                  <div>
+                    <div style={styles.packagePrice}>{pkg.price}</div>
+                    <div style={styles.packageDuration}>per person</div>
+                  </div>
+                  <motion.button
+                    style={{
+                      background: '#2c5aa0',
+                      color: 'white',
+                      border: 'none',
+                      padding: '12px 24px',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontWeight: 600,
+                      fontFamily: "'Poppins', sans-serif"
+                    }}
+                    whileHover={{ scale: 1.05, boxShadow: '0 4px 12px rgba(44,90,160,0.3)' }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Book Now
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* 9. Testimonials Section */}
       <section style={styles.section}>
         <AnimatedSection direction="fade" duration={0.6}>
-          <h2 style={styles.sectionTitle}>What Our Customers Say</h2>
+          <h2 style={styles.sectionTitle}>Real Stories, Real Travelers</h2>
           <p style={styles.sectionSubtitle}>
-            Real experiences from real travelers who trusted us with their journeys
+            Hear from those who trusted us with their dream vacations
           </p>
         </AnimatedSection>
 
@@ -815,17 +1810,13 @@ const Home = () => {
               direction="up"
               distance={40}
             >
-              <div 
+              <motion.div 
                 style={styles.testimonialCard}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)';
-                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.12)';
-                  e.currentTarget.style.borderColor = '#2c5aa0';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
-                  e.currentTarget.style.borderColor = '#f0f0f0';
+                whileHover={{ 
+                  y: -12,
+                  boxShadow: '0 16px 48px rgba(0, 0, 0, 0.12)',
+                  borderColor: '#2c5aa0',
+                  transition: { type: "spring", stiffness: 300 }
                 }}
               >
                 <div style={styles.testimonialRating}>
@@ -839,13 +1830,13 @@ const Home = () => {
                     <div style={styles.testimonialLocation}>📍 {testimonial.location}</div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </AnimatedSection>
           ))}
         </div>
       </section>
 
-      {/* 6. Airline Partners Section */}
+      {/* 10. Airline Partners Section */}
       <section style={styles.partnersSection}>
         <AnimatedSection direction="fade" duration={0.6}>
           <h2 style={styles.partnersTitle}>Our Trusted Airline Partners</h2>
@@ -884,7 +1875,43 @@ const Home = () => {
         </AnimatedSection>
       </section>
 
-      {/* 7. Final CTA Section */}
+      {/* 11. Newsletter Section */}
+      {/* <section style={styles.newsletterSection}>
+        <motion.div
+          style={styles.newsletterContent}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 style={styles.newsletterTitle}>Get Exclusive Travel Deals</h2>
+          <p style={styles.newsletterText}>
+            Join 5,000+ smart travelers getting weekly deals & travel tips 💌
+          </p>
+          <form style={styles.newsletterForm} onSubmit={(e) => e.preventDefault()}>
+            <input 
+              type="email" 
+              placeholder="Enter your email address"
+              style={styles.newsletterInput}
+              onFocus={(e) => e.target.style.borderColor = '#2c5aa0'}
+              onBlur={(e) => e.target.style.borderColor = '#e0e0e0'}
+            />
+            <motion.button 
+              type="submit"
+              style={styles.newsletterButton}
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: '0 8px 20px rgba(44, 90, 160, 0.3)'
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Subscribe
+            </motion.button>
+          </form>
+        </motion.div>
+      </section> */}
+
+      {/* 12. Final CTA Section */}
       <AnimatedSection direction="fade">
         <section style={styles.finalCTASection}>
           <motion.div
@@ -893,26 +1920,24 @@ const Home = () => {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
           >
-            <h2 style={styles.finalCTATitle}>Start Your Journey with AZ Holidays</h2>
+            <h2 style={styles.finalCTATitle}>Ready to Start Your Journey?</h2>
             <p style={styles.finalCTAText}>
-              Let us handle the details while you focus on making memories. Book now and experience travel made simple.
+              Let us handle the details while you focus on making memories. Over 12,000 happy travelers trust us — you should too.
             </p>
-            <button 
+            <motion.button 
               style={styles.finalCTAButton}
               onClick={() => window.open('https://api.whatsapp.com/send/?phone=6591263786', '_blank')}
-              onMouseEnter={(e) => {
-                e.target.style.transform = 'translateY(-4px)';
-                e.target.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.3)';
-                e.target.style.backgroundColor = '#f8f9fa';
+              whileHover={{ 
+                y: -6,
+                boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4)',
+                backgroundColor: '#f8f9fa',
+                scale: 1.05
               }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.2)';
-                e.target.style.backgroundColor = 'white';
-              }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400 }}
             >
-              Get Started Today
-            </button>
+              Chat with Us on WhatsApp 💬
+            </motion.button>
           </motion.div>
         </section>
       </AnimatedSection>
