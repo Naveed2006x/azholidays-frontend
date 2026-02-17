@@ -90,7 +90,7 @@ const Flights = () => {
   );
 
   return (
-    <Box sx={{ bgcolor: '#fafcff', minHeight: '90vh', background: 'linear-gradient(135deg, #f8faff 0%, #f0f7ff 100%)' }}>
+    <Box sx={{ minHeight: '90vh'}}>
       
       {/* Hero Section */}
       <Box sx={{ 
@@ -98,7 +98,7 @@ const Flights = () => {
         background: 'linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%)',
         color: 'white', 
         pt: { xs: 10, md: 8 }, 
-        pb: { xs: 10, md: 8 },
+        pb: { xs: 12, md: 14 },
         borderRadius: { xs: '0 0 40px 40px', md: '0 0 60px 60px' },
         mb: { xs: 4, md: 8 },
         overflow: 'hidden',
@@ -128,107 +128,73 @@ const Flights = () => {
               </Typography>
             </Box>
           </Fade>
-
-          {/* Search Bar */}
-          <Fade in timeout={1000}>
-            <Box sx={{ maxWidth: { xs: '100%', sm: '600px' }, mx: 'auto', px: 2 }}>
-              <TextField
-                fullWidth
-                variant="outlined"
-                placeholder="Search by destination or airline..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                sx={{
-                  bgcolor: 'rgba(255,255,255,0.95)',
-                  borderRadius: '20px',
-                  backdropFilter: 'blur(10px)',
-                  '& .MuiOutlinedInput-root': {
-                    borderRadius: '20px',
-                    fontFamily: "'Poppins', sans-serif",
-                    fontSize: '1.1rem',
-                    height: '60px',
-                    '& fieldset': { borderColor: 'rgba(255,255,255,0.3)', borderWidth: '2px' },
-                    '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.5)', borderWidth: '2px' },
-                    '&.Mui-focused fieldset': { borderColor: 'white', borderWidth: '2px' }
-                  }
-                }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start" sx={{ ml: 1 }}>
-                      <Search sx={{ color: '#2c5aa0', fontSize: 28 }} />
-                    </InputAdornment>
-                  ),
-                  endAdornment: searchTerm && (
-                    <InputAdornment position="end" sx={{ mr: 1 }}>
-                      <Button onClick={() => setSearchTerm('')} sx={{ color: '#2c5aa0', textTransform: 'none', fontFamily: "'Poppins', sans-serif", fontWeight: 500 }}>Clear</Button>
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </Box>
-          </Fade>
         </Container>
       </Box>
 
-      <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3, md: 4 }, py: { xs: 2, sm: 3, md: 4 } }}>
-        
-        {/* Flight Search Widget */}
+      {/* Flight Search Widget - Between Hero and Content */}
+      <Container maxWidth="lg" sx={{ mt: { xs: -15, md: -18 }, mb: { xs: 4, md: 6 }, position: 'relative', zIndex: 10, px: { xs: 2, sm: 3 } }}>
         <Fade in timeout={600}>
-          <Box sx={{ mb: 5, display: 'flex', justifyContent: 'center' }}>
-            <Card sx={{ 
-              width: '100%', 
-              maxWidth: '920px', 
-              borderRadius: '24px', 
-              boxShadow: '0 12px 40px rgba(44, 90, 160, 0.12)',
-              overflow: 'hidden',
-              border: '1px solid rgba(44, 90, 160, 0.1)'
+          <Card sx={{ 
+            borderRadius: '20px', 
+            boxShadow: '0 4px 24px rgba(0, 0, 0, 0.12), 0 8px 48px rgba(44, 90, 160, 0.16)',
+            overflow: 'hidden',
+            bgcolor: 'white'
+          }}>
+            <Box sx={{ 
+              p: { xs: 2, sm: 3 },
+              display: 'flex', 
+              justifyContent: 'center',
+              bgcolor: 'white',
+              minHeight: { xs: '340px', sm: '220px' }
             }}>
-              <Box sx={{ 
-                background: 'linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%)',
-                color: 'white',
-                p: 2.5,
-                textAlign: 'center'
-              }}>
-                <Typography sx={{ 
-                  fontFamily: "'Poppins', sans-serif", 
-                  fontWeight: 700, 
-                  fontSize: '1.3rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 1
-                }}>
-                  <Flight /> Search & Book Flights
-                </Typography>
-                <Typography sx={{ 
-                  fontFamily: "'Poppins', sans-serif", 
-                  fontSize: '0.9rem', 
-                  opacity: 0.9,
-                  mt: 0.5
-                }}>
-                  Powered by Trip.com - Find the best deals on flights worldwide
-                </Typography>
+              {/* Desktop Flight Search */}
+              <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                <iframe 
+                  border="0" 
+                  src="https://www.trip.com/partners/ad/S12446562?Allianceid=7838195&SID=295303450&trip_sub1=" 
+                  style={{width:'900px',height:'200px',border:'none',maxWidth:'100%'}} 
+                  frameBorder="0" 
+                  scrolling="no" 
+                  id="S12446562"
+                  title="Flight Search Desktop"
+                ></iframe>
               </Box>
-              <Box sx={{ 
-                p: 2,
-                display: 'flex', 
-                justifyContent: 'center',
-                bgcolor: '#fafcff',
-                minHeight: '220px'
-              }}>
-                <iframe border="0" src="https://www.trip.com/partners/ad/S12446562?Allianceid=7838195&SID=295303450&trip_sub1=" frameborder="0" scrolling="no" id="S12446562"></iframe>
-              </Box>
-            </Card>
-          </Box>
-        </Fade>
               
-        {/* Info Alert */}
+              {/* Mobile Flight Search */}
+              <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+                <iframe 
+                  border="0" 
+                  src="https://www.trip.com/partners/ad/S12457314?Allianceid=7838195&SID=295303450&trip_sub1=" 
+                  style={{width:'320px',height:'320px',border:'none',maxWidth:'100%'}} 
+                  frameBorder="0" 
+                  scrolling="no" 
+                  id="S12457314"
+                  title="Flight Search Mobile"
+                ></iframe>
+              </Box>
+            </Box>
+          </Card>
+        </Fade>
+      </Container>
+
+      <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3, md: 4 }, py: { xs: 2, sm: 3, md: 4 } }}>
+              
+        {/* Info Alerts */}
         <Fade in timeout={800}>
-          <Alert severity="info" icon={<FlightTakeoff />} sx={{ mb: 4, borderRadius: '16px', border: '2px solid #2c5aa0', bgcolor: '#e0f2fe', '& .MuiAlert-icon': { color: '#2c5aa0' }, '& .MuiAlert-message': { fontFamily: "'Poppins', sans-serif", fontSize: '1rem', fontWeight: 500, color: '#1e293b' } }}>
+          <Alert severity="info" icon={<FlightTakeoff />} sx={{ mb: 3, borderRadius: '16px', border: '2px solid #2c5aa0', bgcolor: '#e0f2fe', '& .MuiAlert-icon': { color: '#2c5aa0' }, '& .MuiAlert-message': { fontFamily: "'Poppins', sans-serif", fontSize: '1rem', fontWeight: 500, color: '#1e293b' } }}>
             <Typography sx={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: '1.1rem', mb: 0.5, color: '#2c5aa0' }}>
               Book with Confidence! ✈️
             </Typography>
             Search and book flights to destinations worldwide through our trusted partner Trip.com. Get the best deals and exclusive offers!
+          </Alert>
+        </Fade>
+
+        <Fade in timeout={900}>
+          <Alert severity="warning" sx={{ mb: 4, borderRadius: '16px', bgcolor: '#fff3e0', '& .MuiAlert-message': { fontFamily: "'Poppins', sans-serif", fontSize: '0.95rem', fontWeight: 500, color: '#1e293b' } }}>
+            <Typography sx={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: '1rem', mb: 0.5 }}>
+              🛡️ Can't see the search box above?
+            </Typography>
+            Please disable your ad blocker for this site. Some ad blockers prevent the flight search widget from loading properly.
           </Alert>
         </Fade>
 
