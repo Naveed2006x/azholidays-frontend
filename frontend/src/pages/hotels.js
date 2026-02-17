@@ -203,8 +203,8 @@ const Hotels = () => {
                 alignItems: 'center',
                 gap: 2
               }}>
-                <iframe border="0" src="https://www.trip.com/partners/ad/S12449558?Allianceid=7838195&SID=295303450&trip_sub1=" style={{width:'900px',height:'200px',maxWidth:'100%'}} frameBorder="0" scrolling="no" id="S12449558"></iframe>
-                <Button
+                <iframe border="0" src="https://www.trip.com/partners/ad/S12449558?Allianceid=7838195&SID=295303450&trip_sub1=" frameborder="0" scrolling="no" id="S12449558"></iframe>
+                {/* <Button
                   variant="outlined"
                   startIcon={<OpenInNew />}
                   href="https://www.trip.com/partners/ad/S12449558?Allianceid=7838195&SID=295303450&trip_sub1="
@@ -222,7 +222,7 @@ const Hotels = () => {
                   }}
                 >
                   Open Hotel Search in New Window
-                </Button>
+                </Button> */}
               </Box>
             </Card>
           </Box>

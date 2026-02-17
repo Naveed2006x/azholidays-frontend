@@ -16,7 +16,7 @@ import {
   Alert,
   Grid
 } from '@mui/material';
-import { Search, Flight, LocationOn, CalendarToday, Person, FlightTakeoff, OpenInNew } from '@mui/icons-material';
+import { Search, Flight, LocationOn, CalendarToday, Person, FlightTakeoff } from '@mui/icons-material';
 
 const mockFlights = [
   {
@@ -214,31 +214,9 @@ const Flights = () => {
                 display: 'flex', 
                 justifyContent: 'center',
                 bgcolor: '#fafcff',
-                minHeight: '220px',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 2
+                minHeight: '220px'
               }}>
-                <iframe border="0" src="https://www.trip.com/partners/ad/S12446562?Allianceid=7838195&SID=295303450&trip_sub1=" style={{width:'900px',height:'200px',maxWidth:'100%'}} frameBorder="0" scrolling="no" id="S12446562"></iframe>
-                <Button
-                  variant="outlined"
-                  startIcon={<OpenInNew />}
-                  href="https://www.trip.com/partners/ad/S12446562?Allianceid=7838195&SID=295303450&trip_sub1="
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{
-                    textTransform: 'none',
-                    fontFamily: "'Poppins', sans-serif",
-                    color: '#2c5aa0',
-                    borderColor: '#2c5aa0',
-                    '&:hover': {
-                      borderColor: '#1e3d6f',
-                      bgcolor: 'rgba(44, 90, 160, 0.05)'
-                    }
-                  }}
-                >
-                  Open Flight Search in New Window
-                </Button>
+                <iframe border="0" src="https://www.trip.com/partners/ad/S12446562?Allianceid=7838195&SID=295303450&trip_sub1=" frameborder="0" scrolling="no" id="S12446562"></iframe>
               </Box>
             </Card>
           </Box>
