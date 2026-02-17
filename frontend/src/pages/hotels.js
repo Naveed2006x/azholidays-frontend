@@ -15,7 +15,7 @@ import {
   Alert,
   Rating
 } from '@mui/material';
-import { Search, Hotel, LocationOn, Star, Wifi, LocalParking } from '@mui/icons-material';
+import { Search, Hotel, LocationOn, Star, Wifi, LocalParking, OpenInNew } from '@mui/icons-material';
 
 const mockHotels = [
   {
@@ -156,12 +156,85 @@ const Hotels = () => {
 
       <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3, md: 4 }, py: { xs: 2, sm: 3, md: 4 } }}>
         
+        {/* Hotel Search Widget */}
         <Fade in timeout={600}>
+          <Box sx={{ mb: 5, display: 'flex', justifyContent: 'center' }}>
+            <Card sx={{ 
+              width: '100%', 
+              maxWidth: '920px', 
+              borderRadius: '24px', 
+              boxShadow: '0 12px 40px rgba(44, 90, 160, 0.12)',
+              overflow: 'hidden',
+              border: '1px solid rgba(44, 90, 160, 0.1)'
+            }}>
+              <Box sx={{ 
+                background: 'linear-gradient(135deg, #2c5aa0 0%, #1e3d6f 100%)',
+                color: 'white',
+                p: 2.5,
+                textAlign: 'center'
+              }}>
+                <Typography sx={{ 
+                  fontFamily: "'Poppins', sans-serif", 
+                  fontWeight: 700, 
+                  fontSize: '1.3rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 1
+                }}>
+                  <Hotel /> Search & Book Hotels
+                </Typography>
+                <Typography sx={{ 
+                  fontFamily: "'Poppins', sans-serif", 
+                  fontSize: '0.9rem', 
+                  opacity: 0.9,
+                  mt: 0.5
+                }}>
+                  Powered by Trip.com - Find the best deals on hotels worldwide
+                </Typography>
+              </Box>
+              <Box sx={{ 
+                p: 2,
+                display: 'flex', 
+                justifyContent: 'center',
+                bgcolor: '#fafcff',
+                minHeight: '220px',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 2
+              }}>
+                <iframe border="0" src="https://www.trip.com/partners/ad/S12449558?Allianceid=7838195&SID=295303450&trip_sub1=" style={{width:'900px',height:'200px',maxWidth:'100%'}} frameBorder="0" scrolling="no" id="S12449558"></iframe>
+                <Button
+                  variant="outlined"
+                  startIcon={<OpenInNew />}
+                  href="https://www.trip.com/partners/ad/S12449558?Allianceid=7838195&SID=295303450&trip_sub1="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    textTransform: 'none',
+                    fontFamily: "'Poppins', sans-serif",
+                    color: '#2c5aa0',
+                    borderColor: '#2c5aa0',
+                    '&:hover': {
+                      borderColor: '#1e3d6f',
+                      bgcolor: 'rgba(44, 90, 160, 0.05)'
+                    }
+                  }}
+                >
+                  Open Hotel Search in New Window
+                </Button>
+              </Box>
+            </Card>
+          </Box>
+        </Fade>
+
+        {/* Info Alert */}
+        <Fade in timeout={800}>
           <Alert severity="info" icon={<Hotel />} sx={{ mb: 4, borderRadius: '16px', border: '2px solid #2c5aa0', bgcolor: '#e0f2fe', '& .MuiAlert-icon': { color: '#2c5aa0' }, '& .MuiAlert-message': { fontFamily: "'Poppins', sans-serif", fontSize: '1rem', fontWeight: 500, color: '#1e293b' } }}>
             <Typography sx={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: '1.1rem', mb: 0.5, color: '#2c5aa0' }}>
-              Hotel Booking Coming Soon! 🏨
+              Book with Confidence! 🏨
             </Typography>
-            We're working with top hotels worldwide to offer you exclusive rates and seamless booking experience!
+            Search and book hotels worldwide through our trusted partner Trip.com. Get the best deals and exclusive offers!
           </Alert>
         </Fade>
 
@@ -175,14 +248,7 @@ const Hotels = () => {
               <div>
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: '24px', boxShadow: '0 12px 40px rgba(44, 90, 160, 0.08)', transition: 'all 0.4s ease', overflow: 'hidden', '&:hover': { transform: 'translateY(-12px)', boxShadow: '0 24px 60px rgba(44, 90, 160, 0.2)' } }}>
                   <Box sx={{ position: 'relative', overflow: 'hidden', height: '200px' }}>
-                    <CardMedia component="img" image={hotel.image} alt={hotel.name} sx={{ height: '100%', width: '100%', objectFit: 'cover', filter: 'grayscale(70%) brightness(0.6)' }} />
-                    
-                    <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(44, 90, 160, 0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(2px)' }}>
-                      <Box sx={{ textAlign: 'center' }}>
-                        <Typography sx={{ color: 'white', fontSize: '1.5rem', fontWeight: 700, fontFamily: "'Poppins', sans-serif", textShadow: '0 2px 8px rgba(0,0,0,0.3)', mb: 0.5 }}>Coming Soon</Typography>
-                        <Typography sx={{ color: 'rgba(255,255,255,0.9)', fontSize: '0.85rem', fontWeight: 500, fontFamily: "'Poppins', sans-serif" }}>Booking Available Soon</Typography>
-                      </Box>
-                    </Box>
+                    <CardMedia component="img" image={hotel.image} alt={hotel.name} sx={{ height: '100%', width: '100%', objectFit: 'cover', transition: 'transform 0.4s ease', '&:hover': { transform: 'scale(1.05)' } }} />
                   </Box>
 
                   <CardContent sx={{ flexGrow: 1, p: 3 }}>
@@ -207,7 +273,27 @@ const Hotels = () => {
                   </CardContent>
 
                   <Box sx={{ p: 3, pt: 2, borderTop: '1px solid #f0f0f0' }}>
-                    <Button fullWidth disabled sx={{ color: '#999', bgcolor: '#f5f5f5', textTransform: 'none', fontWeight: 600, fontFamily: "'Poppins', sans-serif", fontSize: '0.95rem', py: 1.5, cursor: 'not-allowed' }}>Book Now (Coming Soon)</Button>
+                    <Button 
+                      fullWidth 
+                      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                      sx={{ 
+                        color: 'white', 
+                        bgcolor: '#2c5aa0', 
+                        textTransform: 'none', 
+                        fontWeight: 600, 
+                        fontFamily: "'Poppins', sans-serif", 
+                        fontSize: '0.95rem', 
+                        py: 1.5,
+                        '&:hover': {
+                          bgcolor: '#1e3d6f',
+                          transform: 'translateY(-2px)',
+                          boxShadow: '0 6px 20px rgba(44, 90, 160, 0.3)'
+                        },
+                        transition: 'all 0.3s ease'
+                      }}
+                    >
+                      Search Hotels
+                    </Button>
                   </Box>
                 </Card>
               </div>
