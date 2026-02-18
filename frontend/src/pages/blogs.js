@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Box, 
   Container, 
@@ -21,6 +22,20 @@ import { Search, AccessTime, Person, ArrowForward, Favorite, BookmarkAdd } from 
 const blogPosts = [
   {
     id: 1,
+    title: "Best Hotels in Tokyo for Singapore Travellers (2026 Guide)",
+    excerpt: "Discover the top Tokyo hotels perfect for Singaporeans. Complete guide with SGD prices, transport tips, visa-free entry info, and JR Pass advice.",
+    image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&h=600&fit=crop",
+    author: "Az Holidays",
+    date: "Feb 17, 2026",
+    category: "Travel Tips",
+    readTime: "12 min",
+    likes: 156,
+    saved: true,
+    link: "/blogs/tokyo-hotels-singapore-travellers",
+    isPublished: true
+  },
+  {
+    id: 2,
     title: "Top 10 Hidden Gems in Southeast Asia",
     excerpt: "Discover the untouched beaches and secret temples that usually stay off the tourist radar.",
     image: "https://images.unsplash.com/photo-1552465011-b4e30bf6e79a?w=800&h=600&fit=crop",
@@ -32,7 +47,7 @@ const blogPosts = [
     saved: true
   },
   {
-    id: 2,
+    id: 3,
     title: "A Culinary Journey Through Italy",
     excerpt: "From authentic Neapolitan pizza to rich Tuscan wines, explore the flavors of Italy.",
     image: "https://images.unsplash.com/photo-1498579150354-977475b7ea0b?w=800&h=600&fit=crop",
@@ -44,7 +59,7 @@ const blogPosts = [
     saved: false
   },
   {
-    id: 3,
+    id: 4,
     title: "Essential Packing Tips for Solo Travelers",
     excerpt: "Learn how to pack light and smart for your next solo adventure around the globe.",
     image: "https://images.unsplash.com/photo-1501555088652-021faa106b9b?w=800&h=600&fit=crop",
@@ -56,7 +71,7 @@ const blogPosts = [
     saved: true
   },
   {
-    id: 4,
+    id: 5,
     title: "The Ultimate Guide to Mountain Trekking",
     excerpt: "Everything you need to know before conquering your first major peak.",
     image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=600&fit=crop",
@@ -68,7 +83,7 @@ const blogPosts = [
     saved: false
   },
   {
-    id: 5,
+    id: 6,
     title: "Budget Friendly City Breaks in Europe",
     excerpt: "Experience culture, history, and nightlife without breaking the bank.",
     image: "https://images.unsplash.com/photo-1520986606214-8b456906c813?w=800&h=600&fit=crop",
@@ -120,12 +135,19 @@ const blogPosts = [
 const categories = ["All", "Destinations", "Food & Drink", "Travel Tips", "Adventure", "Photography", "Luxury"];
 
 const Blogs = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [likedPosts, setLikedPosts] = useState({});
   const [savedPosts, setSavedPosts] = useState({
-    1: true, 3: true, 5: true, 7: true
+    1: true, 4: true, 6: true, 7: true
   });
+
+  const handleBlogClick = (post) => {
+    if (post.link && post.isPublished) {
+      navigate(post.link);
+    }
+  };
 
   const filteredPosts = blogPosts.filter((post) => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -373,6 +395,7 @@ const Blogs = () => {
                     boxShadow: '0 12px 40px rgba(44, 90, 160, 0.08)',
                     transition: 'all 0.4s ease',
                     overflow: 'hidden',
+                    cursor: post.isPublished ? 'pointer' : 'default',
                     '&:hover': {
                       transform: 'translateY(-12px)',
                       boxShadow: '0 24px 60px rgba(44, 90, 160, 0.2)',
@@ -386,7 +409,9 @@ const Blogs = () => {
                         }
                       }
                     }
-                  }}>
+                  }}
+                  onClick={() => handleBlogClick(post)}
+                  >
                     {/* Image */}
                     <Box sx={{ position: 'relative', overflow: 'hidden', height: '220px' }}>
                       <CardMedia
@@ -406,32 +431,34 @@ const Blogs = () => {
                         }}
                       />
                       
-                      {/* Coming Soon Overlay */}
-                      <Box sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        background: 'rgba(44, 90, 160, 0.7)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backdropFilter: 'blur(2px)'
-                      }}>
-                        <Box sx={{ textAlign: 'center' }}>
-                          <Typography sx={{
-                            color: 'white',
-                            fontSize: '1.5rem',
-                            fontWeight: 700,
-                            fontFamily: "'Poppins', sans-serif",
-                            textShadow: '0 2px 8px rgba(0,0,0,0.3)',
-                            mb: 0.5
-                          }}>
-                            Coming Soon
-                          </Typography>
+                      {/* Coming Soon Overlay - Only show for unpublished blogs */}
+                      {!post.isPublished && (
+                        <Box sx={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          background: 'rgba(44, 90, 160, 0.7)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backdropFilter: 'blur(2px)'
+                        }}>
+                          <Box sx={{ textAlign: 'center' }}>
+                            <Typography sx={{
+                              color: 'white',
+                              fontSize: '1.5rem',
+                              fontWeight: 700,
+                              fontFamily: "'Poppins', sans-serif",
+                              textShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                              mb: 0.5
+                            }}>
+                              Coming Soon
+                            </Typography>
+                          </Box>
                         </Box>
-                      </Box>
+                      )}
                       
                       {/* Category Badge */}
                       <Chip 
@@ -577,6 +604,11 @@ const Blogs = () => {
                         className="read-more-button"
                         size="medium"
                         endIcon={<ArrowForward />}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleBlogClick(post);
+                        }}
+                        disabled={!post.isPublished}
                         sx={{ 
                           color: '#666',
                           textTransform: 'none',
