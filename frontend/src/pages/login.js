@@ -36,6 +36,11 @@ const Login = () => {
   const location = useLocation();
   const { showToast } = useToast();
 
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'Login - AZ Holidays Singapore';
+  }, []);
+
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {

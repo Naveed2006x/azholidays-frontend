@@ -22,6 +22,11 @@ const Home = () => {
   const { scrollYProgress } = useScroll();
   const parallaxY = useTransform(scrollYProgress, [0, 1], [0, 500]);
 
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'AZ Holidays - Singapore Tours, Visa Services & Travel Packages';
+  }, []);
+
   // Check for reduced motion preference
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');

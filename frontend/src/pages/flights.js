@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { 
   Box, 
   Container, 
@@ -83,6 +84,11 @@ const mockFlights = [
 
 const Flights = () => {
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'Cheap Flights from Singapore - Best Airfare Deals | AZ Holidays';
+  }, []);
 
   const filteredFlights = mockFlights.filter((flight) =>
     flight.route.toLowerCase().includes(searchTerm.toLowerCase()) ||

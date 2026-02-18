@@ -1,8 +1,14 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Box, Container, Typography, Card, Chip, Fade, Grid, Paper, Button } from '@mui/material';
 import { DirectionsBoat, Phone, Email, Sailing, Anchor } from '@mui/icons-material';
 
 const Cruises = () => {
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'Cruise Packages - Luxury Asia Cruises from Singapore | AZ Holidays';
+  }, []);
+
   const popularRoutes = [
     { route: "Singapore - Thailand - Vietnam", duration: "5-7 Days", line: "Royal Caribbean" },
     { route: "Southeast Asia Explorer", duration: "10-14 Days", line: "Princess Cruises" },

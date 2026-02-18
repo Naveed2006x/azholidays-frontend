@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { 
   Box, 
   Container, 
@@ -76,6 +77,11 @@ const mockHotels = [
 
 const Hotels = () => {
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'Best Singapore Hotels - Compare Prices & Book Online | AZ Holidays';
+  }, []);
 
   const filteredHotels = mockHotels.filter((hotel) =>
     hotel.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

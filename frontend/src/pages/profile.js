@@ -62,6 +62,11 @@ const Profile = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+    // Set SEO title
+    React.useEffect(() => {
+        document.title = 'My Profile - AZ Holidays Account';
+    }, []);
+
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',

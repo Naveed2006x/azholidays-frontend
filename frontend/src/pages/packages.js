@@ -1,8 +1,14 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Box, Container, Typography, Card, Chip, Fade, Grid, Paper, Button } from '@mui/material';
 import { CardGiftcard, Phone, Email, Explore, TravelExplore } from '@mui/icons-material';
 
 const Packages = () => {
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'Travel Packages - Customized Holiday Packages from Singapore | AZ Holidays';
+  }, []);
+
   const packageTypes = [
     { title: "Family Holidays", desc: "Fun-filled vacations for the whole family", popular: true },
     { title: "Adventure Tours", desc: "Thrilling experiences for adventurers", popular: true  },
