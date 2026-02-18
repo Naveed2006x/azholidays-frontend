@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Box, 
@@ -40,6 +41,11 @@ import {
 const IndiaVisa = () => {
   const navigate = useNavigate();
   const [openFAQ, setOpenFAQ] = useState(null);
+
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'India eVisa - Fast Online Visa Application from Singapore | AZ Holidays';
+  }, []);
 
   // Check if running on dev or localhost
   const isDevelopment = window.location.hostname === 'localhost' || 

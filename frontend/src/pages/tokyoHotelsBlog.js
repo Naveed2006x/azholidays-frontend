@@ -53,6 +53,11 @@ const TokyoHotelsBlog = () => {
   const [showToc, setShowToc] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
 
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'Best Tokyo Hotels 2026 - Complete Guide with Reviews & Prices | AZ Holidays';
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.pageYOffset;
@@ -940,14 +945,14 @@ const TokyoHotelsBlog = () => {
               color: 'white',
               p: 3
             }}>
-              <Stack direction="row" alignItems="flex-start" justifyContent="space-between" spacing={2}>
-                <Box sx={{ flex: 1 }}>
+              <Stack direction={{ xs: 'column', md: 'row' }} alignItems={{ xs: 'flex-start', md: 'flex-start' }} justifyContent="space-between" spacing={2}>
+                <Box sx={{ flex: 1, width: { xs: '100%', md: 'auto' } }}>
                   <Stack direction="row" alignItems="flex-start" spacing={1.5} sx={{ mb: 2.5, flexWrap: 'wrap' }}>
-                    <Hotel sx={{ fontSize: 32 }} />
+                    <Hotel sx={{ fontSize: { xs: 28, sm: 32 } }} />
                     <Typography variant="h3" sx={{ 
                       fontWeight: 700,
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: '1.5rem'
+                      fontSize: { xs: '1.25rem', sm: '1.5rem' }
                     }}>
                       Park Hyatt Tokyo
                     </Typography>
@@ -969,16 +974,18 @@ const TokyoHotelsBlog = () => {
                       // Optional: You can add a toast notification here
                     }}
                   >
-                    <LocationOn sx={{ fontSize: 16 }} />
+                    <LocationOn sx={{ fontSize: { xs: 14, sm: 16 }, flexShrink: 0 }} />
                     <Typography sx={{
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: '0.85rem',
+                      fontSize: { xs: '0.75rem', sm: '0.85rem' },
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 0.5
+                      gap: 0.5,
+                      flexWrap: 'wrap',
+                      wordBreak: 'break-word'
                     }}>
                       2, 3 Chome-7-1 Nishishinjuku, Shinjuku Ward, Tokyo, 163-1055, Japan
-                      <ContentCopy sx={{ fontSize: 14, ml: 0.5 }} />
+                      <ContentCopy sx={{ fontSize: { xs: 12, sm: 14 }, ml: 0.5 }} />
                     </Typography>
                   </Stack>
                 </Box>
@@ -1000,6 +1007,7 @@ const TokyoHotelsBlog = () => {
                     py: 1,
                     whiteSpace: 'nowrap',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                    width: { xs: '100%', md: 'auto' },
                     '&:hover': {
                       bgcolor: 'rgba(255,255,255,0.9)',
                       boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
@@ -1056,8 +1064,8 @@ const TokyoHotelsBlog = () => {
                 {/* Star Rating Chip - Top Left */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 12,
-                  left: 12
+                  top: { xs: 8, sm: 12 },
+                  left: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="5-Star Hotel" 
@@ -1068,7 +1076,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -1076,8 +1086,8 @@ const TokyoHotelsBlog = () => {
                 {/* Best For Chip - Top Right */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 12,
-                  right: 12
+                  top: { xs: 8, sm: 12 },
+                  right: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="Best for Luxury Couples" 
@@ -1088,7 +1098,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -1096,8 +1108,8 @@ const TokyoHotelsBlog = () => {
                 {/* Review Rating - Below Best For Chip on Right */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 52,
-                  right: 12
+                  top: { xs: 36, sm: 52 },
+                  right: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="77 reviews" 
@@ -1108,7 +1120,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -1136,8 +1150,8 @@ const TokyoHotelsBlog = () => {
                 {/* CTA Button Overlay */}
                 <Box sx={{
                   position: 'absolute',
-                  bottom: 20,
-                  right: 20
+                  bottom: { xs: 12, sm: 20 },
+                  right: { xs: 12, sm: 20 }
                 }}>
                   <Button
                     variant="contained"
@@ -1148,9 +1162,9 @@ const TokyoHotelsBlog = () => {
                       color: 'white',
                       fontFamily: "'Poppins', sans-serif",
                       fontWeight: 700,
-                      fontSize: { xs: '0.85rem', sm: '0.95rem' },
-                      px: { xs: 2.5, sm: 3 },
-                      py: { xs: 1.2, sm: 1.5 },
+                      fontSize: { xs: '0.65rem', sm: '0.95rem' },
+                      px: { xs: 1.5, sm: 3 },
+                      py: { xs: 0.8, sm: 1.5 },
                       borderRadius: '10px',
                       textTransform: 'none',
                       boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
@@ -1261,12 +1275,12 @@ const TokyoHotelsBlog = () => {
                   sx={{ 
                     borderColor: '#d32f2f',
                     color: '#d32f2f',
-                    py: 1.5,
+                    py: { xs: 1.2, sm: 1.5 },
                     borderRadius: '12px',
                     textTransform: 'none',
                     fontFamily: "'Poppins', sans-serif",
                     fontWeight: 600,
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     '&:hover': {
                       borderColor: '#b71c1c',
                       background: 'rgba(211,47,47,0.05)'
@@ -1287,12 +1301,12 @@ const TokyoHotelsBlog = () => {
                   sx={{ 
                     borderColor: '#003580',
                     color: '#003580',
-                    py: 1.5,
+                    py: { xs: 1.2, sm: 1.5 },
                     borderRadius: '12px',
                     textTransform: 'none',
                     fontFamily: "'Poppins', sans-serif",
                     fontWeight: 600,
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     '&:hover': {
                       borderColor: '#00224f',
                       background: 'rgba(0,53,128,0.05)'
@@ -1315,12 +1329,12 @@ const TokyoHotelsBlog = () => {
                   mt: 2,
                   borderColor: '#2c5aa0',
                   color: '#2c5aa0',
-                  py: 1.5,
+                  py: { xs: 1.2, sm: 1.5 },
                   borderRadius: '12px',
                   textTransform: 'none',
                   fontFamily: "'Poppins', sans-serif",
                   fontWeight: 600,
-                  fontSize: '1rem',
+                  fontSize: { xs: '0.875rem', sm: '1rem' },
                   '&:hover': {
                     borderColor: '#1e3d6f',
                     background: 'rgba(44,90,160,0.05)'
@@ -1349,14 +1363,14 @@ const TokyoHotelsBlog = () => {
               color: 'white',
               p: 3
             }}>
-              <Stack direction="row" alignItems="flex-start" justifyContent="space-between" spacing={2}>
-                <Box sx={{ flex: 1 }}>
+              <Stack direction={{ xs: 'column', md: 'row' }} alignItems={{ xs: 'flex-start', md: 'flex-start' }} justifyContent="space-between" spacing={2}>
+                <Box sx={{ flex: 1, width: { xs: '100%', md: 'auto' } }}>
                   <Stack direction="row" alignItems="flex-start" spacing={1.5} sx={{ mb: 2.5, flexWrap: 'wrap' }}>
-                    <Hotel sx={{ fontSize: 32 }} />
+                    <Hotel sx={{ fontSize: { xs: 28, sm: 32 } }} />
                     <Typography variant="h3" sx={{ 
                       fontWeight: 700,
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: '1.5rem'
+                      fontSize: { xs: '1.25rem', sm: '1.5rem' }
                     }}>
                       Shibuya Excel Hotel Tokyu
                     </Typography>
@@ -1376,16 +1390,18 @@ const TokyoHotelsBlog = () => {
                       navigator.clipboard.writeText('1 Chome-12-2 Dogenzaka, Shibuya Ward, Tokyo, 150-0043, Japan');
                     }}
                   >
-                    <LocationOn sx={{ fontSize: 16 }} />
+                    <LocationOn sx={{ fontSize: { xs: 14, sm: 16 }, flexShrink: 0 }} />
                     <Typography sx={{
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: '0.85rem',
+                      fontSize: { xs: '0.75rem', sm: '0.85rem' },
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 0.5
+                      gap: 0.5,
+                      flexWrap: 'wrap',
+                      wordBreak: 'break-word'
                     }}>
                       1 Chome-12-2 Dogenzaka, Shibuya Ward, Tokyo, 150-0043, Japan
-                      <ContentCopy sx={{ fontSize: 14, ml: 0.5 }} />
+                      <ContentCopy sx={{ fontSize: { xs: 12, sm: 14 }, ml: 0.5 }} />
                     </Typography>
                   </Stack>
                 </Box>
@@ -1404,6 +1420,7 @@ const TokyoHotelsBlog = () => {
                     borderRadius: '8px',
                     px: 2,
                     py: 1,
+                    width: { xs: '100%', md: 'auto' },
                     whiteSpace: 'nowrap',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                     '&:hover': {
@@ -1462,8 +1479,8 @@ const TokyoHotelsBlog = () => {
                 {/* Star Rating Chip - Top Left */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 12,
-                  left: 12
+                  top: { xs: 8, sm: 12 },
+                  left: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="4-Star Hotel" 
@@ -1474,7 +1491,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -1482,8 +1501,8 @@ const TokyoHotelsBlog = () => {
                 {/* Best For Chip - Top Right */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 12,
-                  right: 12
+                  top: { xs: 8, sm: 12 },
+                  right: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="Best for Couples & Shopping Enthusiasts" 
@@ -1494,7 +1513,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -1502,8 +1523,8 @@ const TokyoHotelsBlog = () => {
                 {/* Review Rating - Below Best For Chip on Right */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 52,
-                  right: 12
+                  top: { xs: 36, sm: 52 },
+                  right: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="562 reviews" 
@@ -1514,7 +1535,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -1543,8 +1566,8 @@ const TokyoHotelsBlog = () => {
                 {/* CTA Button Overlay */}
                 <Box sx={{
                   position: 'absolute',
-                  bottom: 20,
-                  right: 20
+                  bottom: { xs: 12, sm: 20 },
+                  right: { xs: 12, sm: 20 }
                 }}>
                   <Button
                     variant="contained"
@@ -1555,9 +1578,9 @@ const TokyoHotelsBlog = () => {
                       color: 'white',
                       fontFamily: "'Poppins', sans-serif",
                       fontWeight: 700,
-                      fontSize: { xs: '0.85rem', sm: '0.95rem' },
-                      px: { xs: 2.5, sm: 3 },
-                      py: { xs: 1.2, sm: 1.5 },
+                      fontSize: { xs: '0.65rem', sm: '0.95rem' },
+                      px: { xs: 1.5, sm: 3 },
+                      py: { xs: 0.8, sm: 1.5 },
                       borderRadius: '10px',
                       textTransform: 'none',
                       boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
@@ -1669,12 +1692,12 @@ const TokyoHotelsBlog = () => {
                   sx={{ 
                     borderColor: '#d32f2f',
                     color: '#d32f2f',
-                    py: 1.5,
+                    py: { xs: 1.2, sm: 1.5 },
                     borderRadius: '12px',
                     textTransform: 'none',
                     fontFamily: "'Poppins', sans-serif",
                     fontWeight: 600,
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     '&:hover': {
                       borderColor: '#b71c1c',
                       background: 'rgba(211,47,47,0.05)'
@@ -1695,12 +1718,12 @@ const TokyoHotelsBlog = () => {
                   sx={{ 
                     borderColor: '#003580',
                     color: '#003580',
-                    py: 1.5,
+                    py: { xs: 1.2, sm: 1.5 },
                     borderRadius: '12px',
                     textTransform: 'none',
                     fontFamily: "'Poppins', sans-serif",
                     fontWeight: 600,
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     '&:hover': {
                       borderColor: '#00224f',
                       background: 'rgba(0,53,128,0.05)'
@@ -1723,12 +1746,12 @@ const TokyoHotelsBlog = () => {
                   mt: 2,
                   borderColor: '#2c5aa0',
                   color: '#2c5aa0',
-                  py: 1.5,
+                  py: { xs: 1.2, sm: 1.5 },
                   borderRadius: '12px',
                   textTransform: 'none',
                   fontFamily: "'Poppins', sans-serif",
                   fontWeight: 600,
-                  fontSize: '1rem',
+                  fontSize: { xs: '0.875rem', sm: '1rem' },
                   '&:hover': {
                     borderColor: '#1e3d6f',
                     background: 'rgba(44,90,160,0.05)'
@@ -1757,14 +1780,14 @@ const TokyoHotelsBlog = () => {
               color: 'white',
               p: 3
             }}>
-              <Stack direction="row" alignItems="flex-start" justifyContent="space-between" spacing={2}>
-                <Box sx={{ flex: 1 }}>
+              <Stack direction={{ xs: 'column', md: 'row' }} alignItems={{ xs: 'flex-start', md: 'flex-start' }} justifyContent="space-between" spacing={2}>
+                <Box sx={{ flex: 1, width: { xs: '100%', md: 'auto' } }}>
                   <Stack direction="row" alignItems="flex-start" spacing={1.5} sx={{ mb: 2.5, flexWrap: 'wrap' }}>
-                    <Hotel sx={{ fontSize: 32 }} />
+                    <Hotel sx={{ fontSize: { xs: 28, sm: 32 } }} />
                     <Typography variant="h3" sx={{ 
                       fontWeight: 700,
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: '1.5rem'
+                      fontSize: { xs: '1.25rem', sm: '1.5rem' }
                     }}>
                       Richmond Hotel Premier Asakusa International
                     </Typography>
@@ -1784,16 +1807,18 @@ const TokyoHotelsBlog = () => {
                       navigator.clipboard.writeText('2 Chome-6-7 Asakusa, Taito Ward, Tokyo, 111-0032, Japan');
                     }}
                   >
-                    <LocationOn sx={{ fontSize: 16 }} />
+                    <LocationOn sx={{ fontSize: { xs: 14, sm: 16 }, flexShrink: 0 }} />
                     <Typography sx={{
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: '0.85rem',
+                      fontSize: { xs: '0.75rem', sm: '0.85rem' },
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 0.5
+                      gap: 0.5,
+                      flexWrap: 'wrap',
+                      wordBreak: 'break-word'
                     }}>
                       2 Chome-6-7 Asakusa, Taito Ward, Tokyo, 111-0032, Japan
-                      <ContentCopy sx={{ fontSize: 14, ml: 0.5 }} />
+                      <ContentCopy sx={{ fontSize: { xs: 12, sm: 14 }, ml: 0.5 }} />
                     </Typography>
                   </Stack>
                 </Box>
@@ -1814,6 +1839,7 @@ const TokyoHotelsBlog = () => {
                     py: 1,
                     whiteSpace: 'nowrap',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                    width: { xs: '100%', md: 'auto' },
                     '&:hover': {
                       bgcolor: 'rgba(255,255,255,0.9)',
                       boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
@@ -1848,8 +1874,8 @@ const TokyoHotelsBlog = () => {
                 {/* Star Rating Chip - Top Left */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 12,
-                  left: 12
+                  top: { xs: 8, sm: 12 },
+                  left: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="4-Star Hotel" 
@@ -1860,7 +1886,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -1868,8 +1896,8 @@ const TokyoHotelsBlog = () => {
                 {/* Best For Chip - Top Right */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 12,
-                  right: 12
+                  top: { xs: 8, sm: 12 },
+                  right: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="Best for Families" 
@@ -1880,7 +1908,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -1888,8 +1918,8 @@ const TokyoHotelsBlog = () => {
                 {/* Review Rating - Below Best For Chip on Right */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 52,
-                  right: 12
+                  top: { xs: 36, sm: 52 },
+                  right: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="1320 reviews" 
@@ -1900,7 +1930,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -1928,8 +1960,8 @@ const TokyoHotelsBlog = () => {
                 {/* CTA Button Overlay */}
                 <Box sx={{
                   position: 'absolute',
-                  bottom: 20,
-                  right: 20
+                  bottom: { xs: 12, sm: 20 },
+                  right: { xs: 12, sm: 20 }
                 }}>
                   <Button
                     variant="contained"
@@ -1940,9 +1972,9 @@ const TokyoHotelsBlog = () => {
                       color: 'white',
                       fontFamily: "'Poppins', sans-serif",
                       fontWeight: 700,
-                      fontSize: { xs: '0.85rem', sm: '0.95rem' },
-                      px: { xs: 2.5, sm: 3 },
-                      py: { xs: 1.2, sm: 1.5 },
+                      fontSize: { xs: '0.65rem', sm: '0.95rem' },
+                      px: { xs: 1.5, sm: 3 },
+                      py: { xs: 0.8, sm: 1.5 },
                       borderRadius: '10px',
                       textTransform: 'none',
                       boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
@@ -2054,12 +2086,12 @@ const TokyoHotelsBlog = () => {
                   sx={{ 
                     borderColor: '#d32f2f',
                     color: '#d32f2f',
-                    py: 1.5,
+                    py: { xs: 1.2, sm: 1.5 },
                     borderRadius: '12px',
                     textTransform: 'none',
                     fontFamily: "'Poppins', sans-serif",
                     fontWeight: 600,
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     '&:hover': {
                       borderColor: '#b71c1c',
                       background: 'rgba(211,47,47,0.05)'
@@ -2080,12 +2112,12 @@ const TokyoHotelsBlog = () => {
                   sx={{ 
                     borderColor: '#003580',
                     color: '#003580',
-                    py: 1.5,
+                    py: { xs: 1.2, sm: 1.5 },
                     borderRadius: '12px',
                     textTransform: 'none',
                     fontFamily: "'Poppins', sans-serif",
                     fontWeight: 600,
-                    fontSize: '1rem',
+                    fontSize: { xs: '0.875rem', sm: '1rem' },
                     '&:hover': {
                       borderColor: '#00224f',
                       background: 'rgba(0,53,128,0.05)'
@@ -2108,12 +2140,12 @@ const TokyoHotelsBlog = () => {
                   mt: 2,
                   borderColor: '#2c5aa0',
                   color: '#2c5aa0',
-                  py: 1.5,
+                  py: { xs: 1.2, sm: 1.5 },
                   borderRadius: '12px',
                   textTransform: 'none',
                   fontFamily: "'Poppins', sans-serif",
                   fontWeight: 600,
-                  fontSize: '1rem',
+                  fontSize: { xs: '0.875rem', sm: '1rem' },
                   '&:hover': {
                     borderColor: '#1e3d6f',
                     background: 'rgba(44,90,160,0.05)'
@@ -2142,14 +2174,14 @@ const TokyoHotelsBlog = () => {
               color: 'white',
               p: 3
             }}>
-              <Stack direction="row" alignItems="flex-start" justifyContent="space-between" spacing={2}>
-                <Box sx={{ flex: 1 }}>
+              <Stack direction={{ xs: 'column', md: 'row' }} alignItems={{ xs: 'flex-start', md: 'flex-start' }} justifyContent="space-between" spacing={2}>
+                <Box sx={{ flex: 1, width: { xs: '100%', md: 'auto' } }}>
                   <Stack direction="row" alignItems="flex-start" spacing={1.5} sx={{ mb: 2.5, flexWrap: 'wrap' }}>
-                    <Hotel sx={{ fontSize: 32 }} />
+                    <Hotel sx={{ fontSize: { xs: 28, sm: 32 } }} />
                     <Typography variant="h3" sx={{ 
                       fontWeight: 700,
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: '1.5rem'
+                      fontSize: { xs: '1.25rem', sm: '1.5rem' }
                     }}>
                       Hotel Gracery Shinjuku
                     </Typography>
@@ -2169,16 +2201,18 @@ const TokyoHotelsBlog = () => {
                       navigator.clipboard.writeText('1 Chome-19-1 Kabukicho, Shinjuku Ward, Tokyo, 160-0021, Japan');
                     }}
                   >
-                    <LocationOn sx={{ fontSize: 16 }} />
+                    <LocationOn sx={{ fontSize: { xs: 14, sm: 16 }, flexShrink: 0 }} />
                     <Typography sx={{
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: '0.85rem',
+                      fontSize: { xs: '0.75rem', sm: '0.85rem' },
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 0.5
+                      gap: 0.5,
+                      flexWrap: 'wrap',
+                      wordBreak: 'break-word'
                     }}>
                       1 Chome-19-1 Kabukicho, Shinjuku Ward, Tokyo, 160-0021, Japan
-                      <ContentCopy sx={{ fontSize: 14, ml: 0.5 }} />
+                      <ContentCopy sx={{ fontSize: { xs: 12, sm: 14 }, ml: 0.5 }} />
                     </Typography>
                   </Stack>
                 </Box>
@@ -2199,6 +2233,7 @@ const TokyoHotelsBlog = () => {
                     py: 1,
                     whiteSpace: 'nowrap',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                    width: { xs: '100%', md: 'auto' },
                     '&:hover': {
                       bgcolor: 'rgba(255,255,255,0.9)',
                       boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
@@ -2210,7 +2245,7 @@ const TokyoHotelsBlog = () => {
               </Stack>
             </Box>
             <CardContent sx={{ p: 4 }}>
-              {/* Hotel Image with Rating Overlay */}
+              {/* Hotel Image with Overlays */}
               <Box sx={{ 
                 width: '100%',
                 borderRadius: '12px',
@@ -2229,34 +2264,71 @@ const TokyoHotelsBlog = () => {
                     display: 'block'
                   }}
                 />
+                
+                {/* Star Rating Chip - Top Left */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 12,
-                  right: 12,
-                  bgcolor: '#2c5aa0',
-                  backdropFilter: 'blur(10px)',
-                  borderRadius: '8px',
-                  px: 1.5,
-                  py: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 0.5,
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                  top: { xs: 8, sm: 12 },
+                  left: { xs: 8, sm: 12 }
                 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.3 }}>
-                    {[...Array(5)].map((_, index) => (
-                      <Star key={index} sx={{ fontSize: 16, color: '#FFD700' }} />
-                    ))}
-                  </Box>
-                  <Typography sx={{
-                    fontFamily: "'Poppins', sans-serif",
-                    fontSize: '0.875rem',
-                    fontWeight: 600,
-                    color: 'white',
-                    ml: 0.5
-                  }}>
-                    3235 reviews
-                  </Typography>
+                  <Chip 
+                    label="4-Star Hotel" 
+                    size="small"
+                    sx={{ 
+                      bgcolor: 'rgba(255,255,255,0.95)',
+                      color: '#2c5aa0',
+                      fontWeight: 700,
+                      backdropFilter: 'blur(10px)',
+                      fontFamily: "'Poppins', sans-serif",
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
+                    }} 
+                  />
+                </Box>
+
+                {/* Best For Chip - Top Right */}
+                <Box sx={{
+                  position: 'absolute',
+                  top: { xs: 8, sm: 12 },
+                  right: { xs: 8, sm: 12 }
+                }}>
+                  <Chip 
+                    label="Best for First-Time Visitors" 
+                    size="small"
+                    sx={{ 
+                      bgcolor: 'rgba(255,255,255,0.95)',
+                      color: '#2c5aa0',
+                      fontWeight: 700,
+                      backdropFilter: 'blur(10px)',
+                      fontFamily: "'Poppins', sans-serif",
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
+                    }} 
+                  />
+                </Box>
+
+                {/* Review Rating - Below Best For Chip on Right */}
+                <Box sx={{
+                  position: 'absolute',
+                  top: { xs: 36, sm: 52 },
+                  right: { xs: 8, sm: 12 }
+                }}>
+                  <Chip 
+                    label="3235 reviews" 
+                    size="small"
+                    sx={{ 
+                      bgcolor: 'rgba(255,255,255,0.95)',
+                      color: '#2c5aa0',
+                      fontWeight: 700,
+                      backdropFilter: 'blur(10px)',
+                      fontFamily: "'Poppins', sans-serif",
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
+                    }} 
+                  />
                 </Box>
               </Box>
               
@@ -2283,8 +2355,8 @@ const TokyoHotelsBlog = () => {
                 {/* CTA Button Overlay */}
                 <Box sx={{
                   position: 'absolute',
-                  bottom: 20,
-                  right: 20
+                  bottom: { xs: 12, sm: 20 },
+                  right: { xs: 12, sm: 20 }
                 }}>
                   <Button
                     variant="contained"
@@ -2295,9 +2367,9 @@ const TokyoHotelsBlog = () => {
                       color: 'white',
                       fontFamily: "'Poppins', sans-serif",
                       fontWeight: 700,
-                      fontSize: { xs: '0.85rem', sm: '0.95rem' },
-                      px: { xs: 2.5, sm: 3 },
-                      py: { xs: 1.2, sm: 1.5 },
+                      fontSize: { xs: '0.65rem', sm: '0.95rem' },
+                      px: { xs: 1.5, sm: 3 },
+                      py: { xs: 0.8, sm: 1.5 },
                       borderRadius: '10px',
                       textTransform: 'none',
                       boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
@@ -2463,12 +2535,12 @@ const TokyoHotelsBlog = () => {
                   mt: 2,
                   borderColor: '#2c5aa0',
                   color: '#2c5aa0',
-                  py: 1.5,
+                  py: { xs: 1.2, sm: 1.5 },
                   borderRadius: '12px',
                   textTransform: 'none',
                   fontFamily: "'Poppins', sans-serif",
                   fontWeight: 600,
-                  fontSize: '1rem',
+                  fontSize: { xs: '0.875rem', sm: '1rem' },
                   '&:hover': {
                     borderColor: '#1e3d6f',
                     background: 'rgba(44,90,160,0.05)'
@@ -2497,14 +2569,14 @@ const TokyoHotelsBlog = () => {
               color: 'white',
               p: 3
             }}>
-              <Stack direction="row" alignItems="flex-start" justifyContent="space-between" spacing={2}>
-                <Box sx={{ flex: 1 }}>
+              <Stack direction={{ xs: 'column', md: 'row' }} alignItems={{ xs: 'flex-start', md: 'flex-start' }} justifyContent="space-between" spacing={2}>
+                <Box sx={{ flex: 1, width: { xs: '100%', md: 'auto' } }}>
                   <Stack direction="row" alignItems="flex-start" spacing={1.5} sx={{ mb: 2.5, flexWrap: 'wrap' }}>
-                    <Hotel sx={{ fontSize: 32 }} />
+                    <Hotel sx={{ fontSize: { xs: 28, sm: 32 } }} />
                     <Typography variant="h3" sx={{ 
                       fontWeight: 700,
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: '1.5rem'
+                      fontSize: { xs: '1.25rem', sm: '1.5rem' }
                     }}>
                       The Millennials Shibuya
                     </Typography>
@@ -2524,16 +2596,18 @@ const TokyoHotelsBlog = () => {
                       navigator.clipboard.writeText('1 Chome-20-13 Jinnan, Shibuya Ward, Tokyo, 150-0041, Japan');
                     }}
                   >
-                    <LocationOn sx={{ fontSize: 16 }} />
+                    <LocationOn sx={{ fontSize: { xs: 14, sm: 16 }, flexShrink: 0 }} />
                     <Typography sx={{
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: '0.85rem',
+                      fontSize: { xs: '0.75rem', sm: '0.85rem' },
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 0.5
+                      gap: 0.5,
+                      flexWrap: 'wrap',
+                      wordBreak: 'break-word'
                     }}>
                       1 Chome-20-13 Jinnan, Shibuya Ward, Tokyo, 150-0041, Japan
-                      <ContentCopy sx={{ fontSize: 14, ml: 0.5 }} />
+                      <ContentCopy sx={{ fontSize: { xs: 12, sm: 14 }, ml: 0.5 }} />
                     </Typography>
                   </Stack>
                 </Box>
@@ -2554,6 +2628,7 @@ const TokyoHotelsBlog = () => {
                     py: 1,
                     whiteSpace: 'nowrap',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                    width: { xs: '100%', md: 'auto' },
                     '&:hover': {
                       bgcolor: 'rgba(255,255,255,0.9)',
                       boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
@@ -2668,8 +2743,8 @@ const TokyoHotelsBlog = () => {
                 {/* CTA Button Overlay */}
                 <Box sx={{
                   position: 'absolute',
-                  bottom: 20,
-                  right: 20
+                  bottom: { xs: 12, sm: 20 },
+                  right: { xs: 12, sm: 20 }
                 }}>
                   <Button
                     variant="contained"
@@ -2680,9 +2755,9 @@ const TokyoHotelsBlog = () => {
                       color: 'white',
                       fontFamily: "'Poppins', sans-serif",
                       fontWeight: 700,
-                      fontSize: { xs: '0.85rem', sm: '0.95rem' },
-                      px: { xs: 2.5, sm: 3 },
-                      py: { xs: 1.2, sm: 1.5 },
+                      fontSize: { xs: '0.65rem', sm: '0.95rem' },
+                      px: { xs: 1.5, sm: 3 },
+                      py: { xs: 0.8, sm: 1.5 },
                       borderRadius: '10px',
                       textTransform: 'none',
                       boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
@@ -2848,12 +2923,12 @@ const TokyoHotelsBlog = () => {
                   mt: 2,
                   borderColor: '#2c5aa0',
                   color: '#2c5aa0',
-                  py: 1.5,
+                  py: { xs: 1.2, sm: 1.5 },
                   borderRadius: '12px',
                   textTransform: 'none',
                   fontFamily: "'Poppins', sans-serif",
                   fontWeight: 600,
-                  fontSize: '1rem',
+                  fontSize: { xs: '0.875rem', sm: '1rem' },
                   '&:hover': {
                     borderColor: '#1e3d6f',
                     background: 'rgba(44,90,160,0.05)'
@@ -2882,14 +2957,14 @@ const TokyoHotelsBlog = () => {
               color: 'white',
               p: 3
             }}>
-              <Stack direction="row" alignItems="flex-start" justifyContent="space-between" spacing={2}>
-                <Box sx={{ flex: 1 }}>
+              <Stack direction={{ xs: 'column', md: 'row' }} alignItems={{ xs: 'flex-start', md: 'flex-start' }} justifyContent="space-between" spacing={2}>
+                <Box sx={{ flex: 1, width: { xs: '100%', md: 'auto' } }}>
                   <Stack direction="row" alignItems="flex-start" spacing={1.5} sx={{ mb: 2.5, flexWrap: 'wrap' }}>
-                    <Hotel sx={{ fontSize: 32 }} />
+                    <Hotel sx={{ fontSize: { xs: 28, sm: 32 } }} />
                     <Typography variant="h3" sx={{ 
                       fontWeight: 700,
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: '1.5rem'
+                      fontSize: { xs: '1.25rem', sm: '1.5rem' }
                     }}>
                       The Peninsula Tokyo
                     </Typography>
@@ -2911,16 +2986,18 @@ const TokyoHotelsBlog = () => {
                       // Optional: You can add a toast notification here
                     }}
                   >
-                    <LocationOn sx={{ fontSize: 16 }} />
+                    <LocationOn sx={{ fontSize: { xs: 14, sm: 16 }, flexShrink: 0 }} />
                     <Typography sx={{
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: '0.85rem',
+                      fontSize: { xs: '0.75rem', sm: '0.85rem' },
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 0.5
+                      gap: 0.5,
+                      flexWrap: 'wrap',
+                      wordBreak: 'break-word'
                     }}>
                       1 Chome-8-1, Yurakucho, Chiyoda Ward, Tokyo, 100-0006, Japan
-                      <ContentCopy sx={{ fontSize: 14, ml: 0.5 }} />
+                      <ContentCopy sx={{ fontSize: { xs: 12, sm: 14 }, ml: 0.5 }} />
                     </Typography>
                   </Stack>
                 </Box>
@@ -2942,6 +3019,7 @@ const TokyoHotelsBlog = () => {
                     py: 1,
                     whiteSpace: 'nowrap',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                    width: { xs: '100%', md: 'auto' },
                     '&:hover': {
                       bgcolor: 'rgba(255,255,255,0.9)',
                       boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
@@ -2998,8 +3076,8 @@ const TokyoHotelsBlog = () => {
                 {/* Star Rating Chip - Top Left */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 12,
-                  left: 12
+                  top: { xs: 8, sm: 12 },
+                  left: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="5-Star Hotel" 
@@ -3010,7 +3088,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -3018,8 +3098,8 @@ const TokyoHotelsBlog = () => {
                 {/* Best For Chip - Top Right */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 12,
-                  right: 12
+                  top: { xs: 8, sm: 12 },
+                  right: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="Best for Luxury Travellers & Business" 
@@ -3030,7 +3110,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -3038,8 +3120,8 @@ const TokyoHotelsBlog = () => {
                 {/* Review Rating - Below Best For Chip on Right */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 52,
-                  right: 12
+                  top: { xs: 36, sm: 52 },
+                  right: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="397 reviews" 
@@ -3050,7 +3132,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -3078,8 +3162,8 @@ const TokyoHotelsBlog = () => {
                 {/* CTA Button Overlay */}
                 <Box sx={{
                   position: 'absolute',
-                  bottom: 20,
-                  right: 20
+                  bottom: { xs: 12, sm: 20 },
+                  right: { xs: 12, sm: 20 }
                 }}>
                   <Button
                     variant="contained"
@@ -3090,9 +3174,9 @@ const TokyoHotelsBlog = () => {
                       color: 'white',
                       fontFamily: "'Poppins', sans-serif",
                       fontWeight: 700,
-                      fontSize: { xs: '0.85rem', sm: '0.95rem' },
-                      px: { xs: 2.5, sm: 3 },
-                      py: { xs: 1.2, sm: 1.5 },
+                      fontSize: { xs: '0.65rem', sm: '0.95rem' },
+                      px: { xs: 1.5, sm: 3 },
+                      py: { xs: 0.8, sm: 1.5 },
                       borderRadius: '10px',
                       textTransform: 'none',
                       boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
@@ -3258,12 +3342,12 @@ const TokyoHotelsBlog = () => {
                   mt: 2,
                   borderColor: '#2c5aa0',
                   color: '#2c5aa0',
-                  py: 1.5,
+                  py: { xs: 1.2, sm: 1.5 },
                   borderRadius: '12px',
                   textTransform: 'none',
                   fontFamily: "'Poppins', sans-serif",
                   fontWeight: 600,
-                  fontSize: '1rem',
+                  fontSize: { xs: '0.875rem', sm: '1rem' },
                   '&:hover': {
                     borderColor: '#1e3d6f',
                     background: 'rgba(44,90,160,0.05)'
@@ -3292,14 +3376,14 @@ const TokyoHotelsBlog = () => {
               color: 'white',
               p: 3
             }}>
-              <Stack direction="row" alignItems="flex-start" justifyContent="space-between" spacing={2}>
-                <Box sx={{ flex: 1 }}>
+              <Stack direction={{ xs: 'column', md: 'row' }} alignItems={{ xs: 'flex-start', md: 'flex-start' }} justifyContent="space-between" spacing={2}>
+                <Box sx={{ flex: 1, width: { xs: '100%', md: 'auto' } }}>
                   <Stack direction="row" alignItems="flex-start" spacing={1.5} sx={{ mb: 2.5, flexWrap: 'wrap' }}>
-                    <Hotel sx={{ fontSize: 32 }} />
+                    <Hotel sx={{ fontSize: { xs: 28, sm: 32 } }} />
                     <Typography variant="h3" sx={{ 
                       fontWeight: 700,
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: '1.5rem'
+                      fontSize: { xs: '1.25rem', sm: '1.5rem' }
                     }}>
                       Mitsui Garden Hotel Jingugaien Tokyo Premier
                     </Typography>
@@ -3319,16 +3403,18 @@ const TokyoHotelsBlog = () => {
                       navigator.clipboard.writeText('11-3 Kasumigaokamachi, Shinjuku City, Shinjuku Ward, Tokyo, 160-0013, Japan');
                     }}
                   >
-                    <LocationOn sx={{ fontSize: 16 }} />
+                    <LocationOn sx={{ fontSize: { xs: 14, sm: 16 }, flexShrink: 0 }} />
                     <Typography sx={{
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: '0.85rem',
+                      fontSize: { xs: '0.75rem', sm: '0.85rem' },
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 0.5
+                      gap: 0.5,
+                      flexWrap: 'wrap',
+                      wordBreak: 'break-word'
                     }}>
                       11-3 Kasumigaokamachi, Shinjuku City, Shinjuku Ward, Tokyo, 160-0013, Japan
-                      <ContentCopy sx={{ fontSize: 14, ml: 0.5 }} />
+                      <ContentCopy sx={{ fontSize: { xs: 12, sm: 14 }, ml: 0.5 }} />
                     </Typography>
                   </Stack>
                 </Box>
@@ -3347,6 +3433,7 @@ const TokyoHotelsBlog = () => {
                     borderRadius: '8px',
                     px: 2,
                     py: 1,
+                    width: { xs: '100%', md: 'auto' },
                     whiteSpace: 'nowrap',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                     '&:hover': {
@@ -3383,8 +3470,8 @@ const TokyoHotelsBlog = () => {
                 {/* Star Rating Chip - Top Left */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 12,
-                  left: 12
+                  top: { xs: 8, sm: 12 },
+                  left: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="5-Star Hotel" 
@@ -3395,7 +3482,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -3403,8 +3492,8 @@ const TokyoHotelsBlog = () => {
                 {/* Best For Chip - Top Right */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 12,
-                  right: 12
+                  top: { xs: 8, sm: 12 },
+                  right: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="Best for Mid-Range Comfort" 
@@ -3415,7 +3504,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -3423,8 +3514,8 @@ const TokyoHotelsBlog = () => {
                 {/* Review Rating - Below Best For Chip on Right */}
                 <Box sx={{
                   position: 'absolute',
-                  top: 52,
-                  right: 12
+                  top: { xs: 36, sm: 52 },
+                  right: { xs: 8, sm: 12 }
                 }}>
                   <Chip 
                     label="1032 reviews" 
@@ -3435,7 +3526,9 @@ const TokyoHotelsBlog = () => {
                       fontWeight: 700,
                       backdropFilter: 'blur(10px)',
                       fontFamily: "'Poppins', sans-serif",
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      fontSize: { xs: '0.7rem', sm: '0.8125rem' },
+                      height: { xs: '22px', sm: '24px' }
                     }} 
                   />
                 </Box>
@@ -3463,8 +3556,8 @@ const TokyoHotelsBlog = () => {
                 {/* CTA Button Overlay */}
                 <Box sx={{
                   position: 'absolute',
-                  bottom: 20,
-                  right: 20
+                  bottom: { xs: 12, sm: 20 },
+                  right: { xs: 12, sm: 20 }
                 }}>
                   <Button
                     variant="contained"
@@ -3475,9 +3568,9 @@ const TokyoHotelsBlog = () => {
                       color: 'white',
                       fontFamily: "'Poppins', sans-serif",
                       fontWeight: 700,
-                      fontSize: { xs: '0.85rem', sm: '0.95rem' },
-                      px: { xs: 2.5, sm: 3 },
-                      py: { xs: 1.2, sm: 1.5 },
+                      fontSize: { xs: '0.65rem', sm: '0.95rem' },
+                      px: { xs: 1.5, sm: 3 },
+                      py: { xs: 0.8, sm: 1.5 },
                       borderRadius: '10px',
                       textTransform: 'none',
                       boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
@@ -3643,12 +3736,12 @@ const TokyoHotelsBlog = () => {
                   mt: 2,
                   borderColor: '#2c5aa0',
                   color: '#2c5aa0',
-                  py: 1.5,
+                  py: { xs: 1.2, sm: 1.5 },
                   borderRadius: '12px',
                   textTransform: 'none',
                   fontFamily: "'Poppins', sans-serif",
                   fontWeight: 600,
-                  fontSize: '1rem',
+                  fontSize: { xs: '0.875rem', sm: '1rem' },
                   '&:hover': {
                     borderColor: '#1e3d6f',
                     background: 'rgba(44,90,160,0.05)'

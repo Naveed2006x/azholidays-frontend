@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Box, 
@@ -163,6 +164,11 @@ const EVisaServices = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedContinent, setSelectedContinent] = useState('All');
+
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'eVisa Services - Fast & Reliable Visa Processing from Singapore | AZ Holidays';
+  }, []);
 
   const filteredCountries = visaCountries.filter((country) => {
     const matchesSearch = country.country.toLowerCase().includes(searchTerm.toLowerCase()) || 

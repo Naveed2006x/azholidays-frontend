@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Container, Box, Typography, Grid, Card, CardContent, Chip, Fade } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ExploreIcon from '@mui/icons-material/Explore';
@@ -37,6 +38,11 @@ const ServiceCard = styled(Card)(({ theme }) => ({
 }));
 
 const About = () => {
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'About AZ Holidays - Your Trusted Travel Partner in Singapore';
+  }, []);
+
   const values = [
     {
       icon: <ExploreIcon sx={{ fontSize: 48, color: '#2c5aa0' }} />,

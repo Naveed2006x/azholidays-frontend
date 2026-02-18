@@ -17,6 +17,7 @@ import {
   Alert
 } from '@mui/material';
 import { Search, AccessTime, LocationOn, ArrowForward, Favorite, Star, ConfirmationNumber } from '@mui/icons-material';
+import { useEffect } from 'react';
 
 // Mock Data - Singapore Attractions
 const mockAttractions = [
@@ -98,6 +99,11 @@ const Attractions = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [favorites, setFavorites] = useState({});
+
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'Singapore Attractions & Tours - Best Prices & Instant Booking | AZ Holidays';
+  }, []);
 
   const filteredAttractions = mockAttractions.filter((attr) => {
     const matchesSearch = attr.name.toLowerCase().includes(searchTerm.toLowerCase()) || 

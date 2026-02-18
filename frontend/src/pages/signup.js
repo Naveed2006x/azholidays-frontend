@@ -44,6 +44,11 @@ const Signup = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();
 
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'Sign Up - Create Your AZ Holidays Account';
+  }, []);
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));

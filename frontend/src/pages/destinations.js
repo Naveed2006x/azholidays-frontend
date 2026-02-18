@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { 
   Box, 
   Container, 
@@ -123,6 +124,11 @@ const Destinations = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedContinent, setSelectedContinent] = useState('All');
   const [favorites, setFavorites] = useState({});
+
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'Top Travel Destinations - Worldwide Holiday Packages | AZ Holidays';
+  }, []);
 
   const filteredDestinations = destinations.filter((dest) => {
     const matchesSearch = dest.name.toLowerCase().includes(searchTerm.toLowerCase()) || 

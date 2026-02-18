@@ -1,8 +1,14 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Box, Container, Typography, Card, Chip, Fade, Grid, List, ListItem, ListItemIcon, ListItemText, Paper, Button } from '@mui/material';
 import { DirectionsBus, Phone, Email, CheckCircle, AirportShuttle, LocalTaxi } from '@mui/icons-material';
 
 const Transport = () => {
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'Airport & Coach Transport Services in Singapore | AZ Holidays';
+  }, []);
+
   const services = [
     "Airport pickup & drop-off",
     "Hotel transfers",

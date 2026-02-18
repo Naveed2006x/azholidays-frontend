@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { 
   Box, 
   Container, 
@@ -18,6 +19,11 @@ import {
 import { Security, Phone, Email, CheckCircle, Verified } from '@mui/icons-material';
 
 const Insurance = () => {
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'Travel Insurance - Comprehensive Coverage for Your Trip | AZ Holidays';
+  }, []);
+
   const coverageFeatures = [
     "Medical expenses coverage",
     "Trip cancellation protection",

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Box, 
@@ -142,6 +143,11 @@ const Blogs = () => {
   const [savedPosts, setSavedPosts] = useState({
     1: true, 4: true, 6: true, 7: true
   });
+
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'Travel Blog - Tips, Guides & Destination Insights | AZ Holidays';
+  }, []);
 
   const handleBlogClick = (post) => {
     if (post.link && post.isPublished) {

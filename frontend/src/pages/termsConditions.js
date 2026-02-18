@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Box, 
@@ -22,6 +23,11 @@ import {
 
 const TermsConditions = () => {
   const navigate = useNavigate();
+
+  // Set SEO title
+  useEffect(() => {
+    document.title = 'Terms & Conditions - AZ Holidays Singapore';
+  }, []);
 
   return (
     <Box sx={{ 

@@ -30,6 +30,11 @@ const Contact = () => {
         message: ''
     });
 
+    // Set SEO title
+    React.useEffect(() => {
+        document.title = 'Contact Us - AZ Holidays Singapore | Get in Touch';
+    }, []);
+
     const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
     const officeLocation = {
