@@ -9,6 +9,7 @@ import SessionExpiredModal from './components/SessionExpiredModal';
 import Contact from './pages/contact.js';
 import Home from './pages/home.js';
 import Blogs from './pages/blogs.js';
+import TokyoHotelsBlog from './pages/tokyoHotelsBlog.js';
 import About from './pages/about.js';
 import Destinations from './pages/destinations.js';
 import Attractions from './pages/attractions.js';
@@ -421,7 +422,7 @@ const RouteHandler = ({ children }) => {
 
   // Check if current route should show footer
   const shouldShowFooter = () => {
-    const footerRoutes = ['/', '/contact', '/destinations', '/attractions', '/blogs', '/about', '/flights', '/hotels', '/insurance', '/transport', '/cruises', '/packages', '/e-visa-services', '/india-visa'];
+    const footerRoutes = ['/', '/contact', '/destinations', '/attractions', '/blogs', '/about', '/flights', '/hotels', '/insurance', '/transport', '/cruises', '/packages', '/e-visa-services', '/india-visa', '/blogs/tokyo-hotels-singapore-travellers'];
     return footerRoutes.includes(location.pathname);
   };
 
@@ -478,6 +479,7 @@ function App() {
               <Route path="/cruises" element={<Cruises />} />
               <Route path="/packages" element={<Packages />} />
               <Route path="/blogs" element={<Blogs />} />
+              <Route path="/blogs/tokyo-hotels-singapore-travellers" element={<TokyoHotelsBlog />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/india-visa" element={<IndiaVisa />} />

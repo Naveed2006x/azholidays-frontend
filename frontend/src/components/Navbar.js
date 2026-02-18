@@ -703,6 +703,7 @@ return (
         right: 0,
         width: '100vw',
         margin: 0,
+        padding: 1,
       }}
     >
       <Toolbar sx={{ 
@@ -712,8 +713,6 @@ return (
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: { xs: '0 16px', md: '0 24px' },
-        minHeight: { xs: '64px', md: '80px' },
         boxSizing: 'border-box',
         overflow: 'visible'
       }}>
@@ -735,7 +734,7 @@ return (
             src={Logo} 
             alt="AZ Holidays" 
             style={{ 
-              height: window.innerWidth < 768 ? '45px' : '60px',
+              height: window.innerWidth < 768 ? '40px' : '65px',
               width: 'auto',
               objectFit: 'contain',
               display: 'block'
@@ -1039,7 +1038,7 @@ return (
         </Toolbar>
 
         {/* Countdown Announcement Bar - Hidden on auth pages */}
-        {!location.pathname.match(/^\/(login|signup|verify-otp|verify-login-otp|verify-reset-otp|forgot-password|reset-password)$/) && (
+        {/* {!location.pathname.match(/^\/(login|signup|verify-otp|verify-login-otp|verify-reset-otp|forgot-password|reset-password)$/) && (
         <Box
           sx={{
             background: 'linear-gradient(135deg, #2c5aa0, #1e3d6f)',
@@ -1116,8 +1115,7 @@ return (
               </Box>
             ))}
           </Box>
-        </Box>
-        )}
+        </Box> */}
       </AppBar>
 
       {/* Mobile Drawer */}
@@ -1143,8 +1141,8 @@ return (
         {drawer}
       </Drawer>
 
-      {/* Add spacing for fixed navbar + announcement bar (or just navbar on auth pages) */}
-      <Toolbar sx={{ minHeight: location.pathname.match(/^\/(login|signup|verify-otp|verify-login-otp|verify-reset-otp|forgot-password|reset-password)$/) ? { xs: '64px', md: '80px' } : { xs: '114px', md: '140px' } }} />
+      {/* Spacer to push content below navbar */}
+      <Toolbar sx={{ minHeight: { xs: '60px', md: '70px' } }} />
     </>
   );
 };
