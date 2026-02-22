@@ -37,6 +37,20 @@ const blogPosts = [
   },
   {
     id: 2,
+    title: "Best Budget Hotels in Tokyo Under SGD 150 (2026 Guide)",
+    excerpt: "Quality accommodation in Tokyo doesn't have to break the bank. Discover the best budget hotels under SGD 150 with great locations, modern amenities, and excellent value for Singapore travellers.",
+    image: "https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=800&h=600&fit=crop",
+    author: "Az Holidays",
+    date: "Feb 22, 2026",
+    category: "Travel Tips",
+    readTime: "10 min",
+    likes: 89,
+    saved: true,
+    link: "/blogs/budget-hotels-tokyo-under-sgd-150",
+    isPublished: true
+  },
+  {
+    id: 3,
     title: "Top 10 Hidden Gems in Southeast Asia",
     excerpt: "Discover the untouched beaches and secret temples that usually stay off the tourist radar.",
     image: "https://images.unsplash.com/photo-1552465011-b4e30bf6e79a?w=800&h=600&fit=crop",
@@ -48,7 +62,7 @@ const blogPosts = [
     saved: true
   },
   {
-    id: 3,
+    id: 4,
     title: "A Culinary Journey Through Italy",
     excerpt: "From authentic Neapolitan pizza to rich Tuscan wines, explore the flavors of Italy.",
     image: "https://images.unsplash.com/photo-1498579150354-977475b7ea0b?w=800&h=600&fit=crop",
@@ -60,7 +74,7 @@ const blogPosts = [
     saved: false
   },
   {
-    id: 4,
+    id: 5,
     title: "Essential Packing Tips for Solo Travelers",
     excerpt: "Learn how to pack light and smart for your next solo adventure around the globe.",
     image: "https://images.unsplash.com/photo-1501555088652-021faa106b9b?w=800&h=600&fit=crop",
@@ -72,7 +86,7 @@ const blogPosts = [
     saved: true
   },
   {
-    id: 5,
+    id: 6,
     title: "The Ultimate Guide to Mountain Trekking",
     excerpt: "Everything you need to know before conquering your first major peak.",
     image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=600&fit=crop",
@@ -84,7 +98,7 @@ const blogPosts = [
     saved: false
   },
   {
-    id: 6,
+    id: 7,
     title: "Budget Friendly City Breaks in Europe",
     excerpt: "Experience culture, history, and nightlife without breaking the bank.",
     image: "https://images.unsplash.com/photo-1520986606214-8b456906c813?w=800&h=600&fit=crop",
@@ -96,7 +110,7 @@ const blogPosts = [
     saved: true
   },
   {
-    id: 6,
+    id: 8,
     title: "Sustainable Tourism: How to Travel Green",
     excerpt: "Practical steps to reduce your carbon footprint while exploring the world.",
     image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=600&fit=crop",
@@ -108,7 +122,7 @@ const blogPosts = [
     saved: false
   },
   {
-    id: 7,
+    id: 9,
     title: "Night Photography: Capturing Cities After Dark",
     excerpt: "Master the art of night photography in urban environments around the world.",
     image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&h=600&fit=crop",
@@ -120,7 +134,7 @@ const blogPosts = [
     saved: true
   },
   {
-    id: 8,
+    id: 10,
     title: "Luxury Resorts with Private Beaches",
     excerpt: "Experience ultimate privacy and luxury at these exclusive beachfront resorts.",
     image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=600&fit=crop",
@@ -141,7 +155,7 @@ const Blogs = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [likedPosts, setLikedPosts] = useState({});
   const [savedPosts, setSavedPosts] = useState({
-    1: true, 4: true, 6: true, 7: true
+    1: true, 2: true, 5: true, 7: true, 9: true
   });
 
   // Set SEO title

@@ -96,7 +96,7 @@ const Home = () => {
       name: 'Bernard Rayen',
       rating: 5,
       date: 'December 2025',
-      text: 'AZ Holidays Travel Service offers a seamless ticket-booking experience and provides excellent advice on the most affordable travel routes. Their team compares various options to ensure you get the best price. Mr. Ameen delivers outstanding service — he is patient, polite, and exceptionally helpful throughout the booking process.',
+      text: 'AZ Holidays Travel Service offers a seamless ticket-booking experience and provides excellent advice on the most affordable travel routes. Their team compares various options to ensure you get the best price. Mr. Ameen delivers outstanding service - he is patient, polite, and exceptionally helpful throughout the booking process.',
       avatar: 'https://img.icons8.com/color/96/user-male-circle.png'
     },
     {
@@ -1304,7 +1304,7 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            From Visa Processing to Dream Vacations — We Make Travel Simple, Safe, and Affordable
+            From Visa Processing to Dream Vacations - We Make Travel Simple, Safe, and Affordable
           </motion.p>
 
           <motion.div 
@@ -1525,7 +1525,7 @@ const Home = () => {
         <AnimatedSection direction="fade" duration={0.6}>
           <h2 style={styles.sectionTitle}>Why 12,000+ Travelers Choose AZ Holidays</h2>
           <p style={styles.sectionSubtitle}>
-            Not just promises — real benefits that make your travel dreams come true
+            Not just promises - real benefits that make your travel dreams come true
           </p>
         </AnimatedSection>
 
@@ -1673,7 +1673,7 @@ const Home = () => {
         <AnimatedSection direction="fade" duration={0.6}>
           <h2 style={styles.sectionTitle}>Your Journey in 4 Simple Steps</h2>
           <p style={styles.sectionSubtitle}>
-            From planning to paradise — we make it effortless
+            From planning to paradise - we make it effortless
           </p>
         </AnimatedSection>
 
@@ -1927,7 +1927,7 @@ const Home = () => {
           >
             <h2 style={styles.finalCTATitle}>Ready to Start Your Journey?</h2>
             <p style={styles.finalCTAText}>
-              Let us handle the details while you focus on making memories. Over 12,000 happy travelers trust us — you should too.
+              Let us handle the details while you focus on making memories. Over 12,000 happy travelers trust us - you should too.
             </p>
             <motion.button 
               style={styles.finalCTAButton}
