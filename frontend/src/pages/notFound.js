@@ -91,7 +91,7 @@ const NotFound = () => {
 
           <Button
             component={Link}
-            to="/destinations"
+            to="/blogs"
             variant="outlined"
             sx={{
               ...fontStyle,
@@ -107,7 +107,7 @@ const NotFound = () => {
               }
             }}
           >
-            Explore Destinations
+            Read Our Blogs
           </Button>
         </Box>
       </Box>
