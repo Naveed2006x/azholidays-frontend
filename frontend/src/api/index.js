@@ -1,7 +1,7 @@
 // Base API configuration - MUST COME FIRST
 import axios from 'axios';
 
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
+const API_BASE = process.env.REACT_APP_API_URL || 'https://api.azholidays.com.sg/api';
 
 export const api = axios.create({
   baseURL: API_BASE,
