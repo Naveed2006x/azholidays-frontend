@@ -606,6 +606,30 @@ const BudgetTokyoHotelsBlog = () => {
               >
                 Read: Best Hotels in Tokyo for Singapore Travellers
               </Button>
+
+              <Button 
+                variant="outlined"
+                fullWidth
+                onClick={() => window.open('/currency-converter', '_blank')}
+                endIcon={<ArrowForward />}
+                sx={{ 
+                  mt: 1.5,
+                  borderColor: '#2c5aa0',
+                  color: '#2c5aa0',
+                  py: 1.4,
+                  borderRadius: '12px',
+                  textTransform: 'none',
+                  fontFamily: "'Poppins', sans-serif",
+                  fontWeight: 600,
+                  fontSize: '1rem',
+                  '&:hover': {
+                    borderColor: '#1e3d6f',
+                    backgroundColor: 'rgba(44, 90, 160, 0.05)',
+                  }
+                }}
+              >
+                Check Live SGD Currency Converter
+              </Button>
             </CardContent>
           </Card>
         </Box>

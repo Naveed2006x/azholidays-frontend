@@ -592,6 +592,58 @@ const TokyoHotelsBlog = () => {
               <strong>Quick Tip:</strong> Book your Tokyo accommodation at least 3-4 months in advance, especially if you're travelling during cherry blossom season (late March to early April) or autumn foliage (November). Prices can surge by 30-50% during peak seasons.
             </Typography>
           </Box>
+
+          <Card sx={{ 
+            borderRadius: '16px',
+            boxShadow: '0 6px 25px rgba(44,90,160,0.12)',
+            border: '2px solid #e3f2fd',
+            background: 'linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%)',
+            mb: 4
+          }}>
+            <CardContent sx={{ p: 3 }}>
+              <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>
+                <ContentCopy sx={{ fontSize: 32, color: '#2c5aa0' }} />
+                <Box>
+                  <Typography variant="h6" sx={{ 
+                    fontFamily: "'Poppins', sans-serif",
+                    fontWeight: 700,
+                    color: '#1a1a1a',
+                    fontSize: '1.2rem',
+                    mb: 0.5
+                  }}>
+                    Convert SGD Before You Book
+                  </Typography>
+                  <Typography variant="body2" sx={{ 
+                    fontFamily: "'Poppins', sans-serif",
+                    color: '#666',
+                    fontSize: '0.95rem'
+                  }}>
+                    Check live SGD rates for hotel budgeting and daily travel spend planning.
+                  </Typography>
+                </Box>
+              </Stack>
+              <Button 
+                variant="contained"
+                fullWidth
+                onClick={() => window.open('/currency-converter', '_blank')}
+                endIcon={<ArrowForward />}
+                sx={{ 
+                  background: 'linear-gradient(135deg, #2c5aa0 0%, #4a7dff 100%)',
+                  py: 1.5,
+                  borderRadius: '12px',
+                  textTransform: 'none',
+                  fontFamily: "'Poppins', sans-serif",
+                  fontWeight: 600,
+                  fontSize: '1rem',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #1e3d6f 0%, #2c5aa0 100%)',
+                  }
+                }}
+              >
+                Check Live SGD Currency Converter
+              </Button>
+            </CardContent>
+          </Card>
         </Box>
 
 

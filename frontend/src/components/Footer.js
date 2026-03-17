@@ -265,20 +265,28 @@ const Footer = () => {
                             Home
                         </Link>
                         <Link
-                            to="/destinations"
-                            style={styles.footerLinkButton}
-                            onMouseEnter={(e) => e.target.style.color = '#3498db'}
-                            onMouseLeave={(e) => e.target.style.color = '#ffffff'}
-                        >
-                            Destinations
-                        </Link>
-                        <Link
                             to="/blogs"
                             style={styles.footerLinkButton}
                             onMouseEnter={(e) => e.target.style.color = '#3498db'}
                             onMouseLeave={(e) => e.target.style.color = '#ffffff'}
                         >
                             Blogs
+                        </Link>
+                        <Link
+                            to="/best-time-to-visit"
+                            style={styles.footerLinkButton}
+                            onMouseEnter={(e) => e.target.style.color = '#3498db'}
+                            onMouseLeave={(e) => e.target.style.color = '#ffffff'}
+                        >
+                            Best Time To Visit
+                        </Link>
+                        <Link
+                            to="/currency-converter"
+                            style={styles.footerLinkButton}
+                            onMouseEnter={(e) => e.target.style.color = '#3498db'}
+                            onMouseLeave={(e) => e.target.style.color = '#ffffff'}
+                        >
+                            Currency Converter
                         </Link>
                         <Link
                             to="/about"
