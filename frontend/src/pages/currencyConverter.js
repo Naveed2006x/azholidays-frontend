@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-
-const API_URL = 'https://v6.exchangerate-api.com/v6/d1169298acb528f86180d49c/latest/SGD';
+import { currencyAPI } from '../api/currency';
 
 const POPULAR_PAIRS = [
   { from: 'SGD', to: 'USD' },
@@ -349,29 +348,15 @@ const CurrencyConverter = () => {
       setError('');
 
       try {
-        const response = await fetch(API_URL);
-        if (!response.ok) {
-          throw new Error('Unable to load exchange rates right now.');
-        }
-
-        const data = await response.json();
+        const data = await currencyAPI.getLatestRates('SGD');
         if (!isMounted) {
           return;
         }
 
-        if (data.result !== 'success' || !data.conversion_rates) {
-          throw new Error('Exchange rate data is unavailable. Please try again.');
-        }
-
-        const nextRates = {
-          SGD: 1,
-          ...data.conversion_rates
-        };
-
-        const nextCurrencies = Object.keys(nextRates).sort();
-        setRates(nextRates);
+        const nextCurrencies = Object.keys(data.rates).sort();
+        setRates(data.rates);
         setCurrencies(nextCurrencies);
-        setLastUpdated(data.time_last_update_utc || '');
+        setLastUpdated(data.lastUpdated || '');
       } catch (fetchError) {
         if (!isMounted) {
           return;

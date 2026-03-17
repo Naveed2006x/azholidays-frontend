@@ -281,6 +281,14 @@ const Footer = () => {
                             Best Time To Visit
                         </Link>
                         <Link
+                            to="/destination-weather"
+                            style={styles.footerLinkButton}
+                            onMouseEnter={(e) => e.target.style.color = '#3498db'}
+                            onMouseLeave={(e) => e.target.style.color = '#ffffff'}
+                        >
+                            Destination Weather
+                        </Link>
+                        <Link
                             to="/currency-converter"
                             style={styles.footerLinkButton}
                             onMouseEnter={(e) => e.target.style.color = '#3498db'}

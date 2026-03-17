@@ -41,6 +41,7 @@ import ApplicationDetail from './pages/agent/ApplicationDetail';
 import EVisaServices from './pages/eVisaServices';
 import CurrencyConverter from './pages/currencyConverter';
 import BestTimeToVisit from './pages/BestTimeToVisit';
+import DestinationWeather from './pages/DestinationWeather';
 // WhatsApp Chatbox Component
 const WhatsAppChatbox = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -425,7 +426,7 @@ const RouteHandler = ({ children }) => {
 
   // Check if current route should show footer
   const shouldShowFooter = () => {
-    const footerRoutes = ['/', '/contact', '/attractions', '/blogs', '/about', '/flights', '/hotels', '/insurance', '/transport', '/cruises', '/packages', '/currency-converter', '/best-time-to-visit', '/e-visa-services', '/india-visa', '/blogs/tokyo-hotels-singapore-travellers', '/blogs/budget-hotels-tokyo-under-sgd-150'];
+    const footerRoutes = ['/', '/contact', '/attractions', '/blogs', '/about', '/flights', '/hotels', '/insurance', '/transport', '/cruises', '/packages', '/currency-converter', '/best-time-to-visit', '/destination-weather', '/e-visa-services', '/india-visa', '/blogs/tokyo-hotels-singapore-travellers', '/blogs/budget-hotels-tokyo-under-sgd-150'];
     return footerRoutes.includes(location.pathname);
   };
 
@@ -483,6 +484,7 @@ function App() {
               <Route path="/packages" element={<Packages />} />
               <Route path="/currency-converter" element={<CurrencyConverter />} />
               <Route path="/best-time-to-visit" element={<BestTimeToVisit />} />
+              <Route path="/destination-weather" element={<DestinationWeather />} />
               <Route path="/blogs" element={<Blogs />} />
               <Route path="/blogs/tokyo-hotels-singapore-travellers" element={<TokyoHotelsBlog />} />
               <Route path="/blogs/budget-hotels-tokyo-under-sgd-150" element={<BudgetTokyoHotelsBlog />} />

@@ -101,3 +101,5 @@ export * from './auth';
 export * from './profile';
 export * from './attractions';
 export * from './bookings';
+export * from './weather';
+export * from './currency';

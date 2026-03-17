@@ -404,12 +404,6 @@ const BestTimeToVisit = () => {
       marginBottom: '14px',
       ...fontStyle
     },
-    plannerLayout: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
-      gap: '16px',
-      alignItems: 'start'
-    },
     plannerMain: {
       background: '#f8fbff',
       border: '1px solid #dbe8fb',
@@ -420,7 +414,8 @@ const BestTimeToVisit = () => {
       background: '#ffffff',
       border: '1px solid #e4ecf8',
       borderRadius: '14px',
-      padding: '14px'
+      padding: '14px',
+      marginTop: '14px'
     },
     smallH3: {
       color: '#1e3d6f',
@@ -458,7 +453,7 @@ const BestTimeToVisit = () => {
     dataGrid: {
       marginTop: '14px',
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+      gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
       gap: '12px'
     },
     statCard: {
@@ -579,9 +574,17 @@ const BestTimeToVisit = () => {
           .best-time-link:hover {
             text-decoration: underline;
           }
+          @media (max-width: 980px) {
+            .best-time-stats-grid {
+              grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            }
+          }
           @media (max-width: 760px) {
             .best-time-page {
               padding-top: 92px;
+            }
+            .best-time-stats-grid {
+              grid-template-columns: 1fr !important;
             }
           }
         `}
@@ -608,26 +611,26 @@ const BestTimeToVisit = () => {
             low season value period, and months to avoid for weather disruption.
           </p>
 
-          <div style={styles.plannerLayout}>
-            <div style={styles.plannerMain}>
-              <label htmlFor="destination" style={styles.label}>
-                Destination selector
-              </label>
-              <select
-                id="destination"
-                value={selectedDestination}
-                onChange={(event) => setSelectedDestination(event.target.value)}
-                style={styles.select}
-              >
-                {DESTINATION_DATA.map((item) => (
-                  <option key={item.name} value={item.name}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
+          <div style={styles.plannerMain}>
+            <label htmlFor="destination" style={styles.label}>
+              Destination selector
+            </label>
+            <select
+              id="destination"
+              value={selectedDestination}
+              onChange={(event) => setSelectedDestination(event.target.value)}
+              style={styles.select}
+            >
+              {DESTINATION_DATA.map((item) => (
+                <option key={item.name} value={item.name}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
 
-              {selectedData && (
-                <div style={styles.dataGrid}>
+            {selectedData && (
+              <>
+                <div style={styles.dataGrid} className="best-time-stats-grid">
                   <article style={styles.statCard}>
                     <h3 style={styles.statTitle}>Best months to visit</h3>
                     <p style={styles.statBody}>{selectedData.bestMonths}</p>
@@ -653,43 +656,41 @@ const BestTimeToVisit = () => {
                     <p style={styles.statBody}>{selectedData.monthsToAvoid}</p>
                   </article>
                 </div>
-              )}
-            </div>
 
-            {selectedData && (
-              <aside style={styles.plannerAside}>
-                <h3 style={styles.smallH3}>Selected destination snapshot</h3>
-                <p style={{ ...styles.p, marginBottom: '8px' }}>
-                  <strong>{selectedData.name}</strong> is in <strong>{selectedData.region}</strong>. Use the best-month
-                  window above as your first filter, then compare flight and hotel prices against the peak and low
-                  season lines before booking.
-                </p>
-                <p style={{ ...styles.p, marginBottom: '8px' }}>
-                  Official tourism source:{' '}
-                  <a
-                    href={selectedData.externalGuide}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="best-time-link"
-                    style={styles.link}
-                  >
-                    {selectedData.externalGuide}
-                  </a>
-                </p>
-                <p style={{ ...styles.p, marginBottom: 0 }}>
-                  Need help packaging flights, hotels, and activities from Singapore? Visit{' '}
-                  <a
-                    href="https://azholidays.com.sg/packages"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="best-time-link"
-                    style={styles.link}
-                  >
-                    AZ Holidays travel packages
-                  </a>
-                  .
-                </p>
-              </aside>
+                <aside style={styles.plannerAside}>
+                  <h3 style={styles.smallH3}>Selected destination snapshot</h3>
+                  <p style={{ ...styles.p, marginBottom: '8px' }}>
+                    <strong>{selectedData.name}</strong> is in <strong>{selectedData.region}</strong>. Use the best-month
+                    window above as your first filter, then compare flight and hotel prices against the peak and low
+                    season lines before booking.
+                  </p>
+                  <p style={{ ...styles.p, marginBottom: '8px' }}>
+                    Official tourism source:{' '}
+                    <a
+                      href={selectedData.externalGuide}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="best-time-link"
+                      style={styles.link}
+                    >
+                      {selectedData.externalGuide}
+                    </a>
+                  </p>
+                  <p style={{ ...styles.p, marginBottom: 0 }}>
+                    Need help packaging flights, hotels, and activities from Singapore? Visit{' '}
+                    <a
+                      href="https://azholidays.com.sg/packages"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="best-time-link"
+                      style={styles.link}
+                    >
+                      AZ Holidays travel packages
+                    </a>
+                    .
+                  </p>
+                </aside>
+              </>
             )}
           </div>
         </section>
